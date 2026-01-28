@@ -1,0 +1,40 @@
+# prek Configuration for Grand Budapest Terminal
+# Fast pre-commit hooks written in Rust
+
+[[hooks]]
+name = "ruff-format"
+command = "ruff format ."
+description = "Format Python code with Ruff"
+pass_filenames = false
+
+[[hooks]]
+name = "ruff-check"
+command = "ruff check --fix ."
+description = "Lint Python code with Ruff (auto-fix)"
+pass_filenames = false
+
+[[hooks]]
+name = "ty-check"
+command = "ty check src/"
+description = "Type check Python code with ty"
+pass_filenames = false
+
+[[hooks]]
+name = "trailing-whitespace"
+command = "sh -c 'for f in \"$@\"; do sed -i \"s/[[:space:]]*$//\" \"$f\"; done' sh"
+description = "Remove trailing whitespace"
+file_types = ["py", "md", "yaml", "toml", "json"]
+
+[[hooks]]
+name = "pytest"
+command = "pytest tests/ -v --tb=short"
+description = "Run Python tests"
+pass_filenames = false
+stages = ["pre-push"]
+
+[[hooks]]
+name = "pytest-cov"
+command = "pytest --cov=src --cov-report=term-missing tests/"
+description = "Run tests with coverage report"
+pass_filenames = false
+stages = ["pre-push"]
