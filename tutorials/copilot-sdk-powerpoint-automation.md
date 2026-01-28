@@ -768,8 +768,14 @@ import (
 	"sync"
 
 	"github.com/github/copilot-sdk/go/copilot"
-	"github.com/nguyenthenguyen/docx"
-	"github.com/unidoc/unioffice/presentation"
+	// TODO(DOCS): The following imports are placeholders for documentation purposes only.
+	// - github.com/nguyenthenguyen/docx is outdated and unmaintained
+	// - github.com/unidoc/unioffice requires a commercial license
+	// For production use, consider:
+	//   1. Implementing custom Office Open XML parsing (ECMA-376 standard)
+	//   2. Using Microsoft Graph API for cloud-based document processing
+	//   3. Purchasing a commercial license for UniDoc UniOffice
+	// Example alternative: Process .docx files as ZIP archives with XML parsing
 )
 
 type SlideContent struct {
@@ -803,14 +809,19 @@ func (pa *PresentationAutomator) Start(ctx context.Context) error {
 }
 
 func (pa *PresentationAutomator) ReadInstructions(docxPath string) (string, error) {
-	r, err := docx.ReadDocxFile(docxPath)
-	if err != nil {
-		return "", fmt.Errorf("failed to read docx: %w", err)
-	}
-	defer r.Close()
+	// TODO(DOCS): This is a placeholder implementation.
+	// In production, implement one of these alternatives:
+	//   1. Custom Office Open XML parser (using archive/zip + encoding/xml)
+	//   2. Microsoft Graph API for document processing
+	//   3. Commercial library with proper licensing
+	// For now, return placeholder text for tutorial purposes
+	return "Placeholder: Document content would be extracted here", nil
 	
-	doc := r.Editable()
-	return doc.GetContent(), nil
+	// Example alternative implementation using standard library:
+	// import "archive/zip"
+	// import "encoding/xml"
+	// r, err := zip.OpenReader(docxPath)
+	// ... parse document.xml from the archive
 }
 
 func (pa *PresentationAutomator) GenerateSlideContent(
@@ -865,39 +876,23 @@ func (pa *PresentationAutomator) CreatePresentationFromTemplate(
 	slideContents []*SlideContent,
 	outputPath string,
 ) error {
-	ppt, err := presentation.Open(templatePath)
-	if err != nil {
-		return fmt.Errorf("failed to open template: %w", err)
+	// TODO(DOCS): This is a placeholder implementation.
+	// UniDoc UniOffice (github.com/unidoc/unioffice) requires a commercial license.
+	// 
+	// Alternative approaches for production:
+	//   1. Use Microsoft Graph API (cloud-based):
+	//      - https://learn.microsoft.com/en-us/graph/api/driveitem-createuploadsession
+	//   2. Implement custom Office Open XML generation:
+	//      - Use archive/zip and encoding/xml packages
+	//      - Follow ECMA-376 specification: https://www.ecma-international.org/publications-and-standards/standards/ecma-376/
+	//   3. Purchase UniDoc license: https://unidoc.io/
+	//
+	// For tutorial purposes, simulating file creation:
+	log.Printf("📝 [PLACEHOLDER] Would create presentation with %d slides", len(slideContents))
+	for i, content := range slideContents {
+		log.Printf("   Slide %d: %s", i+1, content.Title)
 	}
-	
-	// Add slides with content
-	for _, content := range slideContents {
-		slide := ppt.AddSlide()
-		
-		// Add title textbox
-		titleBox := slide.AddTextBox()
-		titleBox.Properties().SetPosition(0.5, 0.5, 9, 1)
-		titlePara := titleBox.AddParagraph()
-		titleRun := titlePara.AddRun()
-		titleRun.SetText(content.Title)
-		titleRun.SetSize(32)
-		titleRun.SetBold(true)
-		
-		// Add content textbox
-		contentBox := slide.AddTextBox()
-		contentBox.Properties().SetPosition(0.5, 2, 9, 4.5)
-		contentPara := contentBox.AddParagraph()
-		contentRun := contentPara.AddRun()
-		contentRun.SetText(content.Content)
-		contentRun.SetSize(18)
-	}
-	
-	// Save presentation
-	if err := ppt.SaveToFile(outputPath); err != nil {
-		return fmt.Errorf("failed to save presentation: %w", err)
-	}
-	
-	log.Printf("✓ Presentation saved to: %s", outputPath)
+	log.Printf("✓ [PLACEHOLDER] Presentation saved to: %s", outputPath)
 	return nil
 }
 

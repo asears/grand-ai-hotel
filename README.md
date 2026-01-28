@@ -29,6 +29,8 @@
 ╚═══════════════════════════════════════════════════════════════════════════╝
 ```
 
+**Hey, somebody decided 80 characters was enough?**
+
 <img src="https://img.shields.io/badge/GitHub-Copilot-8B4789?style=for-the-badge&logo=github" alt="GitHub Copilot">
 <img src="https://img.shields.io/badge/Python-3.12+-800020?style=for-the-badge&logo=python" alt="Python">
 <img src="https://img.shields.io/badge/TypeScript-5.3+-FFB6C1?style=for-the-badge&logo=typescript" alt="TypeScript">
@@ -215,11 +217,13 @@ Just as *The Grand Budapest Hotel* features a meticulous concierge and his loyal
 
 ### Prerequisites
 
+We'll try latest tools and dependencies out.
+
 - **GitHub Copilot Subscription** ([Get Copilot](https://github.com/features/copilot))
-- **Python 3.11+** (for Python examples)
-- **Node.js 20+** (for TypeScript examples)
-- **Go 1.22+** (for Go examples)
-- **.NET 8.0+** (for .NET examples)
+- **Python 3.14+** (for Python examples)
+- **Node.js 25.5.0+** (for TypeScript examples)
+- **Go 1.25.6+** (for Go examples)
+- **.NET 10.0+** (for .NET examples)
 - **UV** (Python package manager) - [Install UV](https://github.com/astral-sh/uv)
 
 ### Installation
@@ -633,14 +637,22 @@ Need help? Start here:
 - [UV Package Manager](https://github.com/astral-sh/uv) - Fast Python package manager
 - [Python-PPTX](https://python-pptx.readthedocs.io/) - PowerPoint library
 - [PptxGenJS](https://gitbrent.github.io/PptxGenJS/) - TypeScript PowerPoint
-- [UniOffice](https://github.com/unidoc/unioffice) - Go Office library
 - [OpenXML SDK](https://github.com/dotnet/Open-XML-SDK) - .NET document processing
+- [Office Open XML (ECMA-376)](https://www.ecma-international.org/publications-and-standards/standards/ecma-376/) - Office file format specification
 
 ---
 
 ## 📜 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the CC0-1.0 License (Public Domain) - see the [LICENSE](LICENSE) file for details.
+
+### Dependencies & Compliance
+
+For comprehensive information about project dependencies, licenses, and security:
+- **[DEPENDENCIES.md](DEPENDENCIES.md)** - Complete dependency inventory with licenses, security links, and management tools
+- **[IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md)** - SBOM generation and license management implementation plan
+
+All dependencies use permissive licenses (MIT, Apache-2.0) compatible with CC0-1.0.
 
 ---
 

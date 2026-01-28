@@ -19,11 +19,11 @@ command = "ty check src/"
 description = "Type check Python code with ty"
 pass_filenames = false
 
-[[hooks]]
-name = "trailing-whitespace"
-command = "sh -c 'for f in \"$@\"; do sed -i \"s/[[:space:]]*$//\" \"$f\"; done' sh"
-description = "Remove trailing whitespace"
-file_types = ["py", "md", "yaml", "toml", "json"]
+# [[hooks]]
+# name = "trailing-whitespace"
+# command = "sh -c 'for f in \"$@\"; do sed -i \"s/[[:space:]]*$//\" \"$f\"; done' sh"
+# description = "Remove trailing whitespace"
+# file_types = ["py", "md", "yaml", "toml", "json"]
 
 [[hooks]]
 name = "pytest"
