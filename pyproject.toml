@@ -1,0 +1,7 @@
+[project]
+name = "copilot-nlp"
+version = "0.1.0"
+description = "Checking into the Copilot Agent hotel."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
