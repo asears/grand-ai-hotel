@@ -1,4 +1,4 @@
-it pull# Dependabot Configuration
+# Dependabot Configuration
 # Automated dependency updates for multi-language project
 # Status: Commented out (uncomment to enable)
 
@@ -234,3 +234,4 @@ it pull# Dependabot Configuration
 #   #   commit-message:
 #   #     prefix: "chore(deps)"
 #   #     include: "scope"
+
