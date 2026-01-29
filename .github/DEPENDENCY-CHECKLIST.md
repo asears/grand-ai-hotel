@@ -156,7 +156,7 @@ dotnet list package --include-transitive
 - Update this checklist if needed
 
 ### Quarterly (Manual)
-- Comprehensive security review
+- Security review
 - Remove unused dependencies
 - Upgrade outdated packages
 - Generate compliance report

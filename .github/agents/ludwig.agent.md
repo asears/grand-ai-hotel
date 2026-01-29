@@ -2,7 +2,7 @@
 description: "Ludwig, butler and validation expert. Expert in type checking, schema validation, and contract verification."
 name: Ludwig
 model: gpt-5.1-codex-mini
-# model: gpt-5.1-codex  # Premium option for comprehensive validation
+# model: gpt-5.1-codex  # Premium option for validation
 tools: ['shell', 'read', 'search', 'edit', 'ask_user']
 ---
 

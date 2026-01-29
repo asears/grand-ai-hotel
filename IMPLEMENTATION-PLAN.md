@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-This document outlines the comprehensive plan to implement Software Bill of Materials (SBOM) generation, license management, and security vulnerability scanning for the Grand Budapest Terminal project across multiple programming languages (Python, TypeScript, Go, .NET).
+This document outlines the plan to implement Software Bill of Materials (SBOM) generation, license management, and security vulnerability scanning for the Grand Budapest Terminal project across multiple programming languages (Python, TypeScript, Go, .NET).
 
 ---
 
@@ -76,7 +76,7 @@ This document outlines the comprehensive plan to implement Software Bill of Mate
 ### Phase 1: Cleanup & Documentation (Week 1)
 
 **Tasks:**
-- [x] Create `DEPENDENCIES.md` with comprehensive license information
+- [x] Create `DEPENDENCIES.md` with license information
 - [x] Remove commercial dependencies from tutorial code
 - [x] Add placeholder comments with alternative solutions
 - [x] Update README.md to remove problematic library references

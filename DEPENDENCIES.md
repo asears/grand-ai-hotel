@@ -23,7 +23,7 @@
 
 ## Overview
 
-This document provides a comprehensive overview of all dependencies used in the Grand Budapest Terminal project across multiple programming languages, their licenses, and tools for managing security and compliance.
+This document provides an overview of all dependencies used in the Grand Budapest Terminal project across multiple programming languages, their licenses, and tools for managing security and compliance.
 
 **Project License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) (Public Domain Dedication)
 
