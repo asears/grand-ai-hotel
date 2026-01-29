@@ -26,11 +26,11 @@
 uv add <package-name>
 
 # Check license
-pip install pip-licenses
+uv pip install pip-licenses
 pip-licenses | grep <package-name>
 
 # Check security
-pip install safety
+uv pip install safety
 safety check
 ```
 

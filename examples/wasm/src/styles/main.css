@@ -1,0 +1,625 @@
+/**
+ * Grand Budapest Python Playground - Main Stylesheet
+ * 
+ * Wes Anderson aesthetic with burgundy and pink color palette
+ * 
+ * @author M. Gustave & Ludwig
+ */
+
+/* ==================== Variables ==================== */
+:root {
+  /* Wes Anderson color palette */
+  --burgundy: #800020;
+  --pink: #ffb6c1;
+  --gold: #c5b358;
+  --antique-gold: #c5b358;
+  --military-green: #4b5320;
+  --charcoal: #36454f;
+  --cream: #fffdd0;
+  --sage: #9caf88;
+  --dusty-rose: #dcae96;
+
+  /* Semantic colors */
+  --primary: var(--burgundy);
+  --accent: var(--pink);
+  --text: var(--charcoal);
+  --bg: var(--cream);
+  --border: var(--gold);
+  --success: #2d5f2e;
+  --warning: #d97706;
+  --error: #991b1b;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+
+  /* Typography */
+  --font-mono: 'Courier New', 'Courier', monospace;
+  --font-sans: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* ==================== Reset ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-mono);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ==================== Layout ==================== */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  background: var(--primary);
+  color: white;
+  padding: var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 4px solid var(--border);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+.header-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ==================== Editor Panel ==================== */
+.editor-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 2px solid var(--border);
+}
+
+.editor-toolbar {
+  background: white;
+  padding: var(--spacing-md);
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.editor-stats {
+  font-size: 0.85rem;
+  color: var(--charcoal);
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+#editor-container {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ==================== Results Panel ==================== */
+.results-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+}
+
+.tabs {
+  display: flex;
+  background: var(--cream);
+  border-bottom: 2px solid var(--border);
+  padding: 0 var(--spacing-md);
+}
+
+.tab {
+  padding: var(--spacing-md) var(--spacing-lg);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--text);
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.tab:hover {
+  background: rgba(128, 0, 32, 0.05);
+}
+
+.tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  font-weight: bold;
+}
+
+.tab-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-lg);
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+/* ==================== Buttons ==================== */
+.btn {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background: var(--burgundy);
+  color: white;
+  border-color: var(--gold);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--pink);
+  color: var(--burgundy);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: white;
+  color: var(--charcoal);
+  border-color: var(--charcoal);
+}
+
+.btn-secondary:hover {
+  background: var(--cream);
+}
+
+/* ==================== Agent Cards ==================== */
+.agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.agent-card {
+  background: white;
+  border: 3px solid var(--gold);
+  border-radius: 8px;
+  padding: var(--spacing-lg);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.agent-card:hover {
+  transform: translateX(4px);
+  box-shadow: -4px 4px 0 var(--pink);
+}
+
+.agent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.agent-icon {
+  font-size: 2rem;
+}
+
+.agent-badge {
+  background: var(--gold);
+  color: var(--charcoal);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.agent-badge.success {
+  background: var(--success);
+  color: white;
+}
+
+.agent-badge.warning {
+  background: var(--warning);
+  color: white;
+}
+
+.agent-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: var(--spacing-xs);
+}
+
+.agent-role {
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* ==================== Issues & Results ==================== */
+.issue-card,
+.suggestion-card {
+  background: white;
+  border-left: 4px solid var(--border);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.issue-card.issue-critical {
+  border-left-color: #991b1b;
+  background: #fef2f2;
+}
+
+.issue-card.issue-high {
+  border-left-color: #d97706;
+  background: #fffbeb;
+}
+
+.issue-card.issue-medium {
+  border-left-color: #ca8a04;
+  background: #fefce8;
+}
+
+.issue-card.issue-low {
+  border-left-color: #2563eb;
+  background: #eff6ff;
+}
+
+.issue-header,
+.suggestion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.issue-title,
+.suggestion-type {
+  font-weight: bold;
+  flex: 1;
+}
+
+.issue-line {
+  font-size: 0.85rem;
+  color: #666;
+  font-family: var(--font-mono);
+}
+
+.issue-description,
+.suggestion-description {
+  margin-bottom: var(--spacing-sm);
+  color: var(--charcoal);
+}
+
+.issue-recommendation {
+  font-size: 0.9rem;
+  padding: var(--spacing-sm);
+  background: rgba(128, 0, 32, 0.05);
+  border-radius: 4px;
+  margin-top: var(--spacing-sm);
+}
+
+.code-snippet {
+  background: #f5f5f5;
+  padding: var(--spacing-sm);
+  border-radius: 4px;
+  overflow-x: auto;
+  margin-top: var(--spacing-sm);
+}
+
+.code-snippet code {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+/* ==================== Severity Badges ==================== */
+.severity-badge {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.severity-badge.critical {
+  background: #991b1b;
+  color: white;
+}
+
+.severity-badge.high {
+  background: #d97706;
+  color: white;
+}
+
+.severity-badge.medium {
+  background: #ca8a04;
+  color: white;
+}
+
+.severity-badge.low {
+  background: #2563eb;
+  color: white;
+}
+
+.severity-badge.info {
+  background: #6b7280;
+  color: white;
+}
+
+/* ==================== Metrics ==================== */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.metric-card {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: var(--spacing-lg);
+  text-align: center;
+}
+
+.metric-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--primary);
+  display: block;
+  margin-bottom: var(--spacing-xs);
+}
+
+.metric-value.good {
+  color: var(--success);
+}
+
+.metric-value.medium {
+  color: var(--warning);
+}
+
+.metric-value.poor {
+  color: var(--error);
+}
+
+.metric-label {
+  font-size: 0.85rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ==================== Messages ==================== */
+.success-message,
+.error-message,
+.info-message {
+  padding: var(--spacing-md);
+  border-radius: 4px;
+  margin-bottom: var(--spacing-md);
+}
+
+.success-message {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.error-message {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.info-message {
+  background: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+/* ==================== Status Bar ==================== */
+.status-bar {
+  background: var(--charcoal);
+  color: white;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.status-message {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.status-message.loading::before {
+  content: '⏳';
+}
+
+.status-message.success::before {
+  content: '✅';
+}
+
+.status-message.error::before {
+  content: '❌';
+}
+
+/* ==================== AST Display ==================== */
+.ast-summary {
+  margin-bottom: var(--spacing-lg);
+}
+
+.structure-stats {
+  display: flex;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-md);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-md);
+  background: var(--cream);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  min-width: 100px;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: var(--spacing-xs);
+}
+
+.ast-list {
+  list-style: none;
+  padding-left: var(--spacing-lg);
+}
+
+.ast-list li {
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--cream);
+}
+
+.ast-list code {
+  background: var(--cream);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  color: var(--primary);
+}
+
+/* ==================== Agent Footer ==================== */
+.agent-footer {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-md);
+  border-top: 2px solid var(--cream);
+  font-style: italic;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* ==================== Responsive ==================== */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+  }
+
+  .editor-panel {
+    border-right: none;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .agents-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==================== Scrollbar Styling ==================== */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--burgundy);
+}
+
+/* ==================== Animations ==================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.issue-card,
+.agent-card {
+  animation: fadeIn 0.3s ease-out;
+}

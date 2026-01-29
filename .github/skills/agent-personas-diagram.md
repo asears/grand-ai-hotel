@@ -206,7 +206,7 @@ When to Invoke:
 ### M. Gustave Prompts
 ```markdown
 "Review this API design for elegance and consistency"
-"Document this module with comprehensive examples"
+"Document this module with detailed examples"
 "Refine the architecture of this component"
 "Improve code quality in the authentication layer"
 ```

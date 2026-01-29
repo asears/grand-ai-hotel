@@ -1,0 +1,57 @@
+# Python WASM Playground - Git Ignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+.coverage.*
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.npm/
+.yarn/
+
+# Vite/Build
+dist/
+dist-ssr/
+.vite/
+*.local
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+coverage/
+playwright-report/
+test-results/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Pyodide cache
+.pyodide-cache/
+
+# Logs
+logs/
+*.log

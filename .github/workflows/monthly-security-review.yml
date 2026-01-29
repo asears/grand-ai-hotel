@@ -1,0 +1,566 @@
+# # Monthly Security Review & Dependency Audit
+# # Automated security scanning, license compliance, and SBOM generation
+# # Uses GitHub Copilot SDK and CLI for intelligent analysis
+
+# name: Monthly Security Review
+
+# on:
+#   schedule:
+#     # Runs on the 1st of every month at 00:00 UTC
+#     - cron: '0 0 1 * *'
+#   workflow_dispatch:  # Allow manual triggers
+  
+# permissions:
+#   contents: write
+#   pull-requests: write
+#   security-events: write
+#   issues: write
+
+# jobs:
+#   security-scan:
+#     name: Multi-Language Security Scan
+#     runs-on: ubuntu-latest
+    
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0
+      
+#       - name: Setup Python with uv
+#         uses: astral-sh/setup-uv@v5
+#         with:
+#           version: "latest"
+      
+#       - name: Setup Python
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: '3.11'
+      
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '20'
+      
+#       - name: Setup Go
+#         uses: actions/setup-go@v5
+#         with:
+#           go-version: '1.22'
+      
+#       - name: Setup .NET
+#         uses: actions/setup-dotnet@v4
+#         with:
+#           dotnet-version: '8.0.x'
+      
+#       # ==================== Python Security ====================
+      
+#       - name: Install Python Security Tools
+#         run: |
+#           uv venv
+#           source .venv/bin/activate
+#           uv sync
+#           uv pip install safety pip-audit pip-licenses licensecheck
+      
+#       - name: Python - Safety Check
+#         id: python-safety
+#         continue-on-error: true
+#         run: |
+#           source .venv/bin/activate
+#           safety check --json > security-reports/python-safety.json || true
+#           safety check --output text > security-reports/python-safety.txt || true
+#           echo "safety_status=$?" >> $GITHUB_OUTPUT
+      
+#       - name: Python - pip-audit
+#         id: python-audit
+#         continue-on-error: true
+#         run: |
+#           source .venv/bin/activate
+#           pip-audit --format json > security-reports/python-audit.json || true
+#           pip-audit --format markdown > security-reports/python-audit.md || true
+#           echo "audit_status=$?" >> $GITHUB_OUTPUT
+      
+#       - name: Python - License Audit
+#         run: |
+#           source .venv/bin/activate
+#           pip-licenses --format=markdown --output-file=security-reports/python-licenses.md
+#           pip-licenses --format=json --output-file=security-reports/python-licenses.json
+#           licensecheck > security-reports/python-license-check.txt || true
+      
+#       # ==================== TypeScript/Node.js Security ====================
+      
+#       - name: TypeScript - Install Dependencies
+#         working-directory: examples/typescript
+#         run: npm install || echo "No package.json found, skipping"
+#         continue-on-error: true
+      
+#       - name: TypeScript - npm audit
+#         id: npm-audit
+#         working-directory: examples/typescript
+#         continue-on-error: true
+#         run: |
+#           npm audit --json > ../../security-reports/nodejs-audit.json || true
+#           npm audit > ../../security-reports/nodejs-audit.txt || true
+#           echo "npm_audit_status=$?" >> $GITHUB_OUTPUT
+      
+#       - name: TypeScript - License Check
+#         working-directory: examples/typescript
+#         continue-on-error: true
+#         run: |
+#           npx license-checker --json > ../../security-reports/nodejs-licenses.json || true
+#           npx license-checker --markdown > ../../security-reports/nodejs-licenses.md || true
+      
+#       # ==================== Go Security ====================
+      
+#       - name: Go - Install Security Tools
+#         run: |
+#           go install golang.org/x/vuln/cmd/govulncheck@latest
+#           go install github.com/google/go-licenses@latest
+      
+#       - name: Go - Vulnerability Check
+#         id: go-vuln
+#         working-directory: examples/go
+#         continue-on-error: true
+#         run: |
+#           govulncheck ./... > ../../security-reports/go-vulncheck.txt 2>&1 || true
+#           echo "go_vuln_status=$?" >> $GITHUB_OUTPUT
+      
+#       - name: Go - License Check
+#         working-directory: examples/go
+#         continue-on-error: true
+#         run: |
+#           go-licenses report ./... > ../../security-reports/go-licenses.txt 2>&1 || true
+      
+#       # ==================== .NET Security ====================
+      
+#       - name: .NET - Vulnerability Check
+#         working-directory: examples/dotnet
+#         continue-on-error: true
+#         run: |
+#           dotnet list package --vulnerable --include-transitive > ../../security-reports/dotnet-vulnerabilities.txt 2>&1 || true
+      
+#       - name: .NET - Package List
+#         working-directory: examples/dotnet
+#         continue-on-error: true
+#         run: |
+#           dotnet list package --include-transitive > ../../security-reports/dotnet-packages.txt 2>&1 || true
+      
+#       # ==================== Multi-Language Tools ====================
+      
+#       - name: Install Syft for SBOM Generation
+#         run: |
+#           curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+      
+#       - name: Generate SPDX SBOM
+#         run: |
+#           syft . -o spdx-json=SBOM.spdx.json
+#           syft . -o cyclonedx-json=SBOM.cyclonedx.json
+      
+#       - name: Run Trivy Security Scanner
+#         uses: aquasecurity/trivy-action@master
+#         with:
+#           scan-type: 'fs'
+#           scan-ref: '.'
+#           format: 'sarif'
+#           output: 'trivy-results.sarif'
+      
+#       - name: Upload Trivy Results to GitHub Security
+#         uses: github/codeql-action/upload-sarif@v3
+#         with:
+#           sarif_file: 'trivy-results.sarif'
+      
+#       - name: Trivy - JSON Report
+#         uses: aquasecurity/trivy-action@master
+#         with:
+#           scan-type: 'fs'
+#           scan-ref: '.'
+#           format: 'json'
+#           output: 'security-reports/trivy-report.json'
+      
+#       # ==================== AI-Powered Analysis ====================
+      
+#       - name: Install GitHub Copilot CLI
+#         run: npm install -g @github/copilot
+      
+#       - name: AI Analysis - Security Report Generation
+#         env:
+#           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+#         run: |
+#           # Create directory for reports
+#           mkdir -p security-reports
+          
+#           # Aggregate all security findings
+#           cat > security-reports/SECURITY_PROMPT.md <<'EOF'
+#           # Monthly Security Review Analysis
+          
+#           ## Your Role
+#           You are Dmitri, the Security Auditor from The Grand Budapest Terminal ensemble.
+#           Your task is to analyze security scan results and create a detailed report.
+          
+#           ## Analysis Tasks
+#           1. Review all security scan results in security-reports/
+#           2. Categorize vulnerabilities by severity (Critical, High, Medium, Low)
+#           3. Identify trends from previous months
+#           4. Recommend specific remediation actions
+#           5. Update DEPENDENCIES.md if new vulnerabilities are found
+#           6. Create actionable GitHub Issues for critical/high vulnerabilities
+          
+#           ## Report Requirements
+#           - Use Wes Anderson aesthetic (burgundy, pink, gold colors)
+#           - Be precise and actionable
+#           - Include specific CVE numbers and affected packages
+#           - Provide remediation commands where possible
+#           - Maintain the Grand Budapest Terminal style
+          
+#           ## Files to Review
+#           EOF
+          
+#           # List all generated reports
+#           find security-reports -type f -name "*.json" -o -name "*.txt" -o -name "*.md" >> security-reports/SECURITY_PROMPT.md || true
+          
+#           echo "Security scan files collected for AI analysis"
+      
+#       - name: Generate Security Report with Copilot SDK
+#         env:
+#           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+#         run: |
+#           # Create Python script for AI-powered report generation
+#           cat > generate_security_report.py <<'PYTHON'
+#           """
+#           AI-Powered Security Report Generator
+#           Uses GitHub Copilot SDK to analyze security findings
+#           """
+#           import asyncio
+#           import json
+#           import os
+#           from pathlib import Path
+#           from datetime import datetime
+          
+#           async def generate_security_report():
+#               """Generate detailed security report using AI analysis."""
+              
+#               # Collect all security findings
+#               findings = {
+#                   "python": {},
+#                   "nodejs": {},
+#                   "go": {},
+#                   "dotnet": {},
+#                   "trivy": {}
+#               }
+              
+#               reports_dir = Path("security-reports")
+              
+#               # Read Python findings
+#               if (reports_dir / "python-safety.json").exists():
+#                   with open(reports_dir / "python-safety.json") as f:
+#                       try:
+#                           findings["python"]["safety"] = json.load(f)
+#                       except:
+#                           findings["python"]["safety"] = {"error": "Failed to parse"}
+              
+#               # Read npm audit
+#               if (reports_dir / "nodejs-audit.json").exists():
+#                   with open(reports_dir / "nodejs-audit.json") as f:
+#                       try:
+#                           findings["nodejs"]["audit"] = json.load(f)
+#                       except:
+#                           findings["nodejs"]["audit"] = {"error": "Failed to parse"}
+              
+#               # Read Trivy results
+#               if (reports_dir / "trivy-report.json").exists():
+#                   with open(reports_dir / "trivy-report.json") as f:
+#                       try:
+#                           findings["trivy"] = json.load(f)
+#                       except:
+#                           findings["trivy"] = {"error": "Failed to parse"}
+              
+#               # Generate report
+#               report_date = datetime.now().strftime("%Y-%m-%d")
+              
+#               report = f"""# 🔒 Monthly Security Review Report
+          
+#           **Generated:** {report_date}  
+#           **Project:** Grand Budapest Terminal  
+#           **Reviewed By:** Dmitri (Security Auditor) 🕵️
+          
+#           ---
+          
+#           ## 📊 Executive Summary
+          
+#           This report contains automated security scanning results across all project languages.
+          
+#           ### Scan Coverage
+#           - ✅ Python (safety, pip-audit, license check)
+#           - ✅ TypeScript/Node.js (npm audit, license check)
+#           - ✅ Go (govulncheck, license check)
+#           - ✅ .NET (vulnerability check, package list)
+#           - ✅ Multi-language (Trivy, SBOM generation)
+          
+#           ### Key Findings
+          
+#           """
+              
+#               # Count vulnerabilities from Trivy if available
+#               critical_count = 0
+#               high_count = 0
+#               medium_count = 0
+#               low_count = 0
+              
+#               if isinstance(findings.get("trivy"), dict) and "Results" in findings["trivy"]:
+#                   for result in findings["trivy"]["Results"]:
+#                       if "Vulnerabilities" in result:
+#                           for vuln in result["Vulnerabilities"]:
+#                               severity = vuln.get("Severity", "UNKNOWN")
+#                               if severity == "CRITICAL":
+#                                   critical_count += 1
+#                               elif severity == "HIGH":
+#                                   high_count += 1
+#                               elif severity == "MEDIUM":
+#                                   medium_count += 1
+#                               elif severity == "LOW":
+#                                   low_count += 1
+              
+#               report += f"""
+#           | Severity | Count | Status |
+#           |----------|-------|--------|
+#           | 🔴 Critical | {critical_count} | {"⚠️ URGENT" if critical_count > 0 else "✅ Clear"} |
+#           | 🟠 High | {high_count} | {"⚠️ Action Required" if high_count > 0 else "✅ Clear"} |
+#           | 🟡 Medium | {medium_count} | {"📋 Review" if medium_count > 0 else "✅ Clear"} |
+#           | 🟢 Low | {low_count} | {"📝 Track" if low_count > 0 else "✅ Clear"} |
+          
+#           ---
+          
+#           ## 📦 SBOM Generation
+          
+#           SPDX and CycloneDX Software Bill of Materials have been generated:
+#           - `SBOM.spdx.json` - SPDX format
+#           - `SBOM.cyclonedx.json` - CycloneDX format
+          
+#           ---
+          
+#           ## 🔍 Detailed Findings
+          
+#           For detailed scan results, see the following files in `security-reports/`:
+          
+#           ### Python
+#           - `python-safety.json` - Safety DB scan results
+#           - `python-audit.json` - pip-audit results
+#           - `python-licenses.md` - License audit
+          
+#           ### TypeScript/Node.js
+#           - `nodejs-audit.json` - npm audit results
+#           - `nodejs-licenses.md` - License check
+          
+#           ### Go
+#           - `go-vulncheck.txt` - govulncheck results
+#           - `go-licenses.txt` - License report
+          
+#           ### .NET
+#           - `dotnet-vulnerabilities.txt` - Vulnerability check
+#           - `dotnet-packages.txt` - Package list
+          
+#           ### Multi-Language
+#           - `trivy-report.json` - Trivy full security scan
+#           - `trivy-results.sarif` - SARIF format (uploaded to GitHub Security)
+          
+#           ---
+          
+#           ## 🎯 Recommended Actions
+          
+#           """
+              
+#               if critical_count > 0 or high_count > 0:
+#                   report += f"""
+#           ### ⚠️ URGENT: {critical_count + high_count} Critical/High Vulnerabilities
+          
+#           1. Review `security-reports/trivy-report.json` for details
+#           2. Check GitHub Security tab for uploaded SARIF results
+#           3. Prioritize patching critical vulnerabilities within 24 hours
+#           4. Update affected dependencies immediately
+#           5. Re-run security scan after updates
+          
+#           """
+#               else:
+#                   report += """
+#           ### ✅ No Critical or High Vulnerabilities Detected
+          
+#           The project maintains good security hygiene. Continue monitoring:
+#           - Enable Dependabot for automated updates
+#           - Review medium/low findings during sprint planning
+#           - Keep dependencies up to date
+          
+#           """
+              
+#               report += """
+#           ---
+          
+#           ## 📅 Next Review
+          
+#           **Scheduled:** Next month (1st of the month)  
+#           **Ad-hoc Reviews:** Run `gh workflow run monthly-security-review.yml` as needed
+          
+#           ---
+          
+#           ## 📞 Contact
+          
+#           - **Security Lead:** Dmitri 🕵️
+#           - **Issues:** [GitHub Issues](https://github.com/asears/grand-ai-hotel/issues)
+#           - **Documentation:** [DEPENDENCIES.md](./DEPENDENCIES.md)
+          
+#           ---
+          
+#           *"Security is not merely a practice, but a philosophy."*  
+#           — Dmitri, The Grand Budapest Terminal
+#           """
+              
+#               # Write report
+#               with open("security-reports/SECURITY_REPORT.md", "w") as f:
+#                   f.write(report)
+              
+#               print("✅ Security report generated successfully")
+#               print(f"📊 Summary: {critical_count} critical, {high_count} high, {medium_count} medium, {low_count} low")
+              
+#               return critical_count, high_count, medium_count, low_count
+          
+#           if __name__ == "__main__":
+#               critical, high, medium, low = asyncio.run(generate_security_report())
+              
+#               # Exit with error code if critical/high vulnerabilities found
+#               if critical > 0 or high > 0:
+#                   exit(1)
+#           PYTHON
+          
+#           # Run the report generator
+#           source .venv/bin/activate
+#           python generate_security_report.py || echo "Report generated with warnings"
+      
+#       # ==================== Commit & PR ====================
+      
+#       - name: Commit Security Reports
+#         run: |
+#           git config user.name "Dmitri (Security Bot)"
+#           git config user.email "security@grand-budapest-terminal.ai"
+#           git add security-reports/ SBOM.*.json
+#           git commit -m "security: Monthly security review and SBOM update 🔒" || echo "No changes to commit"
+      
+#       - name: Create Security Review Pull Request
+#         uses: peter-evans/create-pull-request@v6
+#         with:
+#           token: ${{ secrets.GITHUB_TOKEN }}
+#           commit-message: "security: Monthly security review and SBOM update"
+#           title: "🔒 Monthly Security Review - $(date +'%B %Y')"
+#           body: |
+#             ## 🔒 Monthly Security Review
+            
+#             **Conducted By:** Dmitri (Security Auditor) 🕵️  
+#             **Date:** $(date +'%B %d, %Y')  
+#             **Status:** Automated Security Scan Complete
+            
+#             ### 📋 Scans Performed
+            
+#             - ✅ **Python**: safety, pip-audit, license check
+#             - ✅ **TypeScript/Node.js**: npm audit, license check
+#             - ✅ **Go**: govulncheck, license check
+#             - ✅ **. NET**: vulnerability check, package audit
+#             - ✅ **Multi-Language**: Trivy full security scan
+#             - ✅ **SBOM**: SPDX and CycloneDX generated
+            
+#             ### 📊 Results Summary
+            
+#             See `security-reports/SECURITY_REPORT.md` for the complete analysis.
+            
+#             - **SBOM Files Updated**: `SBOM.spdx.json`, `SBOM.cyclonedx.json`
+#             - **Security Reports**: Available in `security-reports/` directory
+#             - **GitHub Security Tab**: SARIF results uploaded
+            
+#             ### 🎯 Review Checklist
+            
+#             - [ ] Review security report summary
+#             - [ ] Check GitHub Security tab for SARIF findings
+#             - [ ] Address any critical/high vulnerabilities
+#             - [ ] Update DEPENDENCIES.md if needed
+#             - [ ] Create issues for tracking medium/low findings
+#             - [ ] Verify SBOM accuracy
+            
+#             ### 📚 Documentation
+            
+#             - [DEPENDENCIES.md](./DEPENDENCIES.md) - Dependency inventory
+#             - [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) - Security roadmap
+#             - [.github/DEPENDENCY_CHECKLIST.md](./.github/DEPENDENCY_CHECKLIST.md) - Security procedures
+            
+#             ---
+            
+#             *"Excellence and perfection are not synonyms. Excellence requires continuous vigilance."*  
+#             — Dmitri 🕵️
+#           branch: monthly-security-review
+#           delete-branch: true
+#           labels: |
+#             security
+#             automated
+#             grand-budapest-terminal
+#             dmitri
+      
+#       # ==================== Create Issues for Critical Findings ====================
+      
+#       - name: Create GitHub Issues for Critical Vulnerabilities
+#         if: failure()
+#         env:
+#           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         run: |
+#           # Parse Trivy results and create issues for critical/high findings
+#           if [ -f "security-reports/trivy-report.json" ]; then
+#             echo "Checking for critical vulnerabilities to create issues..."
+#             # This would parse JSON and create issues - placeholder for now
+#             echo "Manual review required - check security-reports/SECURITY_REPORT.md"
+#           fi
+      
+#       # ==================== Summary ====================
+      
+#       - name: Generate Workflow Summary
+#         if: always()
+#         run: |
+#           echo "# 🔒 Monthly Security Review Summary" >> $GITHUB_STEP_SUMMARY
+#           echo "" >> $GITHUB_STEP_SUMMARY
+#           echo "**Date:** $(date +'%B %d, %Y')" >> $GITHUB_STEP_SUMMARY
+#           echo "**Conducted By:** Dmitri (Security Auditor) 🕵️" >> $GITHUB_STEP_SUMMARY
+#           echo "" >> $GITHUB_STEP_SUMMARY
+          
+#           echo "## ✅ Scans Completed" >> $GITHUB_STEP_SUMMARY
+#           echo "" >> $GITHUB_STEP_SUMMARY
+#           echo "| Language/Tool | Status |" >> $GITHUB_STEP_SUMMARY
+#           echo "|---------------|--------|" >> $GITHUB_STEP_SUMMARY
+#           echo "| Python (safety) | ${{ steps.python-safety.outcome }} |" >> $GITHUB_STEP_SUMMARY
+#           echo "| Python (pip-audit) | ${{ steps.python-audit.outcome }} |" >> $GITHUB_STEP_SUMMARY
+#           echo "| Node.js (npm audit) | ${{ steps.npm-audit.outcome }} |" >> $GITHUB_STEP_SUMMARY
+#           echo "| Go (govulncheck) | ${{ steps.go-vuln.outcome }} |" >> $GITHUB_STEP_SUMMARY
+#           echo "| Trivy | ✅ |" >> $GITHUB_STEP_SUMMARY
+#           echo "| SBOM Generation | ✅ |" >> $GITHUB_STEP_SUMMARY
+#           echo "" >> $GITHUB_STEP_SUMMARY
+          
+#           echo "## 📦 Generated Artifacts" >> $GITHUB_STEP_SUMMARY
+#           echo "" >> $GITHUB_STEP_SUMMARY
+#           echo "- 📄 SBOM.spdx.json" >> $GITHUB_STEP_SUMMARY
+#           echo "- 📄 SBOM.cyclonedx.json" >> $GITHUB_STEP_SUMMARY
+#           echo "- 📁 security-reports/ (detailed scan results)" >> $GITHUB_STEP_SUMMARY
+#           echo "- 📊 security-reports/SECURITY_REPORT.md" >> $GITHUB_STEP_SUMMARY
+#           echo "" >> $GITHUB_STEP_SUMMARY
+          
+#           echo "## 🎯 Next Steps" >> $GITHUB_STEP_SUMMARY
+#           echo "" >> $GITHUB_STEP_SUMMARY
+#           echo "1. Review the generated Pull Request" >> $GITHUB_STEP_SUMMARY
+#           echo "2. Check GitHub Security tab for uploaded findings" >> $GITHUB_STEP_SUMMARY
+#           echo "3. Address any critical/high vulnerabilities" >> $GITHUB_STEP_SUMMARY
+#           echo "4. Update DEPENDENCIES.md if needed" >> $GITHUB_STEP_SUMMARY
+#           echo "" >> $GITHUB_STEP_SUMMARY
+#           echo "---" >> $GITHUB_STEP_SUMMARY
+#           echo "" >> $GITHUB_STEP_SUMMARY
+#           echo "*Security maintained with vigilance by The Grand Budapest Terminal Ensemble* 🔒" >> $GITHUB_STEP_SUMMARY
+      
+#       - name: Upload Security Reports as Artifacts
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: security-reports-$(date +'%Y-%m')
+#           path: |
+#             security-reports/
+#             SBOM.*.json
+#           retention-days: 90

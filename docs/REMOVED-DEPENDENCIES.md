@@ -336,7 +336,7 @@ text := doc.GetText()
 
 **Pros:**
 - ✅ Enterprise-grade
-- ✅ Comprehensive features
+- ✅ Complete feature set
 - ✅ Professional support
 
 **Cons:**

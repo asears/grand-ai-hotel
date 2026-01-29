@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Python AST Parser Playground - Analyze Python code in your browser with AI agents">
+    <title>Python AST Playground | Grand Budapest Terminal</title>
+    
+    <!-- Wes Anderson color scheme -->
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/monaco.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎩</text></svg>">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="title">🐍 Python AST Playground</h1>
+            <p class="subtitle">Powered by Pyodide WebAssembly & AI Agents</p>
+        </div>
+        <div class="header-actions">
+            <button id="analyze-btn" class="btn btn-primary" disabled>
+                Analyze Code
+            </button>
+            <button id="clear-btn" class="btn btn-secondary">
+                Clear
+            </button>
+            <button id="load-example-btn" class="btn btn-secondary">
+                Load Example
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Left Panel: Editor -->
+        <section class="editor-panel">
+            <div class="panel-header">
+                <h2>Code Editor</h2>
+                <div class="status-indicator">
+                    <span id="pyodide-status" class="status-dot status-loading"></span>
+                    <span id="pyodide-status-text">Loading Pyodide...</span>
+                </div>
+            </div>
+            
+            <!-- Monaco Editor Container -->
+            <div id="editor-container"></div>
+            
+            <div class="editor-footer">
+                <span id="line-count">Lines: 0</span>
+                <span id="char-count">Characters: 0</span>
+            </div>
+        </section>
+
+        <!-- Right Panel: Results -->
+        <section class="results-panel">
+            <div class="panel-header">
+                <h2>Analysis Results</h2>
+                <button id="export-btn" class="btn btn-sm" disabled>
+                    Export Results
+                </button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="overview">Overview</button>
+                <button class="tab-btn" data-tab="ast">AST Tree</button>
+                <button class="tab-btn" data-tab="agents">Agent Analysis</button>
+                <button class="tab-btn" data-tab="metrics">Metrics</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Overview Tab -->
+                <div id="overview-tab" class="tab-panel active">
+                    <div id="overview-content" class="placeholder">
+                        <p>👈 Write or paste Python code, then click "Analyze Code"</p>
+                    </div>
+                </div>
+
+                <!-- AST Tab -->
+                <div id="ast-tab" class="tab-panel">
+                    <div id="ast-tree" class="ast-container">
+                        <p class="placeholder">AST visualization will appear here</p>
+                    </div>
+                </div>
+
+                <!-- Agents Tab -->
+                <div id="agents-tab" class="tab-panel">
+                    <div id="agent-results">
+                        <!-- Agent Cards -->
+                        <div class="agent-card" data-agent="gustave">
+                            <div class="agent-header">
+                                <span class="agent-icon">🎩</span>
+                                <h3>M. Gustave</h3>
+                                <span class="agent-role">Code Quality</span>
+                            </div>
+                            <div class="agent-body">
+                                <p class="placeholder">No analysis yet</p>
+                            </div>
+                        </div>
+
+                        <div class="agent-card" data-agent="dmitri">
+                            <div class="agent-header">
+                                <span class="agent-icon">🔒</span>
+                                <h3>Dmitri</h3>
+                                <span class="agent-role">Security</span>
+                            </div>
+                            <div class="agent-body">
+                                <p class="placeholder">No analysis yet</p>
+                            </div>
+                        </div>
+
+                        <div class="agent-card" data-agent="agatha">
+                            <div class="agent-header">
+                                <span class="agent-icon">🧪</span>
+                                <h3>Agatha</h3>
+                                <span class="agent-role">Testing</span>
+                            </div>
+                            <div class="agent-body">
+                                <p class="placeholder">No analysis yet</p>
+                            </div>
+                        </div>
+
+                        <div class="agent-card" data-agent="serge">
+                            <div class="agent-header">
+                                <span class="agent-icon">📊</span>
+                                <h3>Serge X.</h3>
+                                <span class="agent-role">Performance</span>
+                            </div>
+                            <div class="agent-body">
+                                <p class="placeholder">No analysis yet</p>
+                            </div>
+                        </div>
+
+                        <div class="agent-card" data-agent="ludwig">
+                            <div class="agent-header">
+                                <span class="agent-icon">📐</span>
+                                <h3>Ludwig</h3>
+                                <span class="agent-role">Type Safety</span>
+                            </div>
+                            <div class="agent-body">
+                                <p class="placeholder">No analysis yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metrics Tab -->
+                <div id="metrics-tab" class="tab-panel">
+                    <div id="metrics-dashboard">
+                        <div class="metric-card">
+                            <h4>Cyclomatic Complexity</h4>
+                            <p class="metric-value" id="complexity-value">-</p>
+                            <p class="metric-label">Recommended: <10</p>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Lines of Code</h4>
+                            <p class="metric-value" id="loc-value">-</p>
+                            <p class="metric-label">Excluding comments</p>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Functions</h4>
+                            <p class="metric-value" id="functions-value">-</p>
+                            <p class="metric-label">Total count</p>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Classes</h4>
+                            <p class="metric-value" id="classes-value">-</p>
+                            <p class="metric-label">Total count</p>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Imports</h4>
+                            <p class="metric-value" id="imports-value">-</p>
+                            <p class="metric-label">Dependencies</p>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Max Nesting</h4>
+                            <p class="metric-value" id="nesting-value">-</p>
+                            <p class="metric-label">Recommended: <4</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>
+            Built with <a href="https://pyodide.org" target="_blank">Pyodide</a> • 
+            Inspired by The Grand Budapest Hotel • 
+            <a href="https://github.com/asears/grand-ai-hotel" target="_blank">View on GitHub</a>
+        </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module" src="./js/main.js"></script>
+</body>
+</html>

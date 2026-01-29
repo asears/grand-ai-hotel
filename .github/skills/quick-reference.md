@@ -18,7 +18,7 @@
 **Example prompts:**
 ```
 "Review this API for consistency"
-"Document the NLP module comprehensively"
+"Document the NLP module and provide tutorial"
 "Refine this component's architecture"
 ```
 

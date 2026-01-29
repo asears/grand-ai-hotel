@@ -418,7 +418,7 @@ I use this constantly when validating data transformations.
 When working on a remote repository, one may delegate an entire task:
 
 ```bash
-/delegate Add comprehensive logging to the NLP pipeline
+/delegate Add structured and efficient logging to the NLP pipeline
 ```
 
 **M. GUSTAVE**  

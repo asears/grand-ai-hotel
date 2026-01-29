@@ -1,0 +1,25 @@
+# Markdownlint Ignore File
+# Exclude files and directories from markdown linting
+
+# Dependencies
+node_modules/
+.venv/
+venv/
+__pycache__/
+
+# GitHub Templates (may have special formatting)
+.github/ISSUE_TEMPLATE/
+.github/PULL_REQUEST_TEMPLATE/
+
+# Build outputs
+dist/
+build/
+*.pyc
+
+# Example project dependencies
+examples/*/node_modules/
+examples/*/dist/
+examples/*/build/
+
+# Auto-generated files
+security-reports/
