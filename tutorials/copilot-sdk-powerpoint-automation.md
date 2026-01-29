@@ -15,7 +15,7 @@ Expert in SDK design patterns and architectural decisions
 Executes code examples across all languages with precision
 
 **AGATHA** - *The Tester*  
-Validates SDK implementations with comprehensive test suites
+Validates SDK implementations with test suites
 
 **DMITRI** - *The Security Auditor*  
 Challenges SDK security assumptions and token management
@@ -43,7 +43,7 @@ Gentlemen, and dear Agatha, we gather today to discuss a momentous technological
 
 **LUDWIG**  
 *(consulting a leather-bound manual)*  
-According to the documentation, sir, it supports Node.js, Python, Go, and .NET. Multi-language, multi-model routing, MCP server integration...
+According to the documentation, sir, it supports Node.js, Python, Typescript, Javascript, Go, and .NET. Multi-language, multi-model routing, MCP server integration...
 
 **M. GUSTAVE**  
 Precisely. And today, we shall build something practical: an intelligent system that processes PowerPoint presentations and Word documents. From templates to final output, automated with elegance.
@@ -327,7 +327,7 @@ if __name__ == "__main__":
 
 **M. GUSTAVE**  
 *(reviewing the code)*  
-Excellent, Zero. Clean structure, proper async handling, comprehensive documentation.
+Excellent, Zero. Clean structure, proper async handling, documentation.
 
 **LUDWIG**  
 *(examining closely)*  
@@ -1385,7 +1385,7 @@ We have journeyed through the GitHub Copilot SDK—from Python to TypeScript, Go
 That automation need not be complicated. The SDK abstracts complexity.
 
 **AGATHA**  
-That testing validates our assumptions. Every implementation deserves comprehensive tests.
+That testing validates our assumptions. Every implementation deserves tests and proofs.
 
 **DMITRI**  
 That security cannot be an afterthought. Token management, permissions, boundaries—all critical.

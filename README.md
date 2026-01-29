@@ -202,7 +202,7 @@ The Grand Budapest Terminal is a **production-ready AI agent ensemble** for GitH
 - 🎩 **7 Specialized Agents** - Each with unique personalities and expertise
 - 🎨 **Wes Anderson Aesthetic** - Whimsical yet professional design
 - 🚀 **Multi-Language Support** - Python, TypeScript, Go, .NET examples
-- 📖 **Comprehensive Tutorials** - Learn through screenplay-style guides
+- 📖 **Tutorials** - Learn through screenplay-style guides
 - 🛠️ **GitHub Copilot SDK** - Production-grade automation examples
 - ⚙️ **CI/CD Workflows** - Automated testing and deployment
 - 🔒 **Security-First** - Token management and best practices
@@ -552,7 +552,7 @@ We welcome contributions that maintain the Wes Anderson aesthetic and quality st
 
 1. **Maintain the Style** - Follow the Wes Anderson color palette and design principles
 2. **Test Your Code** - All contributions should include tests
-3. **Document Thoroughly** - M. Gustave insists on comprehensive documentation
+3. **Document Thoroughly** - M. Gustave insists on formal architecture design, context and data flow, agent flow, checklists, runbooks, tutorials and documentation
 4. **Character Consistency** - Agent personalities should remain true to their roles
 
 ### How to Contribute
@@ -648,7 +648,7 @@ This project is licensed under the CC0-1.0 License (Public Domain) - see the [LI
 
 ### Dependencies & Compliance
 
-For comprehensive information about project dependencies, licenses, and security:
+For information about project dependencies, licenses, and security:
 - **[DEPENDENCIES.md](DEPENDENCIES.md)** - Complete dependency inventory with licenses, security links, and management tools
 - **[IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md)** - SBOM generation and license management implementation plan
 

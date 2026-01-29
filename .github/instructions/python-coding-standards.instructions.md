@@ -67,9 +67,26 @@ def get_value(key: str) -> Optional[str]:  # ❌ Old style
 from typing import Protocol, TypeVar, Generic, Literal, TypedDict, Callable
 
 # TypeVar for generics
+# Typevar is used to create generic classes/functions.
+# They are commonly used in libraries and frameworks to allow for flexible and reusable components.
+# T example originates from PEP 484.
+# https://peps.python.org/pep-0484/
+# This statement "It should also be emphasized that Python will remain a dynamically typed language, and the authors 
+# have no desire to ever make type hints mandatory, even by convention."
+# Seems to have changed a bit with recent trends towards stricter typing in many codebases and agent backpressure
+# checks.
+# For more advanced type libraries and runtime type checking, consider using `typing_extensions` package or
+# beartype or panderas or pydantic for data validation.
 T = TypeVar('T')
 
 # Protocol for structural subtyping
+# Protocols define expected methods/attributes and
+# are used for duck typing which allows more flexible interfaces.
+# They are commonly used in libraries and frameworks to define contracts.
+# In this example, any class that implements a `draw` method
+# with the correct signature can be considered a Drawable.
+# Protocol originates from PEP 544.
+# https://peps.python.org/pep-0544/
 class Drawable(Protocol):
     def draw(self) -> None: ...
 
@@ -80,10 +97,23 @@ class UserDict(TypedDict):
     email: str | None
 
 # Literal for specific values
+# We indicate literal keyword so that only those specific string values are allowed.
+# This is checked at type-checking time and helps catch errors early.
+# This can be checked at runtime with libraries like `beartype` or `pydantic`.
+# pydantic ai library provides additional functionality for data validation and settings management.
+# Literal originates from PEP 586.
+# https://peps.python.org/pep-0586/
 def set_mode(mode: Literal["fast", "slow", "medium"]) -> None:
     pass
 
 # Callable for function types
+# Callables are used to specify function signatures.
+# They are commonly used in libraries and frameworks to define callbacks or higher-order functions.
+# Callable originates from PEP 484.
+# https://peps.python.org/pep-0484/
+# Recent peps and discussions mentioning callable types:
+# https://peps.python.org/pep-0695/
+# https://peps.python.org/pep-0701/
 def apply(func: Callable[[int], str], value: int) -> str:
     return func(value)
 ```
@@ -93,6 +123,12 @@ def apply(func: Callable[[int], str], value: int) -> str:
 ## Code Formatting & Linting
 
 ### Ruff - The Rust-Powered Python Linter
+
+Listing rules with ruff:
+
+```pwsh
+ruff rules
+```
 
 **Configuration in `pyproject.toml`:**
 
@@ -166,11 +202,14 @@ ty check --watch src/
 
 ty uses pyproject.toml for configuration similar to mypy. The tool respects standard type checking settings.
 
+Alternatives are pyright, pylance, pyrefly.
 ---
 
 ## Style Guidelines
 
 ### Function Signatures
+
+async link: https://peps.python.org/pep-0492/
 
 ```python
 # ✅ Good: Clear types, proper formatting
@@ -200,6 +239,10 @@ async def generate_slide_content(self, instructions, slide_number, model="claude
 
 ### Class Definitions
 
+Link for self type hints: https://peps.python.org/pep-0673/
+
+Link: https://docs.python.org/3/library/typing.html#typing.Self
+
 ```python
 # ✅ Good: Modern type hints
 class PresentationAutomator:
@@ -223,6 +266,12 @@ class PresentationAutomator:
 ```
 
 ### Error Handling
+
+Link: https://peps.python.org/pep-0408/
+
+Bare Exceptions: Avoid using bare except clauses as they catch all exceptions, including system-exiting exceptions like KeyboardInterrupt and SystemExit. This can make debugging difficult and may hide critical errors.
+
+Link: https://docs.python.org/3/tutorial/errors.html#handling-exceptions
 
 ```python
 # ✅ Good: Specific exception types
@@ -251,6 +300,8 @@ def read_config(path):
 
 ### Structural Pattern Matching (Python 3.10+)
 
+Link: https://peps.python.org/pep-0634/
+
 ```python
 def process_response(response: dict[str, str]) -> str:
     """Process API response."""
@@ -265,6 +316,9 @@ def process_response(response: dict[str, str]) -> str:
 
 ### Walrus Operator (:=)
 
+The Walrus Operator comes from PEP 572 and allows assignment within expressions.
+Link: https://peps.python.org/pep-0572/
+
 ```python
 # ✅ Good: Avoid repeated computation
 if (result := expensive_computation()) is not None:
@@ -276,6 +330,10 @@ filtered = [y for x in items if (y := transform(x)) is not None]
 
 ### F-strings with = for debugging
 
+F-strings support the `=` specifier for quick debugging output (Python 3.8+).
+Link: https://peps.python.org/pep-0572/
+F-strings may need to be avoided in performance-critical code due to their runtime overhead compared to other formatting methods.
+
 ```python
 # Quick debug output
 name = "M. Gustave"
@@ -286,6 +344,7 @@ print(f"{name=}, {role=}")
 
 ### Dataclasses for Data Structures
 
+Link: https://peps.python.org/pep-0557/
 ```python
 from dataclasses import dataclass
 
@@ -444,9 +503,12 @@ All code contributed to The Grand Budapest Terminal must:
 2. ✅ Pass `ruff check` with no errors
 3. ✅ Be formatted with `ruff format`
 4. ✅ Pass `ty check` type checking
-5. ✅ Include comprehensive docstrings
+5. ✅ Include docstrings and type annotations
 6. ✅ Have test coverage ≥ 80%
 7. ✅ Use `prek` for pre-commit hooks
+8. ✅ Be non-destructive to filesystem and user data
+9. ✅ Avoid security vulnerabilities (no eval, safe handling of inputs)
+10. ✅ Use maintained and common dependencies
 
 ---
 

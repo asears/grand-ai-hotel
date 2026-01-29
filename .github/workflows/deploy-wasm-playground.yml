@@ -1,0 +1,98 @@
+# # GitHub Pages Deployment - WASM Python Playground
+# # 
+# # This workflow builds and deploys the WebAssembly Python playground
+# # to GitHub Pages. Commented out for now - uncomment when ready to deploy.
+# #
+# # Requirements:
+# #   - Repository Settings → Pages → Source: GitHub Actions
+# #   - Node.js 18+ for building Vite project
+# #   - Write permissions for GitHub Pages deployment
+# #
+# # Deployment URL: https://<username>.github.io/<repo>/wasm-playground/
+# #
+# # Author: M. Gustave & Henckels
+# # Last Updated: January 29, 2026
+
+# name: Deploy WASM Playground
+
+# on:
+#   # Manual trigger only (for now)
+#   workflow_dispatch:
+  
+#   # Uncomment to enable automatic deployment
+#   # push:
+#   #   branches:
+#   #     - main
+#   #   paths:
+#   #     - 'examples/wasm/**'
+#   #     - '.github/workflows/deploy-wasm-playground.yml'
+
+# # Required for GitHub Pages deployment
+# permissions:
+#   contents: read
+#   pages: write
+#   id-token: write
+
+# # Allow one deployment at a time
+# concurrency:
+#   group: "pages"
+#   cancel-in-progress: true
+
+# jobs:
+#   build:
+#     name: Build WASM Playground
+#     runs-on: ubuntu-latest
+    
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '18'
+#           cache: 'npm'
+#           cache-dependency-path: examples/wasm/package-lock.json
+
+#       - name: Install dependencies
+#         working-directory: examples/wasm
+#         run: npm ci
+
+#       - name: Run tests
+#         working-directory: examples/wasm
+#         run: |
+#           npm run test:unit
+#           # npm run test:e2e # Uncomment when Playwright tests ready
+
+#       - name: Build Vite project
+#         working-directory: examples/wasm
+#         env:
+#           NODE_ENV: production
+#         run: npm run build
+
+#       - name: Upload build artifact
+#         uses: actions/upload-pages-artifact@v3
+#         with:
+#           path: examples/wasm/dist
+
+#   deploy:
+#     name: Deploy to GitHub Pages
+#     needs: build
+#     runs-on: ubuntu-latest
+    
+#     environment:
+#       name: github-pages
+#       url: ${{ steps.deployment.outputs.page_url }}
+    
+#     steps:
+#       - name: Deploy to GitHub Pages
+#         id: deployment
+#         uses: actions/deploy-pages@v4
+
+#       - name: Verify deployment
+#         run: |
+#           echo "Deployed to: ${{ steps.deployment.outputs.page_url }}"
+#           echo "Verify playground is accessible"
+
+# # Example manual deployment command:
+# # gh workflow run deploy-wasm-playground.yml

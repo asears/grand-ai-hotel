@@ -38,12 +38,14 @@
 #         with:
 #           python-version: '3.11'
 #       
-#       - name: Install Python dependencies
+#       - name: Setup uv and install dependencies
+#         uses: astral-sh/setup-uv@v5
+#         with:
+#           version: "latest"
+#       
+#       - name: Install Python dependencies with uv
 #         run: |
-#           curl -LsSf https://astral.sh/uv/install.sh | sh
-#           source $HOME/.cargo/env
 #           uv venv
-#           source .venv/bin/activate
 #           uv sync
 #       
 #       - name: Analyze repository changes
@@ -64,9 +66,19 @@
 #           echo "new_files=$NEW_FILES" >> $GITHUB_OUTPUT
 #           echo "commit_count=$COMMIT_COUNT" >> $GITHUB_OUTPUT
 #       
+#       - name: Setup GitHub CLI with Copilot extension
+#         run: |
+#           # Install gh CLI if not present
+#           type gh >/dev/null 2>&1 || { echo "Installing gh CLI..."; curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null && sudo apt update && sudo apt install gh -y; }
+#           
+#           # Authenticate gh CLI with GitHub token (allows Copilot access)
+#           echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+#           
+#           # Verify authentication
+#           gh auth status
+#       
 #       - name: Generate README updates with Copilot
 #         env:
-#           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
 #           RECENT_CHANGES: ${{ steps.analyze.outputs.recent_changes }}
 #           NEW_FILES: ${{ steps.analyze.outputs.new_files }}
 #           COMMIT_COUNT: ${{ steps.analyze.outputs.commit_count }}

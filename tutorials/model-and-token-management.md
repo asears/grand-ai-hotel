@@ -55,7 +55,7 @@ GitHub Copilot CLI provides access to multiple AI models via the `/model` comman
 **GPT-5.1-Codex-Max**
 - **Tier**: Standard
 - **Best for**: Large codebases, complex code analysis
-- **Strengths**: Extended context, comprehensive understanding
+- **Strengths**: Extended context, understanding
 - **Speed**: Moderate
 - **Cost**: 1 premium request per prompt
 
@@ -361,7 +361,7 @@ Create a basic sentiment analysis function
 
 # Review output, then:
 /model claude-opus-4.5
-Refine this function with error handling, optimization, and comprehensive docs
+Refine this function with error handling, optimization, tutorials and docs
 ```
 
 ### 2. Agent-Model Pairing

@@ -1,0 +1,17 @@
+{
+  "config": {
+    "extends": ".markdownlint.json"
+  },
+  "ignores": [
+    "node_modules/**",
+    ".github/ISSUE_TEMPLATE/**",
+    ".github/PULL_REQUEST_TEMPLATE/**",
+    "examples/*/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/*.pyc"
+  ],
+  "globs": [
+    "**/*.md"
+  ]
+}

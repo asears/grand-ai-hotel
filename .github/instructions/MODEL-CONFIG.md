@@ -92,7 +92,7 @@ After invoking an agent, switch models on-the-fly:
 
 ### Ludwig (Validation)
 - **Default**: Codex-Mini for type checking and schema validation
-- **Premium**: Full Codex for comprehensive contract verification
+- **Premium**: Full Codex for complete contract verification
 
 ### Serge X. (Analysis)
 - **Default**: Sonnet for most profiling and benchmarking
@@ -101,4 +101,5 @@ After invoking an agent, switch models on-the-fly:
 ---
 
 **Last Updated**: 2026-01-28  
-**See**: `tutorials/model-and-token-management.md` for comprehensive model documentation
+**See**: `tutorials/model-and-token-management.md` for complete model documentation
+

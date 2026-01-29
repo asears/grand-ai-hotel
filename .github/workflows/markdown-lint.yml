@@ -1,0 +1,543 @@
+# name: Markdown Linting & Spell Check
+# on:
+#   pull_request:
+#     paths:
+#       - '**.md'
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - '**.md'
+
+# jobs:
+#   markdown-lint:
+#     name: Lint Markdown Files
+#     runs-on: ubuntu-latest
+    
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+        
+#       - name: Run markdownlint
+#         uses: DavidAnson/markdownlint-cli2-action@v18
+#         with:
+#           globs: |
+#             **/*.md
+#             !node_modules/**
+#             !.github/**
+        
+#   spell-check:
+#     name: Spell Check Markdown
+#     runs-on: ubuntu-latest
+    
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+        
+#       - name: Run CSpell
+#         uses: streetsidesoftware/cspell-action@v6
+#         with:
+#           config: .cspell.json
+#           files: |
+#             **/*.md
+#           incremental_files_only: false
+          
+#   terminology-check:
+#     name: Check for LLM Detection Markers
+#     runs-on: ubuntu-latest
+    
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+        
+#       - name: Check for prohibited terms
+#         run: |
+#           echo "🔍 Scanning for LLM detection markers..."
+          
+#           # Define prohibited terms from TERMS.md
+#           PROHIBITED_TERMS=(
+#             "comprehensive"
+#             "robust"
+#             "seamless"
+#             "cutting-edge"
+#             "leverage"
+#             "holistic"
+#             "innovative"
+#           )
+          
+#           # Files to check (exclude TERMS.md itself and tutorials)
+#           FILES=$(find . -type f -name "*.md" \
+#             ! -path "./TERMS.md" \
+#             ! -path "./tutorials/*" \
+#             ! -path "./README.md" \
+#             ! -path "./.github/workflows/CHANGELOG.md" \
+#             ! -path "./node_modules/*" \
+#             ! -path "./examples/*")
+          
+#           VIOLATIONS=0
+          
+#           for term in "${PROHIBITED_TERMS[@]}"; do
+#             echo "Checking for: $term"
+            
+#             while IFS= read -r file; do
+#               # Search case-insensitive
+#               matches=$(grep -i -n "\b$term\b" "$file" || true)
+              
+#               if [ -n "$matches" ]; then
+#                 echo "❌ Found '$term' in $file:"
+#                 echo "$matches"
+#                 VIOLATIONS=$((VIOLATIONS + 1))
+#               fi
+#             done <<< "$FILES"
+#           done
+          
+#           if [ $VIOLATIONS -gt 0 ]; then
+#             echo ""
+#             echo "❌ Found $VIOLATIONS LLM detection marker violations"
+#             echo "See TERMS.md for prohibited terms and alternatives"
+#             exit 1
+#           else
+#             echo "✅ No LLM detection markers found"
+#           fi
+        
+#   formatting-check:
+#     name: Check Markdown Formatting
+#     runs-on: ubuntu-latest
+    
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+        
+#       - name: Check for excessive bold formatting
+#         run: |
+#           echo "🎨 Checking for excessive markdown formatting..."
+          
+#           # Files to check (exclude tutorials and user-facing docs)
+#           FILES=$(find .github/instructions .github/standards -type f -name "*.md" 2>/dev/null || true)
+          
+#           if [ -z "$FILES" ]; then
+#             echo "ℹ️ No instruction or standards files found to check"
+#             exit 0
+#           fi
+          
+#           VIOLATIONS=0
+          
+#           while IFS= read -r file; do
+#             # Count bold markers (**) per line
+#             while IFS= read -r -n1 line_num; do
+#               line=$(sed -n "${line_num}p" "$file")
+#               bold_count=$(echo "$line" | grep -o '\*\*' | wc -l)
+              
+#               # Flag if more than 4 bold markers (2 pairs) in a single line
+#               if [ "$bold_count" -gt 4 ]; then
+#                 echo "⚠️ Excessive bold in $file:$line_num"
+#                 echo "   $line"
+#                 VIOLATIONS=$((VIOLATIONS + 1))
+#               fi
+#             done < <(grep -n '.' "$file" | cut -d: -f1)
+#           done <<< "$FILES"
+          
+#           if [ $VIOLATIONS -gt 0 ]; then
+#             echo ""
+#             echo "⚠️ Found $VIOLATIONS lines with excessive bold formatting"
+#             echo "Professional docs should use bold sparingly (see TERMS.md)"
+#           else
+#             echo "✅ No excessive formatting found"
+#           fi
+
+# ---
+
+## 📋 Monthly Security Review
+
+**Purpose**: Automated markdown quality enforcement using David Anson's markdownlint and CSpell  
+**Triggers**: Pull requests and pushes to main that modify .md files  
+**Owner**: Ludwig (Type Guardian) & M. Gustave (Architect)  
+
+---
+
+## Workflow Jobs
+
+### 1. **markdown-lint**
+Runs markdownlint-cli2 using DavidAnson/markdownlint-cli2-action@v18
+
+**Configuration**:
+- Uses `.markdownlint.json` and `.markdownlint2.json`
+- Excludes: `node_modules/`, `.github/**`
+- Scans all `**/*.md` files
+
+**Rules Enforced**:
+- MD001: Heading levels increment by one
+- MD003: Heading style consistency
+- MD013: Line length (default 80, configurable)
+- MD022: Headings surrounded by blank lines
+- MD025: Single top-level heading
+- MD033: No inline HTML (exceptions configurable)
+- And many more (see `.markdownlint.json`)
+
+### 2. **spell-check**
+Runs CSpell using streetsidesoftware/cspell-action@v6
+
+**Configuration**:
+- Uses `.cspell.json` for custom dictionary
+- Scans all markdown files
+- Full scan mode (not incremental)
+
+**Features**:
+- Technical terms dictionary
+- Project-specific terminology
+- Code blocks excluded
+- URLs excluded
+
+### 3. **terminology-check**
+Custom script to detect LLM markers from TERMS.md
+
+**Prohibited Terms** (in professional docs):
+- comprehensive
+- robust
+- seamless
+- cutting-edge
+- leverage
+- holistic
+- innovative
+
+**Excluded Files**:
+- `TERMS.md` (documentation of terms)
+- `tutorials/*.md` (user-facing, narrative style)
+- `README.md` (project overview)
+- `.github/workflows/CHANGELOG.md` (changelog)
+
+### 4. **formatting-check**
+Detects excessive bold formatting in standards/instructions
+
+**Rules**:
+- Flags lines with >4 bold markers (2 pairs)
+- Only checks `.github/instructions/` and `.github/standards/`
+- Warns but doesn't fail (advisory)
+
+---
+
+## Configuration Files
+
+### `.markdownlint.json`
+Primary markdownlint configuration
+
+```json
+{
+  "default": true,
+  "MD013": {
+    "line_length": 120,
+    "code_blocks": false,
+    "tables": false
+  },
+  "MD033": {
+    "allowed_elements": ["details", "summary", "br"]
+  },
+  "MD041": false
+}
+```
+
+### `.markdownlint2.json`
+Extended configuration for markdownlint-cli2
+
+```json
+{
+  "config": {
+    "extends": ".markdownlint.json"
+  },
+  "ignores": [
+    "node_modules/**",
+    ".github/**",
+    "**/*.pyc"
+  ]
+}
+```
+
+### `.markdownlintignore`
+Files to exclude from linting
+
+```
+node_modules/
+.github/ISSUE_TEMPLATE/
+.github/PULL_REQUEST_TEMPLATE/
+examples/*/node_modules/
+```
+
+### `.cspell.json`
+CSpell configuration with project dictionary
+
+```json
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "agentic",
+    "pyproject",
+    "pypi",
+    "nuget",
+    "dotnet",
+    "Trivy",
+    "Syft",
+    "SPDX",
+    "CycloneDX",
+    "SARIF",
+    "Dmitri",
+    "Agatha",
+    "Henckels",
+    "Gustave",
+    "unioffice",
+    "pptxgenjs",
+    "markdownlint",
+    "cspell"
+  ],
+  "ignoreWords": [
+    "TODO",
+    "FIXME",
+    "HACK"
+  ],
+  "ignorePaths": [
+    "node_modules/**",
+    ".git/**",
+    "**/*.pyc",
+    "dist/**",
+    "build/**"
+  ]
+}
+```
+
+---
+
+## Triggers
+
+```yaml
+on:
+  pull_request:
+    paths:
+      - '**.md'
+  push:
+    branches:
+      - main
+    paths:
+      - '**.md'
+```
+
+**When it runs**:
+- Any PR that modifies markdown files
+- Pushes to `main` that modify markdown files
+
+---
+
+## Usage
+
+### Running Locally
+
+**Markdownlint**:
+```bash
+# Install
+npm install -g markdownlint-cli2
+
+# Run
+markdownlint-cli2 "**/*.md"
+```
+
+**CSpell**:
+```bash
+# Install
+npm install -g cspell
+
+# Run
+cspell "**/*.md"
+```
+
+**Terminology Check**:
+```bash
+# Search for prohibited terms
+grep -r -i "\bcomprehensive\b" --include="*.md" \
+  --exclude="TERMS.md" \
+  --exclude-dir="tutorials" .
+```
+
+### Fixing Issues
+
+**Markdownlint**:
+```bash
+# Auto-fix simple issues
+markdownlint-cli2 --fix "**/*.md"
+```
+
+**CSpell**:
+```bash
+# Add unknown words to .cspell.json words array
+# Or fix the spelling
+```
+
+**Terminology**:
+- See TERMS.md for approved alternatives
+- Replace prohibited terms with specific language
+
+---
+
+## Integration with Development
+
+### Pre-commit Hook (Recommended)
+
+Add to `.pre-commit-config.yaml`:
+```yaml
+- repo: https://github.com/DavidAnson/markdownlint-cli2
+  rev: v0.18.1
+  hooks:
+    - id: markdownlint-cli2
+
+- repo: https://github.com/streetsidesoftware/cspell-cli
+  rev: v8.16.0
+  hooks:
+    - id: cspell
+```
+
+### VS Code Integration
+
+**Markdownlint Extension**:
+```json
+{
+  "markdownlint.config": {
+    "extends": ".markdownlint.json"
+  }
+}
+```
+
+**CSpell Extension**:
+```json
+{
+  "cSpell.enabled": true,
+  "cSpell.diagnosticLevel": "Information"
+}
+```
+
+---
+
+## Outputs
+
+### Success
+```
+✅ markdown-lint: All files pass
+✅ spell-check: No spelling errors
+✅ terminology-check: No LLM markers detected
+✅ formatting-check: Professional formatting maintained
+```
+
+### Failure
+```
+❌ markdown-lint: 3 files have violations
+   - README.md:42 MD013: Line too long
+   - TERMS.md:15 MD022: Headings need blank lines
+
+❌ spell-check: Unknown words found
+   - "Gustave" in agent-collaboration.md
+   - Add to .cspell.json words array
+
+❌ terminology-check: Found 2 violations
+   - Found 'comprehensive' in standards/copilot-best-practices.md:212
+   - See TERMS.md for alternatives
+
+⚠️ formatting-check: 1 line with excessive bold
+   - standards/claude-best-practices.md:45
+```
+
+---
+
+## Best Practices
+
+### Writing Style
+
+**Professional Documents** (`.instructions.md`, `.github/standards/*.md`):
+- ✅ Clear, direct language
+- ✅ Technical precision
+- ✅ Minimal formatting
+- ❌ No LLM detection markers
+- ❌ No excessive bold/emojis
+
+**Tutorials & User-Facing Docs**:
+- ✅ Engaging narrative
+- ✅ Emojis for visual appeal
+- ✅ Bold for emphasis
+- ✅ Wes Anderson aesthetic
+
+### Term Replacement
+
+| ❌ Avoid | ✅ Use |
+|----------|--------|
+| comprehensive | complete, full, detailed, thorough |
+| robust | reliable, stable, tested |
+| seamless | smooth, integrated |
+| cutting-edge | modern, latest |
+| leverage | use, utilize |
+
+---
+
+## Troubleshooting
+
+### False Positives
+
+**Markdownlint**:
+Add inline exceptions:
+```markdown
+<!-- markdownlint-disable MD013 -->
+This is a very long line that needs to exceed the normal character limit for good reason.
+<!-- markdownlint-enable MD013 -->
+```
+
+**CSpell**:
+Add to `.cspell.json`:
+```json
+{
+  "words": ["newterm", "anotherterm"]
+}
+```
+
+**Terminology Check**:
+If a term is used appropriately in context:
+- Move file to excluded paths
+- Update script to exclude specific files
+
+### Pipeline Failures
+
+**Check logs**:
+```bash
+gh run list --workflow=markdown-lint.yml
+gh run view <run-id>
+```
+
+**Common Issues**:
+1. New markdown files not scanned → Check workflow `paths` filter
+2. Configuration not loaded → Verify file names (.markdownlint.json, .cspell.json)
+3. Too many violations → Run locally first, fix in batches
+
+---
+
+## Maintenance
+
+### Regular Updates
+
+**Monthly Tasks**:
+- Review `.cspell.json` for commonly flagged terms
+- Update `.markdownlintignore` if new directories added
+- Check TERMS.md for new LLM markers to add
+
+**Quarterly Tasks**:
+- Update markdownlint-cli2 action version
+- Update cspell action version
+- Review and update configuration rules
+
+---
+
+## Related Documentation
+
+- [TERMS.md](../../TERMS.md) - Project terminology guide
+- [.github/copilot-instructions.md](../copilot-instructions.md) - Copilot guidelines
+- [.github/workflows/README.md](./README.md) - All workflows documentation
+
+---
+
+**Created**: January 29, 2026  
+**Last Updated**: January 29, 2026  
+**Owner**: Ludwig (Type Guardian) & M. Gustave (Architect)  
+**Status**: Placeholder (commented out, ready to uncomment)
