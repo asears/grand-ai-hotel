@@ -163,7 +163,7 @@ dotnet list package --vulnerable --include-transitive
 
 | Document | Purpose | Status |
 |----------|---------|--------|
-| [DEPENDENCIES.md](./DEPENDENCIES.md) | Comprehensive dependency inventory | ✅ Complete |
+| [DEPENDENCIES.md](./DEPENDENCIES.md) | Dependency inventory | ✅ Complete |
 | [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) | Detailed implementation roadmap | ✅ Complete |
 | README.md | Project overview (updated) | ✅ Updated |
 | Tutorial files | Removed commercial deps | ✅ Updated |

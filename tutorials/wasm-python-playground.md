@@ -641,6 +641,51 @@ After completing this tutorial, you'll understand:
 
 ## 🐛 Troubleshooting
 
+### NPM Audit Vulnerabilities (Updated: Jan 29, 2026)
+
+**Error:** `5 moderate severity vulnerabilities`
+
+**Issue:** Initial package.json used outdated Vite 5.0 and Vitest 1.0  
+**CVE:** esbuild SSRF vulnerability (GHSA-67mh-4wv8-2f99)
+
+**Solution:**
+```bash
+# Update package.json to use:
+# "vite": "^6.1.7"
+# "vitest": "^2.1.8"
+# "@vitest/ui": "^2.1.8"
+
+npm install
+npm audit  # Should show 0 vulnerabilities
+```
+
+**Note:** Vite 6.x may have breaking changes. Test thoroughly after upgrade.
+
+### Missing Python Modules
+
+**Error:** `404 Not Found` when loading analyzer modules
+
+**Issue:** Three Python modules referenced in JavaScript but not implemented:
+- `complexity_analyzer.py` (Serge X.)
+- `quality_checker.py` (M. Gustave)  
+- `test_hints.py` (Agatha)
+
+**Solution:** See [IMPLEMENTATION_PLAN.md](../examples/wasm/IMPLEMENTATION_PLAN.md) for module specifications.
+
+### Missing Configuration Files
+
+**Error:** Vite/TypeScript/ESLint not configured
+
+**Solution:** Create required config files:
+```bash
+# See examples/wasm/IMPLEMENTATION_PLAN.md for:
+# - vite.config.js
+# - tsconfig.json
+# - .eslintrc.json
+# - .prettierrc
+# - playwright.config.js
+```
+
 ### Pyodide Fails to Load
 
 **Error:** `Failed to fetch pyodide`
@@ -671,6 +716,16 @@ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
 ```bash
 # Use Vite dev server (handles CORS)
 npm run dev
+```
+
+### Vite 6 Breaking Changes
+
+**Error:** Build fails after upgrading to Vite 6.x
+
+**Solution:**
+```javascript
+// vite.config.js may need updates
+// Check migration guide: https://vitejs.dev/guide/migration.html
 ```
 
 ---
