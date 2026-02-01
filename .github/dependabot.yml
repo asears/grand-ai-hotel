@@ -1,237 +1,236 @@
 # Dependabot Configuration
 # Automated dependency updates for multi-language project
-# Status: Commented out (uncomment to enable)
+# Enabled for Python, Node.js, and GitHub Actions
 
-# version: 2
-# updates:
-#   # Python dependencies (pip/uv)
-#   - package-ecosystem: "pip"
-#     directory: "/"
-#     schedule:
-#       interval: "weekly"
-#       day: "monday"
-#       time: "09:00"
-#       timezone: "America/New_York"
-#     open-pull-requests-limit: 5
-#     reviewers:
-#       - "asears"
-#     assignees:
-#       - "asears"
-#     labels:
-#       - "dependencies"
-#       - "python"
-#       - "automated"
-#     commit-message:
-#       prefix: "chore(deps)"
-#       prefix-development: "chore(deps-dev)"
-#       include: "scope"
-#     pull-request-branch-name:
-#       separator: "/"
-#     ignore:
-#       # Ignore major version updates for now
-#       - dependency-name: "*"
-#         update-types: ["version-update:semver-major"]
-#     groups:
-#       python-dev-dependencies:
-#         patterns:
-#           - "pytest*"
-#           - "ruff"
-#           - "mypy"
-#           - "black"
-#         update-types:
-#           - "minor"
-#           - "patch"
-#       python-security-tools:
-#         patterns:
-#           - "safety"
-#           - "pip-audit"
-#           - "bandit"
-#         update-types:
-#           - "minor"
-#           - "patch"
+version: 2
+updates:
+  # Python dependencies (pip/uv)
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "asears"
+    assignees:
+      - "asears"
+    labels:
+      - "dependencies"
+      - "python"
+      - "automated"
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "/"
+    ignore:
+      # Ignore major version updates for now
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      python-dev-dependencies:
+        patterns:
+          - "pytest*"
+          - "ruff"
+          - "mypy"
+          - "black"
+        update-types:
+          - "minor"
+          - "patch"
+      python-security-tools:
+        patterns:
+          - "safety"
+          - "pip-audit"
+          - "bandit"
+        update-types:
+          - "minor"
+          - "patch"
 
-#   # TypeScript/Node.js dependencies (npm)
-#   - package-ecosystem: "npm"
-#     directory: "/examples/typescript"
-#     schedule:
-#       interval: "weekly"
-#       day: "monday"
-#       time: "09:00"
-#       timezone: "America/New_York"
-#     open-pull-requests-limit: 5
-#     reviewers:
-#       - "asears"
-#     assignees:
-#       - "asears"
-#     labels:
-#       - "dependencies"
-#       - "typescript"
-#       - "automated"
-#     commit-message:
-#       prefix: "chore(deps)"
-#       prefix-development: "chore(deps-dev)"
-#       include: "scope"
-#     ignore:
-#       - dependency-name: "*"
-#         update-types: ["version-update:semver-major"]
-#     groups:
-#       typescript-dev-dependencies:
-#         patterns:
-#           - "@types/*"
-#           - "eslint*"
-#           - "typescript"
-#         update-types:
-#           - "minor"
-#           - "patch"
+  # TypeScript/Node.js dependencies (npm)
+  - package-ecosystem: "npm"
+    directory: "/examples/typescript"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "asears"
+    assignees:
+      - "asears"
+    labels:
+      - "dependencies"
+      - "typescript"
+      - "automated"
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+      include: "scope"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      typescript-dev-dependencies:
+        patterns:
+          - "@types/*"
+          - "eslint*"
+          - "typescript"
+        update-types:
+          - "minor"
+          - "patch"
 
-#   # Node.js dependencies (npm) - examples/nodejs
-#   - package-ecosystem: "npm"
-#     directory: "/examples/nodejs"
-#     schedule:
-#       interval: "weekly"
-#       day: "monday"
-#       time: "09:00"
-#       timezone: "America/New_York"
-#     open-pull-requests-limit: 5
-#     reviewers:
-#       - "asears"
-#     assignees:
-#       - "asears"
-#     labels:
-#       - "dependencies"
-#       - "nodejs"
-#       - "automated"
-#     commit-message:
-#       prefix: "chore(deps)"
-#       prefix-development: "chore(deps-dev)"
-#       include: "scope"
-#     ignore:
-#       - dependency-name: "*"
-#         update-types: ["version-update:semver-major"]
+  # Node.js dependencies (npm) - examples/nodejs
+  - package-ecosystem: "npm"
+    directory: "/examples/nodejs"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "asears"
+    assignees:
+      - "asears"
+    labels:
+      - "dependencies"
+      - "nodejs"
+      - "automated"
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+      include: "scope"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
 
-#   # Go dependencies (go modules)
-#   - package-ecosystem: "gomod"
-#     directory: "/examples/go"
-#     schedule:
-#       interval: "weekly"
-#       day: "monday"
-#       time: "09:00"
-#       timezone: "America/New_York"
-#     open-pull-requests-limit: 5
-#     reviewers:
-#       - "asears"
-#     assignees:
-#       - "asears"
-#     labels:
-#       - "dependencies"
-#       - "go"
-#       - "automated"
-#     commit-message:
-#       prefix: "chore(deps)"
-#       include: "scope"
-#     ignore:
-#       - dependency-name: "*"
-#         update-types: ["version-update:semver-major"]
-#     groups:
-#       go-testing:
-#         patterns:
-#           - "github.com/stretchr/testify"
-#           - "github.com/golang/mock"
-#         update-types:
-#           - "minor"
-#           - "patch"
+  # Go dependencies (go modules)
+  - package-ecosystem: "gomod"
+    directory: "/examples/go"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "asears"
+    assignees:
+      - "asears"
+    labels:
+      - "dependencies"
+      - "go"
+      - "automated"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      go-testing:
+        patterns:
+          - "github.com/stretchr/testify"
+          - "github.com/golang/mock"
+        update-types:
+          - "minor"
+          - "patch"
 
-#   # .NET dependencies (NuGet)
-#   - package-ecosystem: "nuget"
-#     directory: "/examples/dotnet"
-#     schedule:
-#       interval: "weekly"
-#       day: "monday"
-#       time: "09:00"
-#       timezone: "America/New_York"
-#     open-pull-requests-limit: 5
-#     reviewers:
-#       - "asears"
-#     assignees:
-#       - "asears"
-#     labels:
-#       - "dependencies"
-#       - "dotnet"
-#       - "automated"
-#     commit-message:
-#       prefix: "chore(deps)"
-#       include: "scope"
-#     ignore:
-#       - dependency-name: "*"
-#         update-types: ["version-update:semver-major"]
-#     groups:
-#       dotnet-testing:
-#         patterns:
-#           - "xunit*"
-#           - "NUnit*"
-#           - "Moq"
-#         update-types:
-#           - "minor"
-#           - "patch"
+  # .NET dependencies (NuGet)
+  - package-ecosystem: "nuget"
+    directory: "/examples/dotnet"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "asears"
+    assignees:
+      - "asears"
+    labels:
+      - "dependencies"
+      - "dotnet"
+      - "automated"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      dotnet-testing:
+        patterns:
+          - "xunit*"
+          - "NUnit*"
+          - "Moq"
+        update-types:
+          - "minor"
+          - "patch"
 
-#   # GitHub Actions
-#   - package-ecosystem: "github-actions"
-#     directory: "/"
-#     schedule:
-#       interval: "weekly"
-#       day: "monday"
-#       time: "09:00"
-#       timezone: "America/New_York"
-#     open-pull-requests-limit: 10
-#     reviewers:
-#       - "asears"
-#     assignees:
-#       - "asears"
-#     labels:
-#       - "dependencies"
-#       - "github-actions"
-#       - "ci-cd"
-#       - "automated"
-#     commit-message:
-#       prefix: "ci"
-#       include: "scope"
-#     groups:
-#       github-actions-core:
-#         patterns:
-#           - "actions/checkout"
-#           - "actions/setup-*"
-#           - "actions/upload-artifact"
-#           - "actions/download-artifact"
-#         update-types:
-#           - "minor"
-#           - "patch"
-#       github-actions-security:
-#         patterns:
-#           - "github/codeql-action"
-#           - "aquasecurity/trivy-action"
-#           - "anchore/sbom-action"
-#         update-types:
-#           - "minor"
-#           - "patch"
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "asears"
+    assignees:
+      - "asears"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "ci-cd"
+      - "automated"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    groups:
+      github-actions-core:
+        patterns:
+          - "actions/checkout"
+          - "actions/setup-*"
+          - "actions/upload-artifact"
+          - "actions/download-artifact"
+        update-types:
+          - "minor"
+          - "patch"
+      github-actions-security:
+        patterns:
+          - "github/codeql-action"
+          - "aquasecurity/trivy-action"
+          - "anchore/sbom-action"
+        update-types:
+          - "minor"
+          - "patch"
 
-#   # Docker (if Dockerfiles exist)
-#   # - package-ecosystem: "docker"
-#   #   directory: "/"
-#   #   schedule:
-#   #     interval: "weekly"
-#   #     day: "monday"
-#   #     time: "09:00"
-#   #     timezone: "America/New_York"
-#   #   open-pull-requests-limit: 5
-#   #   reviewers:
-#   #     - "asears"
-#   #   assignees:
-#   #     - "asears"
-#   #   labels:
-#   #     - "dependencies"
-#   #     - "docker"
-#   #     - "automated"
-#   #   commit-message:
-#   #     prefix: "chore(deps)"
-#   #     include: "scope"
-
+  # Docker (if Dockerfiles exist)
+  # - package-ecosystem: "docker"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #     day: "monday"
+  #     time: "09:00"
+  #     timezone: "America/New_York"
+  #   open-pull-requests-limit: 5
+  #   reviewers:
+  #     - "asears"
+  #   assignees:
+  #     - "asears"
+  #   labels:
+  #     - "dependencies"
+  #     - "docker"
+  #     - "automated"
+  #   commit-message:
+  #     prefix: "chore(deps)"
+  #     include: "scope"
