@@ -27,8 +27,17 @@ export class ParticleSystem {
             }
         };
         
+        // Music notes drawn by user
+        this.musicNotes = [];
+        this.currentOctave = 0; // Can be -1, 0, or 1 (affects music playback)
+        
+        // Frame skipping counters for expensive drawing operations
+        this.vectrexDrawCounter = 0;
+        this.musicNotesDrawCounter = 0;
+        
         this.init();
         this.setupKeyboardControls();
+        this.setupMouseControls();
     }
 
     init() {
@@ -75,6 +84,62 @@ export class ParticleSystem {
         });
     }
 
+    setupMouseControls() {
+        const canvas = document.getElementById('webgpu-canvas');
+        
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Scale to canvas coordinates
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            
+            const canvasX = x * scaleX;
+            const canvasY = y * scaleY;
+            
+            // Check if clicking on an existing note to toggle octave
+            let clickedNote = false;
+            for (let note of this.musicNotes) {
+                const dx = canvasX - note.x;
+                const dy = canvasY - note.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                // If clicked within 40 pixels of a note
+                if (distance < 40) {
+                    clickedNote = true;
+                    // Toggle octave
+                    this.currentOctave = (this.currentOctave + 1) % 3 - 1; // Cycles: 0 -> 1 -> -1 -> 0
+                    
+                    // Visual feedback - pulse the note
+                    note.life = Math.min(note.life + 1.0, note.maxLife);
+                    
+                    // Notify main app of octave change
+                    this.onOctaveChange && this.onOctaveChange(this.currentOctave);
+                    break;
+                }
+            }
+            
+            // If not clicking on existing note, add new one
+            if (!clickedNote) {
+                this.musicNotes.push({
+                    x: canvasX,
+                    y: canvasY,
+                    life: 4.0, // Display for 4 seconds
+                    maxLife: 4.0,
+                    createdAt: performance.now(),
+                    glowPhase: 0
+                });
+                
+                // Limit to 12 notes on screen
+                if (this.musicNotes.length > 12) {
+                    this.musicNotes.shift();
+                }
+            }
+        });
+    }
+
     createParticle() {
         return {
             x: 0,
@@ -110,25 +175,40 @@ export class ParticleSystem {
 
     update(deltaTime, config, audioData) {
         this.time += deltaTime;
+        
+        // Increment draw counters
+        this.vectrexDrawCounter++;
+        this.musicNotesDrawCounter++;
 
         // Update Vectrex game if in Vectrex mode
+        // Only DRAW tank/game elements every 5 frames to save particles for fireworks
         if (config.vectrexMode) {
-            this.updateVectrexGame(deltaTime, config, audioData);
+            this.updateVectrexGame(deltaTime, config, audioData, this.vectrexDrawCounter >= 5);
+            if (this.vectrexDrawCounter >= 5) {
+                this.vectrexDrawCounter = 0;
+            }
         }
 
-        // Update emitters
+        // Update music notes - only DRAW every 3 frames
+        this.updateMusicNotes(deltaTime, this.musicNotesDrawCounter >= 3);
+        if (this.musicNotesDrawCounter >= 3) {
+            this.musicNotesDrawCounter = 0;
+        }
+
+        // Update emitters (always run, but spawn less in Vectrex mode)
         for (let emitter of this.emitters) {
             if (emitter.active) {
                 emitter.timer += deltaTime;
                 
-                // Spawn fireworks on beat or timer
+                // Spawn fireworks on beat or timer (less frequently in Vectrex mode)
+                const spawnThreshold = config.vectrexMode ? 0.3 : 0.7;
                 const shouldSpawn = emitter.timer >= emitter.interval || 
-                    (audioData && audioData.beat && Math.random() < 0.7);
+                    (audioData && audioData.beat && Math.random() < spawnThreshold);
                 
                 if (shouldSpawn) {
                     this.spawnFirework(emitter, config, audioData);
                     emitter.timer = 0;
-                    emitter.interval = 0.3 + Math.random() * 1.2;
+                    emitter.interval = config.vectrexMode ? 2.0 + Math.random() * 2.0 : 0.3 + Math.random() * 1.2;
                     
                     // Move emitter to new position
                     emitter.x = Math.random() * window.innerWidth;
@@ -381,7 +461,7 @@ export class ParticleSystem {
     }
 
     // Vectrex-style tank battle game
-    updateVectrexGame(deltaTime, config, audioData) {
+    updateVectrexGame(deltaTime, config, audioData, shouldDraw = true) {
         const width = window.innerWidth;
         const height = window.innerHeight;
         
@@ -500,8 +580,10 @@ export class ParticleSystem {
             }
         }
 
-        // Draw game elements as particles
-        this.drawVectrexGameElements();
+        // Draw game elements as particles ONLY when shouldDraw is true (every 5 frames)
+        if (shouldDraw) {
+            this.drawVectrexGameElements();
+        }
     }
 
     initVectrexGame() {
@@ -652,25 +734,36 @@ export class ParticleSystem {
         const width = window.innerWidth;
         const height = window.innerHeight;
         
-        // Draw player tank (brighter, different style)
+        // Draw player tank FIRST (brighter, different style)
         if (this.vectrexGame.playerTank) {
             const player = this.vectrexGame.playerTank;
             
-            // Draw tank body (larger and brighter for visibility)
+            // Draw tank body with EXTRA brightness (larger and thicker)
             this.drawVectrexRect(player.x - player.width/2, player.y - player.height/2, 
-                                 player.width, player.height, 5);
+                                 player.width, player.height, 6);
+            
+            // Draw inner rectangle for double outline
+            this.drawVectrexRect(player.x - player.width/2 + 3, player.y - player.height/2 + 3, 
+                                 player.width - 6, player.height - 6, 5);
             
             // Draw turret in direction of angle (thicker)
-            const turretLength = 25;
+            const turretLength = 30;
             const turretX = player.x + Math.cos(player.angle) * turretLength;
             const turretY = player.y + Math.sin(player.angle) * turretLength;
-            this.drawVectrexLine(player.x, player.y, turretX, turretY, 4);
             
-            // Draw crosshair at center for visibility
-            this.drawVectrexLine(player.x - 10, player.y, player.x + 10, player.y, 3);
-            this.drawVectrexLine(player.x, player.y - 10, player.x, player.y + 10, 3);
+            // Draw turret multiple times for brightness
+            for (let offset = -2; offset <= 2; offset++) {
+                const perpX = -Math.sin(player.angle) * offset;
+                const perpY = Math.cos(player.angle) * offset;
+                this.drawVectrexLine(player.x + perpX, player.y + perpY, 
+                                    turretX + perpX, turretY + perpY, 5);
+            }
             
-            // Draw score
+            // Draw crosshair at center for visibility (brighter)
+            this.drawVectrexLine(player.x - 12, player.y, player.x + 12, player.y, 4);
+            this.drawVectrexLine(player.x, player.y - 12, player.x, player.y + 12, 4);
+            
+            // Draw score at top left
             this.drawVectrexText(10, 30, `SCORE: ${this.vectrexGame.score}`);
         }
         
@@ -696,7 +789,7 @@ export class ParticleSystem {
     }
 
     drawVectrexLine(x1, y1, x2, y2, width) {
-        const points = 15; // More points for better visibility
+        const points = 20; // More points for better visibility
         for (let i = 0; i < points; i++) {
             const t = i / points;
             const x = x1 + (x2 - x1) * t;
@@ -716,8 +809,8 @@ export class ParticleSystem {
                     particle.b = 0.25;
                     particle.a = 1.0;
                     
-                    particle.life = 0.1; // Longer persistence for visibility
-                    particle.maxLife = 0.1;
+                    particle.life = 0.5; // MUCH longer persistence - only redraw when faded
+                    particle.maxLife = 0.5;
                     particle.size = width;
                     particle.isVectrex = true;
                     particle.trailPositions = [];
@@ -746,6 +839,103 @@ export class ParticleSystem {
             this.drawVectrexLine(charX, y, charX, y + charHeight, 2);
             if (char !== ' ' && char !== 'I') {
                 this.drawVectrexLine(charX + 3, y, charX + 3, y + charHeight, 2);
+            }
+        }
+    }
+
+    updateMusicNotes(deltaTime, shouldDraw = true) {
+        // Update life of music notes
+        for (let i = this.musicNotes.length - 1; i >= 0; i--) {
+            this.musicNotes[i].life -= deltaTime;
+            this.musicNotes[i].glowPhase += deltaTime * 3; // Pulsing glow
+            if (this.musicNotes[i].life <= 0) {
+                this.musicNotes.splice(i, 1);
+            }
+        }
+        
+        // Draw all active music notes ONLY when shouldDraw is true (every 3 frames)
+        if (shouldDraw) {
+            for (let note of this.musicNotes) {
+                const alpha = note.life / note.maxLife;
+                this.drawMusicNote(note.x, note.y, alpha, note.glowPhase);
+            }
+        }
+    }
+
+    drawMusicNote(x, y, alpha, glowPhase) {
+        const scale = 35; // Larger size for better visibility
+        const lineWidth = 6; // Thicker lines for brighter glow
+        
+        // Draw eighth note (♪) with BRIGHT phosphor glow
+        // Note head (filled circle) - simplified
+        const headRadius = scale * 0.28;
+        const headCenterX = x;
+        const headCenterY = y + scale * 0.55;
+        
+        // Draw main circle outline (single pass)
+        const sides = 10; // Fewer sides to save particles
+        for (let i = 0; i < sides; i++) {
+            const angle1 = (i / sides) * Math.PI * 2;
+            const angle2 = ((i + 1) / sides) * Math.PI * 2;
+            const x1 = headCenterX + Math.cos(angle1) * headRadius;
+            const y1 = headCenterY + Math.sin(angle1) * headRadius;
+            const x2 = headCenterX + Math.cos(angle2) * headRadius;
+            const y2 = headCenterY + Math.sin(angle2) * headRadius;
+            this.drawMusicNoteLine(x1, y1, x2, y2, lineWidth);
+        }
+        
+        // Fill the note head with cross for brightness
+        this.drawMusicNoteLine(headCenterX - headRadius, headCenterY, headCenterX + headRadius, headCenterY, lineWidth);
+        this.drawMusicNoteLine(headCenterX, headCenterY - headRadius, headCenterX, headCenterY + headRadius, lineWidth);
+        
+        // Stem (vertical line going up) - single thick line
+        const stemX = headCenterX + headRadius * 0.85;
+        const stemTop = y - scale * 0.1;
+        const stemBottom = headCenterY;
+        this.drawMusicNoteLine(stemX, stemBottom, stemX, stemTop, lineWidth);
+        
+        // Flag (simplified curved swoosh)
+        const flagStartX = stemX;
+        const flagStartY = stemTop;
+        const flagMidX = stemX + scale * 0.3;
+        const flagMidY = stemTop + scale * 0.2;
+        const flagEndX = stemX + scale * 0.15;
+        const flagEndY = stemTop + scale * 0.35;
+        
+        this.drawMusicNoteLine(flagStartX, flagStartY, flagMidX, flagMidY, lineWidth);
+        this.drawMusicNoteLine(flagMidX, flagMidY, flagEndX, flagEndY, lineWidth);
+        this.drawMusicNoteLine(flagEndX, flagEndY, flagStartX, flagStartY + scale * 0.2, lineWidth);
+    }
+
+    drawMusicNoteLine(x1, y1, x2, y2, width) {
+        // Special drawing function for music notes with extra brightness
+        const points = 8; // DRASTICALLY reduced from 12 to save more particles
+        for (let i = 0; i < points; i++) {
+            const t = i / points;
+            const x = x1 + (x2 - x1) * t;
+            const y = y1 + (y2 - y1) * t;
+            
+            // Find available particle and make it BRIGHT
+            for (let particle of this.particles) {
+                if (particle.life <= 0) {
+                    particle.x = x;
+                    particle.y = y;
+                    particle.vx = 0;
+                    particle.vy = 0;
+                    
+                    // SUPER BRIGHT Vectrex green phosphor
+                    particle.r = 0.0;
+                    particle.g = 3.0; // BOOSTED to 3.0 for maximum brightness!
+                    particle.b = 0.3;
+                    particle.a = 1.0;
+                    
+                    particle.life = 0.4; // Much longer persistence - less frequent redrawing
+                    particle.maxLife = 0.4;
+                    particle.size = width * 2.0; // Even larger particles for brightness with fewer points
+                    particle.isVectrex = true;
+                    particle.trailPositions = [];
+                    break;
+                }
             }
         }
     }

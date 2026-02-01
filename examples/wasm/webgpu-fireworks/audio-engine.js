@@ -24,6 +24,7 @@ export class AudioEngine {
         this.bassBoost = 1.0; // Bass boost multiplier
         this.generativePhrase = 0; // For organic music generation
         this.melodicSeed = Math.random();
+        this.octaveShift = 0; // -1, 0, or 1 for octave shifting
     }
 
     async start(tempo = 128, genre = 'alan-walker') {
@@ -108,10 +109,11 @@ export class AudioEngine {
         // Melodic pluck synth (signature Alan Walker sound) - generative
         const phrase = Math.floor(this.currentBeat / 8);
         const noteOffset = this.generateMelodicNote(phrase);
-        this.playPluck(now, 440 * Math.pow(2, noteOffset / 12));
+        const octaveMultiplier = Math.pow(2, this.octaveShift);
+        this.playPluck(now, 440 * Math.pow(2, noteOffset / 12) * octaveMultiplier);
         
         // Deep drop bass
-        this.playDropBass(now, 55);
+        this.playDropBass(now, 55 * octaveMultiplier);
         
         // Layered drums
         this.playDrum(now);
@@ -120,7 +122,8 @@ export class AudioEngine {
         this.playHiHat(now);
         
         // Atmospheric pad
-        this.playPad(now, [220, 277.18, 329.63]); // A minor
+        const padNotes = [220, 277.18, 329.63].map(f => f * octaveMultiplier);
+        this.playPad(now, padNotes); // A minor
         
         // Organic generative elements
         if (this.currentBeat % 16 === 0) {
@@ -893,6 +896,11 @@ export class AudioEngine {
         this.genre = genre;
         // Reset beat for smooth transition
         this.currentBeat = 0;
+    }
+
+    setOctaveShift(shift) {
+        // Clamp between -1 and 1
+        this.octaveShift = Math.max(-1, Math.min(1, shift));
     }
 
     stop() {

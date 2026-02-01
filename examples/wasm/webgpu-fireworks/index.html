@@ -32,6 +32,7 @@
             display: block;
             width: 100%;
             height: 100%;
+            cursor: crosshair;
         }
 
         #controls {
@@ -216,7 +217,9 @@
                 </label>
                 <div style="font-size: 0.75rem; color: #00ff41; margin-top: 5px; line-height: 1.4;">
                     🎮 Controls: WASD to move, SPACE to fire<br>
-                    💚 High-intensity green phosphor display
+                    💚 High-intensity green phosphor display<br>
+                    🖱️ Click to draw music notes ♪<br>
+                    🎵 Click notes to cycle octaves: 0 → +1 → -1
                 </div>
             </div>
 
@@ -269,11 +272,30 @@
                 <div class="status">
                     Beat Sync: <span class="beat-indicator" id="beat-indicator"></span>
                 </div>
+                <div class="status" style="margin-top: 5px;">
+                    Octave: <span id="octave-display" style="color: #00d4ff; font-weight: bold;">Normal</span>
+                </div>
             </div>
 
             <button id="reset">Reset Simulation</button>
             
             <div class="status" id="fps">FPS: 0</div>
+            
+            <!-- Debug Screenshot Buttons -->
+            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(0, 212, 255, 0.3);">
+                <div style="font-size: 11px; color: #00d4ff; margin-bottom: 8px; font-weight: bold;">
+                    🔍 Debug Tools
+                </div>
+                <button id="screenshot-now" style="width: 100%; margin-bottom: 5px; padding: 8px; font-size: 11px; background: rgba(0, 255, 100, 0.2); border: 1px solid #0f0; color: #0f0; cursor: pointer; border-radius: 4px;">
+                    📸 Screenshot Now
+                </button>
+                <button id="enable-auto-screenshots" style="width: 100%; margin-bottom: 5px; padding: 8px; font-size: 11px; background: rgba(255, 200, 0, 0.2); border: 1px solid #fc0; color: #fc0; cursor: pointer; border-radius: 4px;">
+                    🎬 Auto Screenshots (1/sec)
+                </button>
+                <button id="spawn-test-firework" style="width: 100%; padding: 8px; font-size: 11px; background: rgba(255, 100, 100, 0.2); border: 1px solid #f55; color: #f55; cursor: pointer; border-radius: 4px;">
+                    🎆 Spawn Test Firework
+                </button>
+            </div>
         </div>
 
         <div id="error-message"></div>

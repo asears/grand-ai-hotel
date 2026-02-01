@@ -11,6 +11,23 @@
 ### Combat
 - **SPACE** - Fire Missile (rapid fire every 0.3 seconds)
 
+### Music Drawing
+- **MOUSE CLICK** - Draw a bright music note ♪ at cursor position
+  - Y position determines pitch (higher = higher note)
+  - Notes display for 4 seconds in super-bright Vectrex green
+  - Plays musical tone (C4-C6 major scale)
+  - Maximum 12 notes on screen at once
+  
+### Interactive Octave Control
+- **CLICK ON EXISTING NOTE** - Toggle music octave shift
+  - Cycles through: Normal → +1 Octave (Higher) → -1 Octave (Lower) → Normal
+  - Affects ALL music playback (melodies, bass, pads)
+  - Visual feedback: Beat indicator changes color
+    - 🔵 Cyan = Normal octave
+    - 🟣 Magenta = +1 Octave (Higher)
+    - 🟢 Green = -1 Octave (Lower)
+  - Clicked note pulses brighter as confirmation
+
 ## 💚 Enhanced Features
 
 ### High-Intensity Green Phosphor Display
