@@ -44,9 +44,6 @@ export async function runPythonAnalyzer(pythonCode) {
   // Ensure all modules are loaded
   await ensureModulesLoaded();
 
-  // Escape single quotes in code
-  const escapedCode = pythonCode.replace(/'/g, "\\'");
-
   try {
     // Run comprehensive analysis
     const result = await pyodide.runPythonAsync(`
@@ -58,7 +55,7 @@ from complexity_analyzer import analyze_complexity
 from quality_checker import check_quality
 from test_hints import suggest_tests
 
-code = '''${escapedCode}'''
+code = json.loads(${JSON.stringify(JSON.stringify(pythonCode))})
 
 # Get basic AST analysis
 analysis_result = json.loads(analyze_code(code))
@@ -102,8 +99,6 @@ export async function runSingleAnalyzer(moduleName, pythonCode) {
   const pyodide = getPyodide();
   await ensureModulesLoaded();
 
-  const escapedCode = pythonCode.replace(/'/g, "\\'");
-
   const analyzerMap = {
     security: 'from security_scanner import scan_security; scan_security(code, ast.parse(code))',
     complexity: 'from complexity_analyzer import analyze_complexity; analyze_complexity(code, ast.parse(code))',
@@ -120,7 +115,7 @@ export async function runSingleAnalyzer(moduleName, pythonCode) {
     const result = await pyodide.runPythonAsync(`
 import json
 import ast
-code = '''${escapedCode}'''
+code = json.loads(${JSON.stringify(JSON.stringify(pythonCode))})
 result = ${analyzerCall}
 json.dumps(result, indent=2)
     `);
