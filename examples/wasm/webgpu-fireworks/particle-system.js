@@ -185,6 +185,21 @@ export class ParticleSystem {
                 particlesSpawned++;
             }
         }
+
+        return particlesSpawned;
+    }
+
+    getGenreColors(genre, audioData) {
+        switch ((genre || '').toLowerCase()) {
+            case 'justice':
+                return this.getJusticeColors(audioData);
+            case 'nin':
+            case 'nine-inch-nails':
+                return this.getNINColors(audioData);
+            case 'alan-walker':
+            default:
+                return this.getAlanWalkerColors(audioData);
+        }
     }
 
     getAlanWalkerColors(audioData) {
@@ -208,6 +223,30 @@ export class ParticleSystem {
         }
 
         return baseColors;
+    }
+
+    getJusticeColors(audioData) {
+        // Justice: strong neon orange/red palette
+        const base = [
+            { r: 1.0, g: 0.4, b: 0.0 },
+            { r: 1.0, g: 0.2, b: 0.1 },
+            { r: 0.8, g: 0.1, b: 0.6 },
+            { r: 0.2, g: 0.0, b: 0.8 }
+        ];
+        if (audioData && audioData.bass > 0.7) return base.slice(0,2);
+        return base;
+    }
+
+    getNINColors(audioData) {
+        // Nine Inch Nails: industrial grayscale with red accents
+        const base = [
+            { r: 0.2, g: 0.2, b: 0.2 },
+            { r: 0.5, g: 0.5, b: 0.5 },
+            { r: 0.9, g: 0.1, b: 0.1 },
+            { r: 1.0, g: 1.0, b: 1.0 }
+        ];
+        if (audioData && audioData.treble > 0.8) return base.slice(2);
+        return base;
     }
 
     resize(newCount) {
