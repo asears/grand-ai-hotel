@@ -1,0 +1,32 @@
+{
+  "name": "browser-agents-example",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Modern vanilla JavaScript example with Web Components and browser agents",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage"
+  },
+  "keywords": [
+    "web-components",
+    "vanilla-js",
+    "agents",
+    "browser",
+    "lit"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@vitest/ui": "^1.2.0",
+    "happy-dom": "^12.10.3",
+    "vite": "^5.0.11",
+    "vitest": "^1.2.0"
+  },
+  "dependencies": {
+    "lit": "^3.1.0"
+  }
+}

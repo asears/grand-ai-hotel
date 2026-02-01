@@ -1,0 +1,17 @@
+# Example terraform.tfvars
+# Copy to terraform.tfvars and update values
+
+project_id      = "your-gcp-project-id"
+container_image = "us-central1-docker.pkg.dev/your-project/cloud-run-repo/fastapi-app:latest"
+database_url    = "postgresql://user:password@host:5432/database"
+api_key         = "your-secure-api-key"
+
+# Optional customization
+region        = "us-central1"
+service_name  = "fastapi-app"
+environment   = "production"
+min_instances = 0
+max_instances = 10
+cpu           = "1"
+memory        = "512Mi"
+allow_unauthenticated = true
