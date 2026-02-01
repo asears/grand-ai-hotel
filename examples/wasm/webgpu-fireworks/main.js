@@ -129,10 +129,34 @@ class FireworksApp {
             }
         });
 
+        // Bass boost button
+        const bassBoost = document.getElementById('bass-boost');
+        bassBoost.addEventListener('click', () => {
+            if (this.audioEngine && this.audioEngine.isPlaying) {
+                this.audioEngine.triggerBassBoost();
+                
+                // Visual feedback
+                bassBoost.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    bassBoost.style.transform = 'scale(1)';
+                }, 200);
+            }
+        });
+
         // Vectrex mode toggle
         const vectrexMode = document.getElementById('vectrex-mode');
         vectrexMode.addEventListener('change', (e) => {
             this.config.vectrexMode = e.target.checked;
+            
+            // Toggle body class for background
+            if (e.target.checked) {
+                document.body.classList.add('vectrex-mode');
+            } else {
+                document.body.classList.remove('vectrex-mode');
+            }
+            
+            // Reset particle system when toggling
+            this.particleSystem.reset();
         });
 
         // Particle trails toggle

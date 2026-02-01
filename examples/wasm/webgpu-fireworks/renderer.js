@@ -100,10 +100,30 @@ export class FireworksRenderer {
                 // Add glow effect
                 let glow = smoothstep(0.0, 0.5, input.life);
                 
-                return vec4<f32>(
-                    input.color.rgb * (1.0 + glow * 0.5),
-                    alpha
-                );
+                // Vectrex green phosphor simulation
+                // Check if this is a green particle (Vectrex mode indicator)
+                let isVectrex = input.color.g > 1.5; // Boosted green channel
+                
+                if (isVectrex) {
+                    // Vectrex green phosphor (#00ff41 style) - HIGH INTENSITY
+                    let vectrexGreen = vec3<f32>(0.0, 1.0, 0.25);
+                    
+                    // CRT bloom/glow effect - ENHANCED for high intensity
+                    let bloom = 2.0 + glow * 3.0; // Increased from 1.5 + 2.0
+                    
+                    // Add scanline flicker simulation (authentic CRT effect)
+                    let flicker = 1.0 + sin(uniforms.time * 100.0) * 0.02;
+                    
+                    return vec4<f32>(
+                        vectrexGreen * bloom * flicker,
+                        alpha * 0.95 // Higher alpha for brighter display
+                    );
+                } else {
+                    return vec4<f32>(
+                        input.color.rgb * (1.0 + glow * 0.5),
+                        alpha
+                    );
+                }
             }
         `;
 
@@ -250,7 +270,9 @@ export class FireworksRenderer {
             colorAttachments: [
                 {
                     view: textureView,
-                    clearValue: { r: 0.05, g: 0.05, b: 0.1, a: 1.0 },
+                    clearValue: config.vectrexMode 
+                        ? { r: 0.0, g: 0.0, b: 0.0, a: 1.0 }  // Pure black for Vectrex
+                        : { r: 0.05, g: 0.05, b: 0.1, a: 1.0 }, // Dark blue for normal
                     loadOp: 'clear',
                     storeOp: 'store',
                 }

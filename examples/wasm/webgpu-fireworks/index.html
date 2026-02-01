@@ -18,6 +18,10 @@
             color: #fff;
         }
 
+        body.vectrex-mode {
+            background: #000000; /* Pure black for Vectrex CRT simulation */
+        }
+
         #canvas-container {
             position: relative;
             width: 100vw;
@@ -208,8 +212,12 @@
             <div class="control-group">
                 <label>
                     <input type="checkbox" id="vectrex-mode" style="margin-right: 8px;">
-                    Vectrex Mode (Super Bright)
+                    Vectrex Mode (Green CRT + Tank Battle)
                 </label>
+                <div style="font-size: 0.75rem; color: #00ff41; margin-top: 5px; line-height: 1.4;">
+                    🎮 Controls: WASD to move, SPACE to fire<br>
+                    💚 High-intensity green phosphor display
+                </div>
             </div>
 
             <div class="control-group">
@@ -222,6 +230,9 @@
             <div id="audio-controls">
                 <h2 style="font-size: 1.2rem; margin-top: 15px; margin-bottom: 10px; color: #a0a0ff;">🎵 Audio Settings</h2>
                 <button id="toggle-audio">🎵 Start Music</button>
+                <button id="bass-boost" style="background: linear-gradient(135deg, #ff0080, #ff8000); margin-top: 5px;">
+                    🔊 DROP THAT BEAT!
+                </button>
                 
                 <div class="control-group">
                     <label>
