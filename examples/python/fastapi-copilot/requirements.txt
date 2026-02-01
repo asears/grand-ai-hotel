@@ -4,14 +4,14 @@
 # Web Framework
 fastapi==0.109.0
 uvicorn[standard]==0.27.0
-python-multipart==0.0.6
+python-multipart==0.0.22
 
 # Data Validation
 pydantic==2.5.3
 pydantic-settings==2.1.0
 
 # Azure Integration
-azure-identity==1.15.0
+azure-identity==1.16.1
 azure-keyvault-secrets==4.7.0
 
 # Logging
