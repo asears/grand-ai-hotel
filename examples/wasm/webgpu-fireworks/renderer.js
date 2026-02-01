@@ -13,6 +13,13 @@ export class FireworksRenderer {
         this.uniformBuffer = null;
         this.bindGroup = null;
         this.format = 'bgra8unorm';
+        
+        // Debug screenshot tracking
+        this.frameCount = 0;
+        this.screenshotInterval = 60; // Screenshot every 60 frames (1 sec at 60fps)
+        this.screenshotCount = 0;
+        this.maxScreenshots = 10; // Limit total screenshots
+        this.debugMode = false; // Enable via window.enableRendererDebug()
     }
 
     async init() {
@@ -100,10 +107,37 @@ export class FireworksRenderer {
                 // Add glow effect
                 let glow = smoothstep(0.0, 0.5, input.life);
                 
-                return vec4<f32>(
-                    input.color.rgb * (1.0 + glow * 0.5),
-                    alpha
-                );
+                // Vectrex green phosphor simulation
+                // Check if this is a green particle (Vectrex mode indicator)
+                let isVectrex = input.color.g > 1.5; // Boosted green channel
+                
+                if (isVectrex) {
+                    // Vectrex green phosphor (#00ff41 style) - HIGH INTENSITY
+                    let vectrexGreen = vec3<f32>(0.0, 1.0, 0.25);
+                    
+                    // Check if this is a SUPER bright particle (music notes use g=3.0)
+                    let isSuperBright = input.color.g > 2.5;
+                    
+                    // CRT bloom/glow effect - ENHANCED for high intensity
+                    let bloom = 2.0 + glow * 3.0; // Base brightness
+                    
+                    if (isSuperBright) {
+                        bloom = 3.5 + glow * 4.0; // MAXIMUM brightness for music notes
+                    }
+                    
+                    // Add scanline flicker simulation (authentic CRT effect)
+                    let flicker = 1.0 + sin(uniforms.time * 100.0) * 0.02;
+                    
+                    return vec4<f32>(
+                        vectrexGreen * bloom * flicker,
+                        alpha * 0.98 // Even higher alpha for super bright
+                    );
+                } else {
+                    return vec4<f32>(
+                        input.color.rgb * (1.0 + glow * 0.5),
+                        alpha
+                    );
+                }
             }
         `;
 
@@ -250,7 +284,9 @@ export class FireworksRenderer {
             colorAttachments: [
                 {
                     view: textureView,
-                    clearValue: { r: 0.05, g: 0.05, b: 0.1, a: 1.0 },
+                    clearValue: config.vectrexMode 
+                        ? { r: 0.0, g: 0.0, b: 0.0, a: 1.0 }  // Pure black for Vectrex
+                        : { r: 0.05, g: 0.05, b: 0.1, a: 1.0 }, // Dark blue for normal
                     loadOp: 'clear',
                     storeOp: 'store',
                 }
@@ -265,6 +301,82 @@ export class FireworksRenderer {
 
         // Submit commands
         this.device.queue.submit([commandEncoder.finish()]);
+        
+        // Debug: Capture screenshots periodically
+        this.frameCount++;
+        if (this.debugMode && this.screenshotCount < this.maxScreenshots) {
+            if (this.frameCount % this.screenshotInterval === 0) {
+                this.captureScreenshot(particles, config);
+            }
+        }
+    }
+    
+    /**
+     * Capture a screenshot of the current canvas and download it
+     */
+    captureScreenshot(particles, config) {
+        this.screenshotCount++;
+        
+        // Get alive particles count
+        const aliveCount = particles.filter(p => p.life > 0).length;
+        const vectrexCount = particles.filter(p => p.life > 0 && p.isVectrex).length;
+        
+        // Convert canvas to blob
+        this.canvas.toBlob((blob) => {
+            if (blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `webgpu-debug-frame${this.frameCount}_particles${aliveCount}_vectrex${vectrexCount}.png`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                console.log(`📸 Screenshot ${this.screenshotCount}/${this.maxScreenshots}: Frame ${this.frameCount}, Particles: ${aliveCount} (${vectrexCount} Vectrex), Mode: ${config.vectrexMode ? 'Vectrex' : 'Normal'}`);
+            }
+        }, 'image/png');
+    }
+    
+    /**
+     * Manually trigger a screenshot with optional label
+     */
+    takeScreenshot(label = '', particles = [], config = {}) {
+        const aliveCount = particles.filter(p => p.life > 0).length;
+        
+        this.canvas.toBlob((blob) => {
+            if (blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                const filename = label 
+                    ? `webgpu-${label}-particles${aliveCount}.png`
+                    : `webgpu-manual-frame${this.frameCount}.png`;
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                console.log(`📸 Manual screenshot: ${filename}, Particles: ${aliveCount}`);
+            }
+        }, 'image/png');
+    }
+    
+    /**
+     * Enable/disable debug screenshot mode
+     */
+    setDebugMode(enabled, interval = 60, maxScreenshots = 10) {
+        this.debugMode = enabled;
+        this.screenshotInterval = interval;
+        this.maxScreenshots = maxScreenshots;
+        this.screenshotCount = 0;
+        
+        console.log(`🔍 Renderer debug mode: ${enabled ? 'ENABLED' : 'DISABLED'}`);
+        if (enabled) {
+            console.log(`   - Screenshots every ${interval} frames (${(interval/60).toFixed(1)}s at 60fps)`);
+            console.log(`   - Max screenshots: ${maxScreenshots}`);
+        }
     }
 
     destroy() {
