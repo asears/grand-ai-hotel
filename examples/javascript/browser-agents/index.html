@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Agents - Modern Vanilla JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --bg-color: #f8fafc;
+            --surface-color: #ffffff;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background: var(--surface-color);
+            box-shadow: var(--shadow);
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section {
+            background: var(--surface-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--bg-color);
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success-color);
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🤖 Browser Agents</h1>
+            <p class="subtitle">Modern Vanilla JavaScript with Web Components</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="status-bar">
+            <span class="status-indicator"></span>
+            <span id="status-text">System ready</span>
+        </div>
+
+        <div class="grid">
+            <!-- Agent Cards Sidebar -->
+            <div class="section">
+                <h2 class="section-title">Available Agents</h2>
+                <div id="agent-list"></div>
+            </div>
+
+            <!-- Chat Interface -->
+            <div class="section">
+                <h2 class="section-title">Agent Chat</h2>
+                <agent-chat id="main-chat"></agent-chat>
+            </div>
+        </div>
+
+        <!-- Demo Controls -->
+        <div class="section">
+            <h2 class="section-title">Demo Controls</h2>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button id="clear-storage" style="padding: 0.5rem 1rem; background: var(--danger-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer;">
+                    Clear Storage
+                </button>
+                <button id="load-demo-agents" style="padding: 0.5rem 1rem; background: var(--primary-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer;">
+                    Load Demo Agents
+                </button>
+                <button id="export-data" style="padding: 0.5rem 1rem; background: var(--secondary-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer;">
+                    Export Data
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Import Web Components and Application Logic -->
+    <script type="module">
+        import './components/agent-chat.js';
+        import './components/agent-card.js';
+        import './components/message-list.js';
+        import { AgentService } from './services/agent-service.js';
+        import { StorageService } from './services/storage-service.js';
+
+        // Initialize services
+        const agentService = new AgentService();
+        const storageService = new StorageService();
+
+        // Load agents from storage or create defaults
+        function initializeAgents() {
+            const savedAgents = storageService.get('agents');
+            
+            if (!savedAgents || savedAgents.length === 0) {
+                const defaultAgents = [
+                    {
+                        id: 'assistant',
+                        name: 'AI Assistant',
+                        description: 'General purpose AI assistant',
+                        status: 'online',
+                        avatar: '🤖'
+                    },
+                    {
+                        id: 'coder',
+                        name: 'Code Expert',
+                        description: 'Specialized in programming and development',
+                        status: 'online',
+                        avatar: '👨‍💻'
+                    },
+                    {
+                        id: 'analyst',
+                        name: 'Data Analyst',
+                        description: 'Data analysis and insights',
+                        status: 'idle',
+                        avatar: '📊'
+                    }
+                ];
+                
+                defaultAgents.forEach(agent => agentService.addAgent(agent));
+                storageService.set('agents', defaultAgents);
+            } else {
+                savedAgents.forEach(agent => agentService.addAgent(agent));
+            }
+        }
+
+        // Render agent cards
+        function renderAgentCards() {
+            const container = document.getElementById('agent-list');
+            container.innerHTML = '';
+            
+            const agents = agentService.getAgents();
+            agents.forEach(agent => {
+                const card = document.createElement('agent-card');
+                card.setAttribute('agent-id', agent.id);
+                card.setAttribute('agent-name', agent.name);
+                card.setAttribute('agent-description', agent.description);
+                card.setAttribute('agent-status', agent.status);
+                card.setAttribute('agent-avatar', agent.avatar);
+                container.appendChild(card);
+            });
+        }
+
+        // Handle agent selection
+        document.addEventListener('agent-selected', (event) => {
+            const { agentId } = event.detail;
+            const agent = agentService.getAgent(agentId);
+            const chat = document.getElementById('main-chat');
+            
+            if (agent && chat) {
+                chat.setAttribute('current-agent', JSON.stringify(agent));
+                updateStatus(`Connected to ${agent.name}`);
+            }
+        });
+
+        // Handle message sent
+        document.addEventListener('message-sent', async (event) => {
+            const { message, agentId } = event.detail;
+            updateStatus(`Processing message...`);
+            
+            try {
+                // Simulate agent response with delay
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                const response = await agentService.sendMessage(agentId, message);
+                
+                // Dispatch response event
+                const responseEvent = new CustomEvent('agent-response', {
+                    detail: { message: response, agentId },
+                    bubbles: true
+                });
+                document.dispatchEvent(responseEvent);
+                
+                updateStatus('Message sent');
+            } catch (error) {
+                console.error('Error sending message:', error);
+                updateStatus('Error sending message', 'error');
+            }
+        });
+
+        // Demo controls
+        document.getElementById('clear-storage').addEventListener('click', () => {
+            if (confirm('Clear all stored data?')) {
+                storageService.clear();
+                agentService.clearAgents();
+                location.reload();
+            }
+        });
+
+        document.getElementById('load-demo-agents').addEventListener('click', () => {
+            storageService.clear();
+            agentService.clearAgents();
+            initializeAgents();
+            renderAgentCards();
+            updateStatus('Demo agents loaded');
+        });
+
+        document.getElementById('export-data').addEventListener('click', () => {
+            const data = {
+                agents: agentService.getAgents(),
+                conversations: storageService.get('conversations') || {},
+                timestamp: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `browser-agents-export-${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            updateStatus('Data exported');
+        });
+
+        // Update status message
+        function updateStatus(message, type = 'info') {
+            const statusText = document.getElementById('status-text');
+            statusText.textContent = message;
+            
+            setTimeout(() => {
+                statusText.textContent = 'System ready';
+            }, 3000);
+        }
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAgents();
+            renderAgentCards();
+            updateStatus('Application initialized');
+        });
+
+        // Handle visibility change for efficient resource usage
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                console.log('Application paused');
+            } else {
+                console.log('Application resumed');
+                renderAgentCards();
+            }
+        });
+    </script>
+</body>
+</html>

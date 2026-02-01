@@ -1,0 +1,36 @@
+{
+  "name": "stream-processing-example",
+  "version": "1.0.0",
+  "description": "Node.js Streams API examples with transforms, backpressure, and pipeline composition",
+  "type": "module",
+  "main": "processors/pipeline.js",
+  "scripts": {
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "example:csv": "node processors/csv-processor.js",
+    "example:json": "node processors/json-processor.js",
+    "example:pipeline": "node processors/pipeline.js"
+  },
+  "keywords": [
+    "streams",
+    "transform",
+    "backpressure",
+    "pipeline",
+    "csv",
+    "json",
+    "esm"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "csv-parse": "^5.5.3",
+    "csv-stringify": "^6.4.5"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^1.1.0",
+    "vitest": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

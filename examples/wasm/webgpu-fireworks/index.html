@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGPU Fireworks - Alan Walker Style</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            overflow: hidden;
+            color: #fff;
+        }
+
+        #canvas-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        #controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(26, 26, 46, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #00d4ff;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
+            backdrop-filter: blur(10px);
+            min-width: 280px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .control-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: #a0a0ff;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #00d4ff, #ff00ff);
+            outline: none;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        input[type="range"]:hover {
+            opacity: 1;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #00d4ff, #ff00ff);
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .value-display {
+            float: right;
+            color: #00d4ff;
+            font-weight: bold;
+        }
+
+        #audio-controls {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .status {
+            font-size: 0.85rem;
+            color: #a0a0ff;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        #error-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 0, 0, 0.9);
+            padding: 30px;
+            border-radius: 12px;
+            display: none;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .beat-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #00d4ff;
+            display: inline-block;
+            margin-left: 10px;
+            transition: transform 0.1s;
+        }
+
+        .beat-indicator.pulse {
+            animation: pulse 0.3s ease-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); box-shadow: 0 0 20px #00d4ff; }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container">
+        <canvas id="webgpu-canvas"></canvas>
+        
+        <div id="controls">
+            <h1>🎆 FIREWORKS</h1>
+            
+            <div class="control-group">
+                <label>
+                    Intensity
+                    <span class="value-display" id="intensity-value">50</span>
+                </label>
+                <input type="range" id="intensity" min="1" max="100" value="50">
+            </div>
+            
+            <div class="control-group">
+                <label>
+                    Particle Count
+                    <span class="value-display" id="particles-value">1000</span>
+                </label>
+                <input type="range" id="particles" min="100" max="5000" value="1000" step="100">
+            </div>
+            
+            <div class="control-group">
+                <label>
+                    Gravity
+                    <span class="value-display" id="gravity-value">0.5</span>
+                </label>
+                <input type="range" id="gravity" min="0" max="2" value="0.5" step="0.1">
+            </div>
+
+            <div class="control-group">
+                <label>
+                    <input type="checkbox" id="vectrex-mode" style="margin-right: 8px;">
+                    Vectrex Mode (Super Bright)
+                </label>
+            </div>
+
+            <div class="control-group">
+                <label>
+                    <input type="checkbox" id="particle-trails" checked style="margin-right: 8px;">
+                    Particle Trails
+                </label>
+            </div>
+
+            <div id="audio-controls">
+                <h2 style="font-size: 1.2rem; margin-top: 15px; margin-bottom: 10px; color: #a0a0ff;">🎵 Audio Settings</h2>
+                <button id="toggle-audio">🎵 Start Music</button>
+                
+                <div class="control-group">
+                    <label>
+                        Tempo (BPM)
+                        <span class="value-display" id="tempo-value">128</span>
+                    </label>
+                    <input type="range" id="tempo" min="80" max="180" value="128" step="1">
+                </div>
+                
+                <div class="control-group">
+                    <label>
+                        Genre
+                        <span class="value-display" id="genre-value">Alan Walker</span>
+                    </label>
+                    <select id="genre" style="width: 100%; padding: 8px; background: rgba(0, 212, 255, 0.1); border: 1px solid #00d4ff; border-radius: 6px; color: #fff; font-size: 0.9rem;">
+                        <option value="alan-walker">Alan Walker (Progressive House)</option>
+                        <option value="avicii">Avicii (Euphoric House)</option>
+                        <option value="daft-punk">Daft Punk (French House)</option>
+                        <option value="deadmau5">Deadmau5 (Progressive)</option>
+                        <option value="kygo">Kygo (Tropical House)</option>
+                        <option value="skrillex">Skrillex (Dubstep/Brostep)</option>
+                        <option value="nin">Nine Inch Nails (Industrial)</option>
+                        <option value="justice">Justice (Electro House)</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label>
+                        Volume
+                        <span class="value-display" id="volume-value">70</span>
+                    </label>
+                    <input type="range" id="volume" min="0" max="100" value="70">
+                </div>
+                <div class="status">
+                    Beat Sync: <span class="beat-indicator" id="beat-indicator"></span>
+                </div>
+            </div>
+
+            <button id="reset">Reset Simulation</button>
+            
+            <div class="status" id="fps">FPS: 0</div>
+        </div>
+
+        <div id="error-message"></div>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+</body>
+</html>

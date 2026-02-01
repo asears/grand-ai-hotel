@@ -1,0 +1,42 @@
+# Exclude from Docker build context
+.git
+.gitignore
+*.md
+README.md
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+*.egg-info/
+dist/
+build/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Terraform
+terraform/
+*.tf
+*.tfvars
+
+# CI/CD
+cloudbuild.yaml
+.github/
+
+# Local environment
+.env
+.env.local

@@ -1,0 +1,15 @@
+# Data Processing with Polars - Requirements
+# Python 3.12+
+
+# Data Processing
+polars==0.20.3
+
+# Logging
+loguru==0.7.2
+
+# Testing
+pytest==7.4.4
+pytest-cov==4.1.0
+
+# Development
+ruff==0.1.14

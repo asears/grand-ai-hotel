@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Progressive Web App with Service Worker">
+    <meta name="theme-color" content="#4f46e5">
+    
+    <title>PWA with Service Worker</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- iOS Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="PWA Demo">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #f9fafb;
+            --surface: #ffffff;
+            --text: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background: var(--surface);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-card {
+            background: var(--surface);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+
+        .dot.online {
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .card-content {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: var(--primary-dark);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .log {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+
+        .log-entry {
+            margin-bottom: 0.5rem;
+        }
+
+        .log-time {
+            color: #9ca3af;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge.danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>⚡ Progressive Web App</h1>
+            <p>Service Worker with advanced caching strategies</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Service Worker Status -->
+        <div class="status-card">
+            <div class="status-indicator">
+                <span class="dot" id="sw-status-dot"></span>
+                <strong>Service Worker Status:</strong>
+                <span id="sw-status">Checking...</span>
+            </div>
+            <div id="sw-details"></div>
+        </div>
+
+        <!-- Feature Cards -->
+        <div class="grid">
+            <div class="card">
+                <h3>🔌 Offline Mode</h3>
+                <div class="card-content">
+                    <p>Works without internet connection using cached resources.</p>
+                    <p style="margin-top: 0.5rem;">
+                        Status: <span class="badge" id="offline-badge">Unknown</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🔄 Background Sync</h3>
+                <div class="card-content">
+                    <p>Automatically retries failed requests when connection is restored.</p>
+                    <p style="margin-top: 0.5rem;">
+                        Pending: <strong id="sync-count">0</strong>
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🔔 Push Notifications</h3>
+                <div class="card-content">
+                    <p>Receive updates even when the app is closed.</p>
+                    <p style="margin-top: 0.5rem;">
+                        <span class="badge" id="notification-badge">Not enabled</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>💾 Cache Storage</h3>
+                <div class="card-content">
+                    <p>Intelligent caching for fast load times.</p>
+                    <p style="margin-top: 0.5rem;">
+                        Size: <strong id="cache-size">Calculating...</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="status-card">
+            <h3 style="margin-bottom: 1rem;">Actions</h3>
+            <div class="button-group">
+                <button id="enable-notifications">Enable Notifications</button>
+                <button id="test-offline">Test Offline Mode</button>
+                <button id="clear-cache">Clear Cache</button>
+                <button id="update-sw">Update Service Worker</button>
+            </div>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="status-card">
+            <h3>Activity Log</h3>
+            <div class="log" id="activity-log">
+                <div class="log-entry">
+                    <span class="log-time">[System]</span> Application started
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        // Service Worker registration and management
+        const log = [];
+
+        function addLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            log.unshift({ timestamp, message, type });
+            
+            const logEl = document.getElementById('activity-log');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<span class="log-time">[${timestamp}]</span> ${message}`;
+            
+            logEl.insertBefore(entry, logEl.firstChild);
+            
+            // Keep only last 50 entries
+            if (log.length > 50) {
+                log.pop();
+                logEl.removeChild(logEl.lastChild);
+            }
+        }
+
+        // Register Service Worker
+        async function registerServiceWorker() {
+            if (!('serviceWorker' in navigator)) {
+                addLog('Service Worker not supported', 'error');
+                updateStatus('Not Supported', false);
+                return null;
+            }
+
+            try {
+                const registration = await navigator.serviceWorker.register('/sw.js', {
+                    scope: '/'
+                });
+
+                addLog('Service Worker registered successfully');
+                updateStatus('Active', true);
+
+                // Listen for updates
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    addLog('New Service Worker version found');
+
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            addLog('New version available - reload to update');
+                        }
+                    });
+                });
+
+                return registration;
+            } catch (error) {
+                addLog(`Service Worker registration failed: ${error.message}`, 'error');
+                updateStatus('Failed', false);
+                return null;
+            }
+        }
+
+        // Update UI status
+        function updateStatus(status, online) {
+            const statusEl = document.getElementById('sw-status');
+            const dotEl = document.getElementById('sw-status-dot');
+            
+            statusEl.textContent = status;
+            dotEl.className = online ? 'dot online' : 'dot';
+        }
+
+        // Check online/offline status
+        function updateOnlineStatus() {
+            const badge = document.getElementById('offline-badge');
+            const isOnline = navigator.onLine;
+            
+            badge.textContent = isOnline ? 'Online' : 'Offline';
+            badge.className = `badge ${isOnline ? 'success' : 'warning'}`;
+            
+            addLog(isOnline ? 'Connection restored' : 'Connection lost');
+        }
+
+        // Enable push notifications
+        async function enableNotifications() {
+            if (!('Notification' in window)) {
+                addLog('Notifications not supported', 'error');
+                return;
+            }
+
+            const permission = await Notification.requestPermission();
+            
+            if (permission === 'granted') {
+                addLog('Notifications enabled');
+                document.getElementById('notification-badge').textContent = 'Enabled';
+                document.getElementById('notification-badge').className = 'badge success';
+                
+                // Subscribe to push notifications
+                const registration = await navigator.serviceWorker.ready;
+                try {
+                    const subscription = await registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: urlBase64ToUint8Array(
+                            'BEl62iUYgUivxIkv69yViEuiBIa-Ib37J8xQmrQqCqOqw8VlqK1wPzFh4_t9hQQ5J8C6yVlOhvzxdC1J0v_1h0c'
+                        )
+                    });
+                    
+                    addLog('Push subscription created');
+                } catch (error) {
+                    addLog(`Push subscription failed: ${error.message}`, 'error');
+                }
+            } else {
+                addLog('Notification permission denied', 'error');
+            }
+        }
+
+        // Utility function for push subscription
+        function urlBase64ToUint8Array(base64String) {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding)
+                .replace(/\-/g, '+')
+                .replace(/_/g, '/');
+
+            const rawData = window.atob(base64);
+            const outputArray = new Uint8Array(rawData.length);
+
+            for (let i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
+            }
+            return outputArray;
+        }
+
+        // Test offline functionality
+        function testOffline() {
+            addLog('Testing offline mode...');
+            
+            fetch('/api/test')
+                .then(response => response.json())
+                .then(data => {
+                    addLog('Offline test successful - data served from cache');
+                })
+                .catch(error => {
+                    addLog('Offline test: Network unavailable, using fallback', 'warning');
+                });
+        }
+
+        // Clear all caches
+        async function clearCache() {
+            if (!('serviceWorker' in navigator)) return;
+
+            try {
+                const cacheNames = await caches.keys();
+                await Promise.all(cacheNames.map(name => caches.delete(name)));
+                
+                addLog(`Cleared ${cacheNames.length} caches`);
+                updateCacheSize();
+            } catch (error) {
+                addLog(`Failed to clear cache: ${error.message}`, 'error');
+            }
+        }
+
+        // Update Service Worker
+        async function updateServiceWorker() {
+            if (!('serviceWorker' in navigator)) return;
+
+            try {
+                const registration = await navigator.serviceWorker.ready;
+                await registration.update();
+                addLog('Checking for Service Worker updates...');
+            } catch (error) {
+                addLog(`Update check failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Calculate cache size
+        async function updateCacheSize() {
+            if (!('caches' in window)) return;
+
+            try {
+                const cacheNames = await caches.keys();
+                let totalSize = 0;
+
+                for (const name of cacheNames) {
+                    const cache = await caches.open(name);
+                    const keys = await cache.keys();
+                    
+                    for (const request of keys) {
+                        const response = await cache.match(request);
+                        const blob = await response.blob();
+                        totalSize += blob.size;
+                    }
+                }
+
+                const sizeMB = (totalSize / 1024 / 1024).toFixed(2);
+                document.getElementById('cache-size').textContent = `${sizeMB} MB`;
+            } catch (error) {
+                document.getElementById('cache-size').textContent = 'Unknown';
+            }
+        }
+
+        // Event listeners
+        document.getElementById('enable-notifications').addEventListener('click', enableNotifications);
+        document.getElementById('test-offline').addEventListener('click', testOffline);
+        document.getElementById('clear-cache').addEventListener('click', clearCache);
+        document.getElementById('update-sw').addEventListener('click', updateServiceWorker);
+
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+
+        // Initialize
+        registerServiceWorker().then(registration => {
+            if (registration) {
+                updateCacheSize();
+            }
+        });
+        
+        updateOnlineStatus();
+
+        // Add install prompt handler
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            addLog('App can be installed');
+        });
+
+        window.addEventListener('appinstalled', () => {
+            addLog('App installed successfully');
+            deferredPrompt = null;
+        });
+    </script>
+</body>
+</html>
