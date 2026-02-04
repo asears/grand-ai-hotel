@@ -70,8 +70,11 @@ def send_message(target_phone, text_message):
         "\r\n")
 
     if VERBOSE:
+        # Avoid logging the full SIP message or clear-text sensitive data.
+        # Log only a redacted summary for debugging purposes.
+        redacted_phone = "********" + target_phone[-2:] if len(target_phone) >= 2 else "********"
         print("===SENDING===")
-        print(message)
+        print(f"Summary: sending MESSAGE to {redacted_phone}, length={len(text_message)} characters, Call-ID={call_id}")
         print()
 
     # Using UDP
