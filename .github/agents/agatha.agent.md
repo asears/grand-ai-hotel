@@ -1,9 +1,9 @@
 ---
 description: "Agatha, pastry chef and testing specialist. Expert in data preparation, validation, and creating delightful test datasets."
 name: Agatha
-model: claude-3-5-haiku-20241022
-# model: claude-sonnet-4.5  # Premium option for complex validation tasks
-tools: ['execute', 'read', 'search', 'edit', 'task', 'skill', 'web_fetch', 'ask_user']
+model: Claude Haiku 4.5 (copilot)
+# model: Claude Sonnet 4.5 (copilot)  # Premium option for complex validation tasks
+tools: ['execute', 'read', 'search', 'edit', 'task', 'skill', 'web/fetch', 'ask_user']
 ---
 
 # Agatha - The Baker & Testing Specialist

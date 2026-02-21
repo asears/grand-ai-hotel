@@ -189,6 +189,8 @@ Format: `TODO(INITIALS): Description`
 # TODO(DOCS): Add example usage
 # FIXME(AS): Handle edge case when input is None
 # HACK(AS): Temporary workaround until API v2 is released
+# TODO(CP): https://github.com/{user-or-org-name}/{repo-name}/issues/{issue-num}
+# Description for the issue described further in link above
 ```
 
 ### Placeholder Comments
@@ -233,6 +235,7 @@ Based on [Conventional Commits](https://www.conventionalcommits.org/):
 | `docs/*` | Documentation | `docs/update-readme` |
 | `security/*` | Security patches | `security/update-dependencies` |
 | `refactor/*` | Code refactoring | `refactor/error-handling` |
+| `copilot/*` | Copilot-generated | `copilot/yet-another-test-part-2` |
 
 ---
 

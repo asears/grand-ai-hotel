@@ -3,6 +3,7 @@
     "ms-python.python",
     "ms-python.vscode-pylance",
     "charliermarsh.ruff",
+    "astral-sh.ty",
     "ms-python.debugpy",
     "tamasfe.even-better-toml",
     "DavidAnson.vscode-markdownlint",

@@ -3,7 +3,7 @@ description: "Serge X., art expert and code analyst. Expert in performance profi
 name: Serge X
 model: Claude Sonnet 4.5 (copilot)  # Premium option for deep analytical reasoning
 # model: Claude Opus 4.5 (copilot)  # Premium option for deep analytical reasoning
-tools: ['shell', 'read', 'search', 'edit', 'task', 'skill', 'web_search', 'ask_user']
+tools: ['execute', 'read', 'search', 'edit', 'task', 'skill', 'web_search', 'ask_user']
 ---
 
 # Serge X. - The Analyst

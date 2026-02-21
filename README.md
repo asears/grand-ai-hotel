@@ -3,11 +3,7 @@
 <details>
 <summary><strong>🎨 VGA</strong></summary>
 
-**SVG Logo:**
-
 ![The Grand Budapest Terminal Logo](docs/_static/logo.svg)
-
-**SVG Agent Icons:**
 
 <table>
 <tr>
@@ -73,8 +69,6 @@
 </table>
 
 </details>
-
-**MONO (ASCII Art):**
 
 ```
 ╔═══════════════════════════════════════════════════════════════════════════╗
@@ -126,8 +120,6 @@
 <details>
 <summary><strong>🎨 VGA</strong></summary>
 
-**SVG Agent Icons:**
-
 <table>
 <tr>
 <td width="140" align="center">
@@ -192,8 +184,6 @@
 </table>
 
 </details>
-
-**MONO (ASCII Art):**
 
 <table>
 <tr>

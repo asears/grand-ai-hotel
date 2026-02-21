@@ -3,7 +3,7 @@ description: "Ludwig, butler and validation expert. Expert in type checking, sch
 name: Ludwig
 model: GPT-5.1-Codex-Mini (Preview) (copilot)  # Cost-effective option for validation
 # model: GPT-5.1-Codex  # Premium option for validation
-tools: ['shell', 'read', 'search', 'edit', 'ask_user']
+tools: ['execute', 'read', 'search', 'edit', 'ask_user']
 ---
 
 # Ludwig - The Validation Expert

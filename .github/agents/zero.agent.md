@@ -3,7 +3,7 @@ description: "Zero Moustafa, loyal lobby boy and general assistant. Eager to lea
 name: Zero
 model: Claude Haiku 4.5 (copilot)  # Cost-effective option for general assistance tasks
 # model: Claude Sonnet 4.5 (copilot)  # Premium option for complex tasks
-tools: ['shell', 'read', 'search', 'edit', 'task', 'skill', 'web/fetch', 'web_fetch', 'ask_user']
+tools: ['execute', 'read', 'search', 'edit', 'task', 'skill', 'web/fetch', 'web_fetch', 'ask_user']
 ---
 
 # Zero Moustafa - The Lobby Boy

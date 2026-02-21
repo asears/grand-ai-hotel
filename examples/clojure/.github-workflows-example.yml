@@ -1,0 +1,371 @@
+# .github/workflows/clojure-verification.yml
+# 
+# GitHub Actions workflow for Clojure functional verification suite
+#
+# This workflow demonstrates CI/CD integration for verifying Python code
+# against requirements using the Clojure verification framework.
+
+name: Clojure Verification Suite
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'examples/clojure/**'
+      - 'src/**/*.py'
+      - 'requirements/**/*.md'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'examples/clojure/**'
+      - 'src/**/*.py'
+      - 'requirements/**/*.md'
+  workflow_dispatch:
+
+env:
+  CLOJURE_VERSION: '1.11.1.1413'
+  JAVA_VERSION: '21'
+
+jobs:
+  # Job 1: Run Clojure tests
+  clojure-tests:
+    name: Clojure Test Suite
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: examples/clojure
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+      
+      - name: Setup Clojure
+        uses: DeLaGuardo/setup-clojure@12.5
+        with:
+          cli: ${{ env.CLOJURE_VERSION }}
+      
+      - name: Cache Clojure dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+          key: ${{ runner.os }}-clojure-${{ hashFiles('**/deps.edn') }}
+          restore-keys: |
+            ${{ runner.os }}-clojure-
+      
+      - name: Download dependencies
+        run: clj -Stree
+      
+      - name: Run unit tests
+        run: clj -M:test
+      
+      - name: Run property-based tests
+        run: clj -M:test:check
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: clojure-test-results
+          path: examples/clojure/test-results/
+          retention-days: 7
+
+  # Job 2: Verify Python code against specifications
+  verify-python:
+    name: Verify Python Implementation
+    runs-on: windows-latest
+    needs: clojure-tests
+    defaults:
+      run:
+        working-directory: examples/clojure
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+      
+      - name: Setup Clojure
+        uses: DeLaGuardo/setup-clojure@12.5
+        with:
+          cli: ${{ env.CLOJURE_VERSION }}
+      
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+          key: ${{ runner.os }}-clojure-${{ hashFiles('**/deps.edn') }}
+      
+      - name: Full verification (sample files)
+        run: |
+          clj -M:verify `
+            --spec sample-requirements.md `
+            --python sample-python/auth.py `
+            --output verification-results.json
+      
+      - name: Security audit (vulnerable code)
+        continue-on-error: true
+        run: |
+          clj -M:verify `
+            --python sample-python/insecure_db.py `
+            --quick `
+            --output security-audit.json
+      
+      - name: Upload verification results
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-results
+          path: |
+            examples/clojure/verification-results.json
+            examples/clojure/security-audit.json
+          retention-days: 30
+      
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = 'examples/clojure/verification-results.json';
+            
+            if (fs.existsSync(path)) {
+              const results = JSON.parse(fs.readFileSync(path, 'utf8'));
+              const summary = results.summary || {};
+              
+              const comment = `
+              ## 🎭 Grand Budapest Verification Report
+              
+              **Overall Status:** ${summary['overall-status'] || 'Unknown'}
+              **Total Issues:** ${summary['total-issues'] || 0}
+              
+              ### Agent Reports
+              - **Ludwig** (Spec Validation): ${results['spec-validation']?.valid ? '✓' : '✗'}
+              - **Agatha** (Code Verification): ${results['code-verification']?.passed ? '✓' : '✗'}
+              - **Dmitri** (Security): Threat Score ${results['security-analysis']?.['threat-score'] || 0}/100
+              - **Serge X.** (Performance): ${results['performance-profile']?.risk || 'N/A'}
+              - **Henckels** (Standards): ${results['standards-check']?.violations?.length || 0} violations
+              
+              <details>
+              <summary>Full Report</summary>
+              
+              \`\`\`json
+              ${JSON.stringify(results, null, 2)}
+              \`\`\`
+              </details>
+              `;
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            }
+
+  # Job 3: Security scan
+  security-scan:
+    name: Security Analysis
+    runs-on: windows-latest
+    needs: clojure-tests
+    defaults:
+      run:
+        working-directory: examples/clojure
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+      
+      - name: Setup Clojure
+        uses: DeLaGuardo/setup-clojure@12.5
+        with:
+          cli: ${{ env.CLOJURE_VERSION }}
+      
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+          key: ${{ runner.os }}-clojure-${{ hashFiles('**/deps.edn') }}
+      
+      - name: Run security scan
+        run: |
+          clj -M:verify `
+            --python ../../src/ `
+            --quick `
+            --output security-report.json
+      
+      - name: Check threat threshold
+        run: |
+          $report = Get-Content security-report.json | ConvertFrom-Json
+          $threatScore = $report.'security-analysis'.'threat-score'
+          
+          Write-Host "Threat Score: $threatScore"
+          
+          if ($threatScore -gt 50) {
+            Write-Error "Security threat score ($threatScore) exceeds threshold (50)"
+            exit 1
+          }
+      
+      - name: Upload security report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: examples/clojure/security-report.json
+          retention-days: 90
+
+  # Job 4: Performance analysis
+  performance-check:
+    name: Performance Analysis
+    runs-on: windows-latest
+    needs: clojure-tests
+    defaults:
+      run:
+        working-directory: examples/clojure
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+      
+      - name: Setup Clojure
+        uses: DeLaGuardo/setup-clojure@12.5
+        with:
+          cli: ${{ env.CLOJURE_VERSION }}
+      
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+          key: ${{ runner.os }}-clojure-${{ hashFiles('**/deps.edn') }}
+      
+      - name: Profile performance
+        run: |
+          clj -M:verify `
+            --python sample-python/auth.py `
+            --spec sample-requirements.md `
+            --output performance-profile.json
+      
+      - name: Check for high-risk functions
+        run: |
+          $report = Get-Content performance-profile.json | ConvertFrom-Json
+          $profile = $report.'performance-profile'
+          
+          $highRisk = $profile.functions | Where-Object { $_.risk -eq 'HIGH' -or $_.risk -eq 'CRITICAL' }
+          
+          if ($highRisk.Count -gt 0) {
+            Write-Warning "Found $($highRisk.Count) high-risk functions"
+            $highRisk | Format-Table name, complexity, risk
+          }
+      
+      - name: Upload performance report
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-report
+          path: examples/clojure/performance-profile.json
+          retention-days: 30
+
+  # Job 5: Generate verification badge
+  generate-badge:
+    name: Generate Status Badge
+    runs-on: windows-latest
+    needs: [verify-python, security-scan, performance-check]
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Download verification results
+        uses: actions/download-artifact@v4
+        with:
+          name: verification-results
+          path: results/
+      
+      - name: Generate badge
+        run: |
+          $results = Get-Content results/verification-results.json | ConvertFrom-Json
+          $status = $results.summary.'overall-status'
+          
+          $color = if ($status -eq 'PASS') { 'brightgreen' } else { 'red' }
+          $badge = "verification-$status-$color"
+          
+          Write-Host "Badge: $badge"
+          Write-Output "BADGE=$badge" >> $env:GITHUB_ENV
+      
+      - name: Create badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: YOUR_GIST_ID
+          filename: clojure-verification.json
+          label: Verification
+          message: ${{ env.BADGE }}
+          color: ${{ env.COLOR }}
+
+  # Job 6: Notify on failure
+  notify:
+    name: Notify Results
+    runs-on: windows-latest
+    needs: [verify-python, security-scan, performance-check]
+    if: failure()
+    
+    steps:
+      - name: Notify Slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: |
+            🎭 Grand Budapest Verification Failed
+            
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref }}
+            Commit: ${{ github.sha }}
+            
+            Check the logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+        if: always()
+
+# Workflow summary
+# 
+# This workflow demonstrates:
+# 1. Running Clojure tests with property-based testing
+# 2. Verifying Python code against specifications
+# 3. Security scanning with threat scoring
+# 4. Performance profiling with complexity analysis
+# 5. Automated PR comments with verification results
+# 6. Badge generation for README
+# 7. Failure notifications via Slack
+#
+# Customize for your project:
+# - Adjust paths to match your repository structure
+# - Configure threat score thresholds
+# - Add additional verification steps
+# - Integrate with your notification system

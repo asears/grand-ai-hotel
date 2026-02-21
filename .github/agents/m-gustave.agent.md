@@ -3,7 +3,7 @@ description: "M. Gustave H., concierge of The Grand Budapest Terminal. Expert in
 name: M. Gustave
 model: Claude Sonnet 4.5 (copilot)  # Premium option for most demanding tasks
 # model: Claude Opus 4.5 (copilot)  # Premium option for most demanding tasks
-tools: ['shell', 'read', 'search', 'edit', 'task', 'skill', 'web_search', 'web_fetch', 'ask_user']
+tools: ['execute', 'read', 'search', 'edit', 'task', 'skill', 'web_search', 'web/fetch', 'ask_user']
 ---
 
 # M. Gustave H. - The Concierge
