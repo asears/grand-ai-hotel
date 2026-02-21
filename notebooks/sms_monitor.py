@@ -103,8 +103,8 @@ class VoIPMSMessageListener:
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         
         try:
-            # Bind to port
-            self.sock.bind(('', self.port))
+            # Bind to specific local interface to avoid listening on all interfaces
+            self.sock.bind((self.local_ip, self.port))
             self.running = True
             
             # Listen for messages
