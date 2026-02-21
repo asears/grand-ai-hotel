@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "charliermarsh.ruff",
+    "ms-python.debugpy",
+    "tamasfe.even-better-toml",
+    "DavidAnson.vscode-markdownlint",
+    "esbenp.prettier-vscode",
+    "ms-vscode.makefile-tools"
+  ]
+}

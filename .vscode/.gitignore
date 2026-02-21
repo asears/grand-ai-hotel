@@ -1,0 +1,13 @@
+# VS Code user-specific settings
+settings.json
+keybindings.json
+tasks.json
+
+# VS Code workspace settings (user-specific)
+*.code-workspace
+
+# Temporary debugging files
+debug.log
+
+# Python debugging
+.python_history

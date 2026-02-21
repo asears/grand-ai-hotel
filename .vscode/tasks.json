@@ -1,0 +1,141 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Ruff: Format",
+      "type": "shell",
+      "command": "ruff",
+      "args": ["format", "."],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Ruff: Check and Fix",
+      "type": "shell",
+      "command": "ruff",
+      "args": ["check", "--fix", "."],
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^(.+?):(\\d+):(\\d+): ([A-Z]\\d{3,4}) (.*)$",
+          "file": 1,
+          "location": 2,
+          "column": 3,
+          "code": 4,
+          "message": 5
+        },
+        "severity": "warning"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Type Check: ty",
+      "type": "shell",
+      "command": "ty",
+      "args": ["check", "src/"],
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^(.+?):(\\d+):(\\d+): (error|warning): (.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Pytest: Run All Tests",
+      "type": "shell",
+      "command": "pytest",
+      "args": [
+        "tests",
+        "-v",
+        "--tb=short",
+        "--cov=src",
+        "--cov-report=term-missing"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Pytest: Run Current File",
+      "type": "shell",
+      "command": "pytest",
+      "args": ["${file}", "-v", "--tb=short"],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "group": {
+        "kind": "test"
+      }
+    },
+    {
+      "label": "Pytest: Run with Coverage",
+      "type": "shell",
+      "command": "pytest",
+      "args": [
+        "tests",
+        "-v",
+        "--cov=src",
+        "--cov-report=html",
+        "--cov-report=term-missing"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "group": {
+        "kind": "test"
+      }
+    },
+    {
+      "label": "All Checks: Format, Lint, Type, Test",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "ruff format . && ruff check --fix . && ty check src/ && pytest tests/ -v --tb=short"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Prek: Install Hooks",
+      "type": "shell",
+      "command": "prek",
+      "args": ["install"],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    }
+  ]
+}

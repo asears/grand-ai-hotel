@@ -1,0 +1,60 @@
+{
+  "terminal.integrated.profiles.windows": {
+    "copilot-cli": {
+      "path": "C:\\Program Files\\PowerShell\\7-preview\\pwsh.exe",
+      "args": [
+        "-c",
+        "copilot"
+      ]
+    }
+  },
+  
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  
+  "python.linting.enabled": true,
+  "python.linting.ruffEnabled": true,
+  "python.linting.ruffArgs": ["--fix"],
+  
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit"
+    },
+    "editor.rulers": [100],
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  },
+  
+  "pylance.analysis.typeCheckingMode": "strict",
+  
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestArgs": [
+    "tests"
+  ],
+  
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/.ruff_cache": true,
+    "**/.mypy_cache": true,
+    "**/.venv": true,
+    "**/*.pyc": true,
+    "**/.DS_Store": true
+  },
+  
+  "search.exclude": {
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/.ruff_cache": true,
+    "**/.venv": true
+  },
+  
+  "python.analysis.extraPaths": ["${workspaceFolder}/src"]
+}
