@@ -29,10 +29,20 @@ The verification system mirrors the hotel's staff structure, with each agent bri
 winget install --id=Oracle.JDK.21 -e
 ```
 
+Or alternatives
+
+https://winget.run/search?query=jdk
+
+https://www.java.com/releases/
+
 **Install Clojure CLI:**
 ```powershell
 winget install --id=Clojure.Clojure -e
 ```
+
+Just kidding, you'll need to get this elsewhere, it's a mac and java friendly ecosystem.
+
+https://clojure.org/guides/install_clojure
 
 ### Using PowerShell Makefile (Recommended)
 

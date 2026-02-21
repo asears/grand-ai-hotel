@@ -490,6 +490,20 @@ Our tutorials are written as **Wes Anderson-style screenplays** featuring the ag
    - Premium request budgeting
    - **Runtime:** ~20 minutes
 
+4. **[.NET 10 AI Agents and .NET 11 Preview Tour](tutorials/dotnet-10-ai-agents.md)**  
+  *Agents, AI tooling, and a preview of .NET 11 updates*
+  - MCP, Agent Framework, and Microsoft.Extensions.AI
+  - Runtime and SDK update highlights
+  - Text processing upgrades with `Rune`
+  - **Runtime:** ~60 minutes
+
+5. **[.NET App Modernization: 4.5 to .NET 11](tutorials/dotnet-app-modernization-45-to-11.md)**  
+  *Staged modernization with assessment, plan, and tasks*
+  - Grounding files for memory, state, and feedback
+  - Human-in-the-loop steering and validation
+  - Copilot CLI workflow notes
+  - **Runtime:** ~75 minutes
+
 ### 📋 Coding Standards & Best Practices
 
 - **[Python Coding Standards](.github/instructions/python-coding-standards.instructions.md)**  

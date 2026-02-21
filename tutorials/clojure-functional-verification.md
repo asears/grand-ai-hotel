@@ -40,6 +40,13 @@ duration: "45 minutes"
    winget install Oracle.JDK.21
    ```
 
+Or alternatives
+
+https://winget.run/search?query=jdk
+
+https://www.java.com/releases/
+
+
 2. **Install Clojure CLI**
    ```powershell
    winget install Clojure.Clojure

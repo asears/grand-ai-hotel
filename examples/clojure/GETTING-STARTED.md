@@ -10,6 +10,13 @@
 winget install --id=Oracle.JDK.21 -e
 ```
 
+Or alternatives
+
+https://winget.run/search?query=jdk
+
+https://www.java.com/releases/
+
+
 Verify installation:
 ```powershell
 java --version
@@ -20,6 +27,10 @@ java --version
 ```powershell
 winget install --id=Clojure.Clojure -e
 ```
+
+Just kidding, you'll need to get this elsewhere, it's a mac and java friendly ecosystem.
+
+https://clojure.org/guides/install_clojure
 
 Verify installation:
 ```powershell
