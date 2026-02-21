@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 240" role="img" aria-labelledby="title desc">
+  <title id="title">Grand Budapest Terminal Alt Logo</title>
+  <desc id="desc">An art deco banner with the Grand Budapest Terminal wordmark.</desc>
+  <defs>
+    <linearGradient id="banner" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#F5E6D3"/>
+      <stop offset="1" stop-color="#EBD6BF"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="16" width="928" height="208" rx="18" fill="url(#banner)" stroke="#36454F" stroke-width="4"/>
+  <rect x="32" y="32" width="896" height="176" rx="12" fill="none" stroke="#8B4789" stroke-width="2"/>
+
+  <circle cx="78" cy="120" r="34" fill="#8B4789"/>
+  <circle cx="882" cy="120" r="34" fill="#8B4789"/>
+
+  <rect x="116" y="78" width="728" height="84" rx="10" fill="#800020"/>
+  <rect x="116" y="78" width="728" height="84" rx="10" fill="none" stroke="#C5B358" stroke-width="2"/>
+
+  <text x="480" y="124" text-anchor="middle" fill="#F5E6D3" font-family="Georgia, 'Times New Roman', serif" font-size="36" letter-spacing="2">
+    GRAND BUDAPEST TERMINAL
+  </text>
+  <text x="480" y="156" text-anchor="middle" fill="#F5E6D3" font-family="Georgia, 'Times New Roman', serif" font-size="16" letter-spacing="4">
+    COPILOT AGENT ENSEMBLE
+  </text>
+
+  <rect x="120" y="172" width="720" height="16" fill="none" stroke="#36454F" stroke-width="2"/>
+  <rect x="140" y="176" width="680" height="8" fill="#C5B358"/>
+</svg>

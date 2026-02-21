@@ -29,7 +29,7 @@
 ╚═══════════════════════════════════════════════════════════════════════════╝
 ```
 
-**Hey, somebody decided 80 characters was enough?**
+[**Hey, somebody decided 80 characters was enough?**](docs/_static/logo.svg)
 
 <img src="https://img.shields.io/badge/GitHub-Copilot-8B4789?style=for-the-badge&logo=github" alt="GitHub Copilot">
 <img src="https://img.shields.io/badge/Python-3.12+-800020?style=for-the-badge&logo=python" alt="Python">

@@ -1,0 +1,31 @@
+Copilot
+This is the current model list from the VS Code picker on 2026-02-21:
+
+Auto
+GPT-4.1
+GPT-4o
+GPT-5 mini
+Raptor mini (Preview)
+
+Claude Haiku 4.5
+Claude Opus 4.5
+Claude Opus 4.6
+Claude Sonnet 4
+Claude Sonnet 4.5
+Claude Sonnet 4.6
+
+Gemini 2.5 Pro
+Gemini 3 Flash (Preview)
+Gemini 3 Pro (Preview)
+Gemini 3.1 Pro (Preview)
+
+GPT-5.1
+GPT-5.1-Codex
+GPT-5.1-Codex-Max
+GPT-5.1-Codex-Mini (Preview)
+GPT-5.2
+GPT-5.2-Codex
+GPT-5.3-Codex
+
+Grok Code Fast 1
+openai/gpt-oss-120b (cheapest)

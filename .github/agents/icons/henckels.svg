@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Henckels Avatar</title>
+  <desc id="desc">Standards officer avatar with structured cap.</desc>
+  <circle cx="128" cy="128" r="120" fill="#EBD6BF" stroke="#4B5320" stroke-width="8"/>
+  <circle cx="128" cy="112" r="48" fill="#F5E6D3" stroke="#36454F" stroke-width="2"/>
+  <path d="M80 92 H176 L164 72 H92 Z" fill="#4B5320"/>
+  <rect x="84" y="156" width="88" height="60" rx="10" fill="#4B5320"/>
+  <rect x="106" y="170" width="44" height="24" rx="6" fill="#C5B358"/>
+  <circle cx="112" cy="110" r="5" fill="#36454F"/>
+  <circle cx="144" cy="110" r="5" fill="#36454F"/>
+  <path d="M112 128 Q128 136 144 128" fill="none" stroke="#36454F" stroke-width="4" stroke-linecap="round"/>
+</svg>

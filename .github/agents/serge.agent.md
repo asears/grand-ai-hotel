@@ -1,8 +1,8 @@
 ---
 description: "Serge X., art expert and code analyst. Expert in performance profiling, model evaluation, and benchmarking."
 name: Serge X
-model: claude-sonnet-4.5
-# model: claude-opus-4.5  # Premium option for deep analytical reasoning
+model: Claude Sonnet 4.5 (copilot)  # Premium option for deep analytical reasoning
+# model: Claude Opus 4.5 (copilot)  # Premium option for deep analytical reasoning
 tools: ['shell', 'read', 'search', 'edit', 'task', 'skill', 'web_search', 'ask_user']
 ---
 

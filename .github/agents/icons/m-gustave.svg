@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">M. Gustave Avatar</title>
+  <desc id="desc">Concierge-inspired avatar with formal jacket and bow tie.</desc>
+  <circle cx="128" cy="128" r="120" fill="#EBD6BF" stroke="#8B4789" stroke-width="8"/>
+  <circle cx="128" cy="108" r="52" fill="#F5E6D3" stroke="#36454F" stroke-width="2"/>
+  <rect x="76" y="156" width="104" height="64" rx="12" fill="#800020"/>
+  <path d="M98 156 L128 138 L158 156 Z" fill="#8B4789"/>
+  <circle cx="112" cy="104" r="6" fill="#36454F"/>
+  <circle cx="144" cy="104" r="6" fill="#36454F"/>
+  <path d="M110 124 Q128 136 146 124" fill="none" stroke="#36454F" stroke-width="4" stroke-linecap="round"/>
+  <rect x="116" y="174" width="24" height="10" fill="#C5B358"/>
+</svg>

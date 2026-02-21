@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Zero Avatar</title>
+  <desc id="desc">Loyal assistant avatar with cap and vest.</desc>
+  <circle cx="128" cy="128" r="120" fill="#EBD6BF" stroke="#800020" stroke-width="8"/>
+  <circle cx="128" cy="112" r="48" fill="#F5E6D3" stroke="#36454F" stroke-width="2"/>
+  <rect x="84" y="156" width="88" height="60" rx="10" fill="#800020"/>
+  <rect x="96" y="164" width="64" height="44" rx="6" fill="#C5B358"/>
+  <path d="M88 96 L168 96 L156 74 L100 74 Z" fill="#4B5320"/>
+  <circle cx="112" cy="110" r="5" fill="#36454F"/>
+  <circle cx="144" cy="110" r="5" fill="#36454F"/>
+  <path d="M112 128 Q128 138 144 128" fill="none" stroke="#36454F" stroke-width="4" stroke-linecap="round"/>
+</svg>

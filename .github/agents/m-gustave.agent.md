@@ -1,8 +1,8 @@
 ---
 description: "M. Gustave H., concierge of The Grand Budapest Terminal. Expert in code quality, documentation, and architectural refinement."
 name: M. Gustave
-model: claude-sonnet-4.5
-# model: claude-opus-4.5  # Premium option for most demanding tasks
+model: Claude Sonnet 4.5 (copilot)  # Premium option for most demanding tasks
+# model: Claude Opus 4.5 (copilot)  # Premium option for most demanding tasks
 tools: ['shell', 'read', 'search', 'edit', 'task', 'skill', 'web_search', 'web_fetch', 'ask_user']
 ---
 
