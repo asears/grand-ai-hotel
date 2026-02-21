@@ -1,86 +1,13 @@
-<style>
-  .logo-toggle-container { text-align: center; }
-  .logo-ascii { display: block; }
-  .logo-svg { display: none; }
-  .logo-ascii.hidden { display: none; }
-  .logo-svg.shown { display: block; }
-  .toggle-buttons { margin: 10px 0; }
-  .toggle-btn { 
-    padding: 8px 16px; margin: 0 5px; 
-    border: 2px solid #8B4789; border-radius: 4px;
-    background: #F5E6D3; color: #8B4789; cursor: pointer;
-    font-weight: bold; font-family: monospace;
-  }
-  .toggle-btn:hover { background: #8B4789; color: #F5E6D3; }
-  .toggle-btn.active { background: #8B4789; color: #F5E6D3; }
-</style>
-
 <div align="center">
 
 <details>
-<summary><strong>🎨 Click to toggle SVG logo view</strong></summary>
+<summary><strong>🎨 VGA</strong></summary>
 
-<div class="logo-svg">
+**SVG Logo:**
 
 ![The Grand Budapest Terminal Logo](docs/_static/logo.svg)
 
-</div>
-
-</details>
-
-<div class="logo-ascii">
-
-```
-╔═══════════════════════════════════════════════════════════════════════════╗
-║                                                                           ║
-║     ████████╗██╗  ██╗███████╗     ██████╗ ██████╗  █████╗ ███╗   ██╗    ║
-║     ╚══██╔══╝██║  ██║██╔════╝    ██╔════╝ ██╔══██╗██╔══██╗████╗  ██║    ║
-║        ██║   ███████║█████╗      ██║  ███╗██████╔╝███████║██╔██╗ ██║    ║
-║        ██║   ██╔══██║██╔══╝      ██║   ██║██╔══██╗██╔══██║██║╚██╗██║    ║
-║        ██║   ██║  ██║███████╗    ╚██████╔╝██║  ██║██║  ██║██║ ╚████║    ║
-║        ╚═╝   ╚═╝  ╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝    ║
-║                                                                           ║
-║            ██████╗ ██╗   ██╗██████╗  █████╗ ██████╗ ███████╗███████╗     ║
-║            ██╔══██╗██║   ██║██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝     ║
-║            ██████╔╝██║   ██║██║  ██║███████║██████╔╝█████╗  ███████╗     ║
-║            ██╔══██╗██║   ██║██║  ██║██╔══██║██╔═══╝ ██╔══╝  ╚════██║     ║
-║            ██████╔╝╚██████╔╝██████╔╝██║  ██║██║     ███████╗███████║     ║
-║            ╚═════╝  ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚══════╝╚══════╝     ║
-║                                                                           ║
-║                         ████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗║
-║                         ╚══██╔══╝██╔════╝██╔══██╗████╗ ████║██║████╗  ██║║
-║                            ██║   █████╗  ██████╔╝██╔████╔██║██║██╔██╗ ██║║
-║                            ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║║
-║                            ██║   ███████╗██║  ██║██║ ╚═╝ ██║██║██║ ╚████║║
-║                            ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝║
-║                                                                           ║
-║                   🎩 An AI Agent Ensemble in Wes Anderson Style 🎩       ║
-║                                                                           ║
-╚═══════════════════════════════════════════════════════════════════════════╝
-```
-
-</div>
-
-<img src="https://img.shields.io/badge/GitHub-Copilot-8B4789?style=for-the-badge&logo=github" alt="GitHub Copilot">
-<img src="https://img.shields.io/badge/Python-3.12+-800020?style=for-the-badge&logo=python" alt="Python">
-<img src="https://img.shields.io/badge/TypeScript-5.3+-FFB6C1?style=for-the-badge&logo=typescript" alt="TypeScript">
-<img src="https://img.shields.io/badge/Go-1.22+-4B5320?style=for-the-badge&logo=go" alt="Go">
-<img src="https://img.shields.io/badge/.NET-8.0+-C5B358?style=for-the-badge&logo=dotnet" alt=".NET">
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-990000.svg?style=for-the-badge)](./LICENSE)
-
-**A whimsical yet powerful collection of AI agents inspired by Wes Anderson's *The Grand Budapest Hotel*, built for GitHub Copilot CLI and SDK**
-
-[🎬 Getting Started](#-quick-start) • [🎭 Meet the Agents](#-meet-the-ensemble) • [📚 Tutorials](#-tutorials) • [🛠️ Examples](#️-examples) • [🎨 Style Guide](#-wes-anderson-aesthetic)
-
-</div>
-
----
-
-## 🎭 Meet the Ensemble
-
-<details>
-<summary><strong>🎨 Click to view SVG agent icons</strong></summary>
+**SVG Agent Icons:**
 
 <table>
 <tr>
@@ -147,7 +74,126 @@
 
 </details>
 
-**ASCII Art View (Default):**
+**MONO (ASCII Art):**
+
+```
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║     ████████╗██╗  ██╗███████╗     ██████╗ ██████╗  █████╗ ███╗   ██╗    ║
+║     ╚══██╔══╝██║  ██║██╔════╝    ██╔════╝ ██╔══██╗██╔══██╗████╗  ██║    ║
+║        ██║   ███████║█████╗      ██║  ███╗██████╔╝███████║██╔██╗ ██║    ║
+║        ██║   ██╔══██║██╔══╝      ██║   ██║██╔══██╗██╔══██║██║╚██╗██║    ║
+║        ██║   ██║  ██║███████╗    ╚██████╔╝██║  ██║██║  ██║██║ ╚████║    ║
+║        ╚═╝   ╚═╝  ╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝    ║
+║                                                                           ║
+║            ██████╗ ██╗   ██╗██████╗  █████╗ ██████╗ ███████╗███████╗     ║
+║            ██╔══██╗██║   ██║██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝     ║
+║            ██████╔╝██║   ██║██║  ██║███████║██████╔╝█████╗  ███████╗     ║
+║            ██╔══██╗██║   ██║██║  ██║██╔══██║██╔═══╝ ██╔══╝  ╚════██║     ║
+║            ██████╔╝╚██████╔╝██████╔╝██║  ██║██║     ███████╗███████║     ║
+║            ╚═════╝  ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚══════╝╚══════╝     ║
+║                                                                           ║
+║                         ████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗║
+║                         ╚══██╔══╝██╔════╝██╔══██╗████╗ ████║██║████╗  ██║║
+║                            ██║   █████╗  ██████╔╝██╔████╔██║██║██╔██╗ ██║║
+║                            ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║║
+║                            ██║   ███████╗██║  ██║██║ ╚═╝ ██║██║██║ ╚████║║
+║                            ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝║
+║                                                                           ║
+║                   🎩 An AI Agent Ensemble in Wes Anderson Style 🎩       ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+```
+
+<img src="https://img.shields.io/badge/GitHub-Copilot-8B4789?style=for-the-badge&logo=github" alt="GitHub Copilot">
+<img src="https://img.shields.io/badge/Python-3.12+-800020?style=for-the-badge&logo=python" alt="Python">
+<img src="https://img.shields.io/badge/TypeScript-5.3+-FFB6C1?style=for-the-badge&logo=typescript" alt="TypeScript">
+<img src="https://img.shields.io/badge/Go-1.22+-4B5320?style=for-the-badge&logo=go" alt="Go">
+<img src="https://img.shields.io/badge/.NET-8.0+-C5B358?style=for-the-badge&logo=dotnet" alt=".NET">
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-990000.svg?style=for-the-badge)](./LICENSE)
+
+**A whimsical yet powerful collection of AI agents inspired by Wes Anderson's *The Grand Budapest Hotel*, built for GitHub Copilot CLI and SDK**
+
+[🎬 Getting Started](#-quick-start) • [🎭 Meet the Agents](#-meet-the-ensemble) • [📚 Tutorials](#-tutorials) • [🛠️ Examples](#️-examples) • [🎨 Style Guide](#-wes-anderson-aesthetic)
+
+</div>
+
+---
+
+## 🎭 Meet the Ensemble
+
+<details>
+<summary><strong>🎨 VGA</strong></summary>
+
+**SVG Agent Icons:**
+
+<table>
+<tr>
+<td width="140" align="center">
+<img src=".github/agents/icons/m-gustave.svg" alt="M. Gustave" width="100">
+<br>
+**M. Gustave**  
+<sub>Code Quality</sub>  
+<img src="https://img.shields.io/badge/-Refined-8B4789?style=flat-square">
+</td>
+<td width="140" align="center">
+<img src=".github/agents/icons/zero.svg" alt="Zero" width="100">
+<br>
+**Zero**  
+<sub>General Assistant</sub>  
+<img src="https://img.shields.io/badge/-Loyal-800020?style=flat-square">
+</td>
+<td width="140" align="center">
+<img src=".github/agents/icons/agatha.svg" alt="Agatha" width="100">
+<br>
+**Agatha**  
+<sub>Testing Specialist</sub>  
+<img src="https://img.shields.io/badge/-Sweet-FFB6C1?style=flat-square">
+</td>
+<td width="140" align="center">
+<img src=".github/agents/icons/dmitri.svg" alt="Dmitri" width="100">
+<br>
+**Dmitri**  
+<sub>Security Auditor</sub>  
+<img src="https://img.shields.io/badge/-Ruthless-990000?style=flat-square">
+</td>
+</tr>
+<tr>
+<td width="140" align="center">
+<img src=".github/agents/icons/henckels.svg" alt="Henckels" width="100">
+<br>
+**Henckels**  
+<sub>Standards Officer</sub>  
+<img src="https://img.shields.io/badge/-Dutiful-4B5320?style=flat-square">
+</td>
+<td width="140" align="center">
+<img src=".github/agents/icons/ludwig.svg" alt="Ludwig" width="100">
+<br>
+**Ludwig**  
+<sub>Type Guardian</sub>  
+<img src="https://img.shields.io/badge/-Meticulous-36454F?style=flat-square">
+</td>
+<td width="140" align="center">
+<img src=".github/agents/icons/serge-x.svg" alt="Serge X." width="100">
+<br>
+**Serge X.**  
+<sub>Performance Analyst</sub>  
+<img src="https://img.shields.io/badge/-Scholarly-C5B358?style=flat-square">
+</td>
+<td width="140" align="center">
+<img src=".github/agents/icons/resources.svg" alt="Resources" width="100">
+<br>
+**Resources**  
+<sub>Links & Guides</sub>  
+<img src="https://img.shields.io/badge/-Essential-8B4789?style=flat-square">
+</td>
+</tr>
+</table>
+
+</details>
+
+**MONO (ASCII Art):**
 
 <table>
 <tr>

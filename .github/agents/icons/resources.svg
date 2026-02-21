@@ -1,0 +1,29 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="100" height="100" fill="#F5E6D3"/>
+  
+  <!-- First book -->
+  <rect x="20" y="30" width="18" height="50" fill="#8B4789" rx="2"/>
+  <line x1="24" y1="30" x2="24" y2="80" stroke="#F5E6D3" stroke-width="1"/>
+  <line x1="26" y1="35" x2="32" y2="35" stroke="#F5E6D3" stroke-width="0.8"/>
+  <line x1="26" y1="42" x2="32" y2="42" stroke="#F5E6D3" stroke-width="0.8"/>
+  <line x1="26" y1="49" x2="32" y2="49" stroke="#F5E6D3" stroke-width="0.8"/>
+  
+  <!-- Second book -->
+  <rect x="41" y="28" width="18" height="52" fill="#800020" rx="2"/>
+  <line x1="45" y1="28" x2="45" y2="80" stroke="#F5E6D3" stroke-width="1"/>
+  <line x1="47" y1="34" x2="53" y2="34" stroke="#F5E6D3" stroke-width="0.8"/>
+  <line x1="47" y1="42" x2="53" y2="42" stroke="#F5E6D3" stroke-width="0.8"/>
+  <line x1="47" y1="50" x2="53" y2="50" stroke="#F5E6D3" stroke-width="0.8"/>
+  <line x1="47" y1="58" x2="53" y2="58" stroke="#F5E6D3" stroke-width="0.8"/>
+  
+  <!-- Third book -->
+  <rect x="62" y="32" width="18" height="48" fill="#C5B358" rx="2"/>
+  <line x1="66" y1="32" x2="66" y2="80" stroke="#F5E6D3" stroke-width="1"/>
+  <line x1="68" y1="38" x2="74" y2="38" stroke="#F5E6D3" stroke-width="0.8"/>
+  <line x1="68" y1="46" x2="74" y2="46" stroke="#F5E6D3" stroke-width="0.8"/>
+  <line x1="68" y1="54" x2="74" y2="54" stroke="#F5E6D3" stroke-width="0.8"/>
+  
+  <!-- Shelf -->
+  <rect x="15" y="82" width="70" height="3" fill="#36454F"/>
+</svg>
