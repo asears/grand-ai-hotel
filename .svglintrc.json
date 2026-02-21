@@ -1,0 +1,52 @@
+{
+  "rules": {
+    "elm": {
+      "svg": true,
+      "svg > title": false,
+      "svg > desc": false
+    },
+    "attr": [
+      {
+        "role": "none",
+        "rule::selector": "svg[role]",
+        "rule::whitelist": true
+      },
+      {
+        "rule::selector": "svg",
+        "rule::whitelist": true,
+        "width": true,
+        "height": true,
+        "viewBox": true,
+        "xmlns": "http://www.w3.org/2000/svg"
+      },
+      {
+        "fill": true,
+        "stroke": true,
+        "stroke-width": true,
+        "stroke-dasharray": true,
+        "opacity": true,
+        "d": true,
+        "cx": true,
+        "cy": true,
+        "r": true,
+        "x": true,
+        "y": true,
+        "x1": true,
+        "y1": true,
+        "x2": true,
+        "y2": true,
+        "width": true,
+        "height": true,
+        "rx": true,
+        "ry": true,
+        "points": true,
+        "transform": true,
+        "font-family": true,
+        "font-size": true,
+        "font-weight": true,
+        "text-anchor": true
+      }
+    ],
+    "valid": true
+  }
+}
