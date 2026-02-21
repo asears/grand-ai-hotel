@@ -58,7 +58,7 @@
   <text x="150" y="430" font-family="serif" font-size="22" font-weight="bold" fill="#36454F" text-anchor="middle">THE SPECIFICATION</text>
   
   <!-- Subtitle -->
-  <text x="150" y="455" font-family="serif" font-size="12" fill="#800020" text-anchor="middle">Standard &amp; Structure</text>
+  <text x="150" y="455" font-family="serif" font-size="12" fill="#800020" text-anchor="middle">Standard and Structure</text>
   
   <!-- Bottom ornament -->
   <polygon points="150,468 145,475 150,482 155,475" fill="none" stroke="#C5B358" stroke-width="2"/>
