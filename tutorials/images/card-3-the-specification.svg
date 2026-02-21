@@ -1,0 +1,66 @@
+<svg width="300" height="500" viewBox="0 0 300 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="500" fill="#F5E6D3"/>
+  
+  <!-- Ornate Border -->
+  <rect x="10" y="10" width="280" height="480" fill="none" stroke="#36454F" stroke-width="4"/>
+  <rect x="15" y="15" width="270" height="470" fill="none" stroke="#C5B358" stroke-width="2"/>
+  <rect x="20" y="20" width="260" height="460" fill="none" stroke="#36454F" stroke-width="1"/>
+  
+  <!-- Art Deco Corner Ornaments -->
+  <path d="M 30 30 L 50 30 L 40 40 Z" fill="#36454F"/>
+  <path d="M 270 30 L 250 30 L 260 40 Z" fill="#36454F"/>
+  <path d="M 30 470 L 50 470 L 40 460 Z" fill="#36454F"/>
+  <path d="M 270 470 L 250 470 L 260 460 Z" fill="#36454F"/>
+  
+  <!-- Card Number -->
+  <text x="150" y="60" font-family="serif" font-size="20" font-weight="bold" fill="#36454F" text-anchor="middle">III</text>
+  
+  <!-- Central Image: Document with llms.txt -->
+  <g transform="translate(150, 250)">
+    <!-- Sacred Scroll/Document -->
+    <rect x="-60" y="-80" width="120" height="150" fill="white" stroke="#36454F" stroke-width="3"/>
+    
+    <!-- Document header -->
+    <text x="0" y="-55" font-family="monospace" font-size="16" font-weight="bold" fill="#36454F" text-anchor="middle"># llms.txt</text>
+    
+    <!-- Blockquote indicator -->
+    <rect x="-50" y="-38" width="3" height="20" fill="#8B4789"/>
+    <text x="-42" y="-30" font-family="serif" font-size="8" fill="#36454F" text-anchor="start">&gt; Summary...</text>
+    <text x="-42" y="-22" font-family="serif" font-size="8" fill="#36454F" text-anchor="start">of project</text>
+    
+    <!-- H2 Sections -->
+    <text x="-50" y="-5" font-family="monospace" font-size="10" font-weight="bold" fill="#36454F" text-anchor="start">## Section</text>
+    
+    <!-- List items with proper markdown syntax -->
+    <text x="-50" y="8" font-family="monospace" font-size="7" fill="#800020" text-anchor="start">- [Doc](path.md)</text>
+    <text x="-50" y="18" font-family="monospace" font-size="7" fill="#800020" text-anchor="start">- [Guide](guide.md)</text>
+    <text x="-50" y="28" font-family="monospace" font-size="7" fill="#800020" text-anchor="start">- [API](api.md)</text>
+    
+    <!-- Optional section -->
+    <text x="-50" y="45" font-family="monospace" font-size="10" font-weight="bold" fill="#36454F" text-anchor="start">## Optional</text>
+    <text x="-50" y="58" font-family="monospace" font-size="7" fill="#990000" text-anchor="start">- [History]...</text>
+    
+    <!-- Radiating lines (specification as law) -->
+    <line x1="-80" y1="-80" x2="-100" y2="-90" stroke="#C5B358" stroke-width="2"/>
+    <line x1="80" y1="-80" x2="100" y2="-90" stroke="#C5B358" stroke-width="2"/>
+    <line x1="-80" y1="70" x2="-100" y2="80" stroke="#C5B358" stroke-width="2"/>
+    <line x1="80" y1="70" x2="100" y2="80" stroke="#C5B358" stroke-width="2"/>
+    
+    <!-- Geometric precision symbols -->
+    <circle cx="-70" cy="-5" r="8" fill="none" stroke="#8B4789" stroke-width="1.5"/>
+    <circle cx="70" cy="-5" r="8" fill="none" stroke="#8B4789" stroke-width="1.5"/>
+    <path d="M -70 -13 L -70 3 M -78 -5 L -62 -5" stroke="#8B4789" stroke-width="1.5"/>
+    <path d="M 70 -13 L 70 3 M 62 -5 L 78 -5" stroke="#8B4789" stroke-width="1.5"/>
+  </g>
+  
+  <!-- Title -->
+  <text x="150" y="430" font-family="serif" font-size="22" font-weight="bold" fill="#36454F" text-anchor="middle">THE SPECIFICATION</text>
+  
+  <!-- Subtitle -->
+  <text x="150" y="455" font-family="serif" font-size="12" fill="#800020" text-anchor="middle">Standard & Structure</text>
+  
+  <!-- Bottom ornament -->
+  <polygon points="150,468 145,475 150,482 155,475" fill="none" stroke="#C5B358" stroke-width="2"/>
+  <circle cx="150" cy="475" r="3" fill="#36454F"/>
+</svg>

@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "skills": {
+    "skill-creator": {
+      "source": "microsoft/skills",
+      "sourceType": "github",
+      "computedHash": "5a4851efe2b68b3178075e630a26815c9f665d4ceb5fc224a33259f6d636a31e"
+    },
+    "wiki-agents-md": {
+      "source": "microsoft/skills",
+      "sourceType": "github",
+      "computedHash": "3315bc13307c5e118115b2e0b2a1b4a50d72cd7725f0dd9753ee8abeb656b238"
+    },
+    "wiki-architect": {
+      "source": "microsoft/skills",
+      "sourceType": "github",
+      "computedHash": "0c03f037b5d40770a0e5744a63c372693b999b7a3d269ea9c4d2bf60add27f95"
+    },
+    "wiki-changelog": {
+      "source": "microsoft/skills",
+      "sourceType": "github",
+      "computedHash": "81728cf37de3df99529a0c3afd71d84d2ebaf0259fc13770cbdc05e2ef9ffa4f"
+    },
+    "wiki-llms-txt": {
+      "source": "microsoft/skills",
+      "sourceType": "github",
+      "computedHash": "95444de64257def4d3f2b0737e15abca8bd93c5ba76e08cb7f9fc68e97444b1b"
+    },
+    "wiki-onboarding": {
+      "source": "microsoft/skills",
+      "sourceType": "github",
+      "computedHash": "afe0425d6d86493bc9146eb4b25cbdf62d5d6ec86aea8b5c0be098c9492c7463"
+    },
+    "wiki-page-writer": {
+      "source": "microsoft/skills",
+      "sourceType": "github",
+      "computedHash": "0c232bfb2587c477bd4fd4916901be225b94bdc8b16fcb97fc22fcfc786d5d4c"
+    },
+    "wiki-qa": {
+      "source": "microsoft/skills",
+      "sourceType": "github",
+      "computedHash": "1b9ebef1410fb9311dfdbd7fa4cee66042a8340d4b66436b2c8f4fd23cc92838"
+    },
+    "wiki-researcher": {
+      "source": "microsoft/skills",
+      "sourceType": "github",
+      "computedHash": "0b1eef5610c938b79142fef7a90dae5e500c85e5f427dbcc3f92764a329cc98b"
+    }
+  }
+}

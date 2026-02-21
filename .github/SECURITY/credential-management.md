@@ -83,7 +83,6 @@ keyring.delete_password(
 
 import keyring
 import os
-from typing import Optional
 
 
 class SecureCopilotClient:
@@ -92,7 +91,7 @@ class SecureCopilotClient:
     SERVICE_NAME = "grand-budapest-terminal"
     TOKEN_KEY = "github-copilot-token"
     
-    def __init__(self, token: Optional[str] = None) -> None:
+    def __init__(self, token: str | None = None) -> None:
         """
         Initialize client with token from secure store or parameter.
         
@@ -146,7 +145,6 @@ if __name__ == "__main__":
 """Manage multiple service credentials."""
 
 import keyring
-from typing import Dict
 from dataclasses import dataclass
 
 
@@ -564,7 +562,6 @@ GITHUB_COPILOT_TOKEN=ghp_realtoken123456
 
 import os
 from pathlib import Path
-from typing import Optional
 
 
 def load_env_file(env_file: Path = Path(".env")) -> None:

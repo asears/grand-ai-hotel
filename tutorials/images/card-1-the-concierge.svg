@@ -1,0 +1,58 @@
+<svg width="300" height="500" viewBox="0 0 300 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="500" fill="#F5E6D3"/>
+  
+  <!-- Ornate Border -->
+  <rect x="10" y="10" width="280" height="480" fill="none" stroke="#8B4789" stroke-width="4"/>
+  <rect x="15" y="15" width="270" height="470" fill="none" stroke="#C5B358" stroke-width="2"/>
+  <rect x="20" y="20" width="260" height="460" fill="none" stroke="#8B4789" stroke-width="1"/>
+  
+  <!-- Art Deco Corner Ornaments -->
+  <path d="M 30 30 L 50 30 L 40 40 Z" fill="#8B4789"/>
+  <path d="M 270 30 L 250 30 L 260 40 Z" fill="#8B4789"/>
+  <path d="M 30 470 L 50 470 L 40 460 Z" fill="#8B4789"/>
+  <path d="M 270 470 L 250 470 L 260 460 Z" fill="#8B4789"/>
+  
+  <!-- Card Number -->
+  <text x="150" y="60" font-family="serif" font-size="20" font-weight="bold" fill="#8B4789" text-anchor="middle">I</text>
+  
+  <!-- Central Image: Elegant Concierge Figure -->
+  <g transform="translate(150, 250)">
+    <!-- Head -->
+    <circle cx="0" cy="-50" r="25" fill="#800020" stroke="#8B4789" stroke-width="2"/>
+    
+    <!-- Monocle -->
+    <circle cx="8" cy="-50" r="8" fill="none" stroke="#C5B358" stroke-width="2"/>
+    <line x1="16" y1="-50" x2="25" y2="-48" stroke="#C5B358" stroke-width="2"/>
+    
+    <!-- Body (Coat) -->
+    <path d="M -30 -20 L -20 20 L -15 50 L 15 50 L 20 20 L 30 -20 Z" fill="#8B4789" stroke="#800020" stroke-width="2"/>
+    
+    <!-- Lapels -->
+    <path d="M -10 -20 L 0 0 L 0 50" fill="none" stroke="#F5E6D3" stroke-width="2"/>
+    <path d="M 10 -20 L 0 0" fill="none" stroke="#F5E6D3" stroke-width="2"/>
+    
+    <!-- Journal/Book -->
+    <rect x="-35" y="10" width="25" height="35" fill="#800020" stroke="#C5B358" stroke-width="1"/>
+    <line x1="-35" y1="17" x2="-10" y2="17" stroke="#C5B358" stroke-width="0.5"/>
+    <line x1="-35" y1="24" x2="-10" y2="24" stroke="#C5B358" stroke-width="0.5"/>
+    <line x1="-35" y1="31" x2="-10" y2="31" stroke="#C5B358" stroke-width="0.5"/>
+    
+    <!-- Decorative rays -->
+    <line x1="0" y1="-90" x2="0" y2="-100" stroke="#C5B358" stroke-width="2"/>
+    <line x1="-20" y1="-85" x2="-25" y2="-92" stroke="#C5B358" stroke-width="1.5"/>
+    <line x1="20" y1="-85" x2="25" y2="-92" stroke="#C5B358" stroke-width="1.5"/>
+    <line x1="-35" y1="-72" x2="-42" y2="-77" stroke="#C5B358" stroke-width="1"/>
+    <line x1="35" y1="-72" x2="42" y2="-77" stroke="#C5B358" stroke-width="1"/>
+  </g>
+  
+  <!-- Title -->
+  <text x="150" y="430" font-family="serif" font-size="22" font-weight="bold" fill="#8B4789" text-anchor="middle">THE CONCIERGE</text>
+  
+  <!-- Subtitle -->
+  <text x="150" y="455" font-family="serif" font-size="12" fill="#800020" text-anchor="middle">Documentation Architect</text>
+  
+  <!-- Bottom ornament -->
+  <circle cx="150" cy="475" r="8" fill="none" stroke="#C5B358" stroke-width="2"/>
+  <circle cx="150" cy="475" r="4" fill="#8B4789"/>
+</svg>

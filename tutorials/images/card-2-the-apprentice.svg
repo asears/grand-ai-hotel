@@ -1,0 +1,63 @@
+<svg width="300" height="500" viewBox="0 0 300 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="500" fill="#F5E6D3"/>
+  
+  <!-- Ornate Border -->
+  <rect x="10" y="10" width="280" height="480" fill="none" stroke="#800020" stroke-width="4"/>
+  <rect x="15" y="15" width="270" height="470" fill="none" stroke="#C5B358" stroke-width="2"/>
+  <rect x="20" y="20" width="260" height="460" fill="none" stroke="#800020" stroke-width="1"/>
+  
+  <!-- Art Deco Corner Ornaments -->
+  <path d="M 30 30 L 50 30 L 40 40 Z" fill="#800020"/>
+  <path d="M 270 30 L 250 30 L 260 40 Z" fill="#800020"/>
+  <path d="M 30 470 L 50 470 L 40 460 Z" fill="#800020"/>
+  <path d="M 270 470 L 250 470 L 260 460 Z" fill="#800020"/>
+  
+  <!-- Card Number -->
+  <text x="150" y="60" font-family="serif" font-size="20" font-weight="bold" fill="#800020" text-anchor="middle">II</text>
+  
+  <!-- Central Image: Apprentice with Notebook -->
+  <g transform="translate(150, 250)">
+    <!-- Head -->
+    <circle cx="0" cy="-50" r="25" fill="#800020" stroke="#8B4789" stroke-width="2"/>
+    
+    <!-- Hat (Lobby Boy) -->
+    <rect x="-20" y="-80" width="40" height="8" fill="#800020" stroke="#C5B358" stroke-width="1"/>
+    <rect x="-18" y="-88" width="36" height="8" fill="#C5B358"/>
+    
+    <!-- Body (Uniform) -->
+    <path d="M -25 -20 L -18 20 L -12 50 L 12 50 L 18 20 L 25 -20 Z" fill="#800020" stroke="#8B4789" stroke-width="2"/>
+    
+    <!-- Brass Buttons -->
+    <circle cx="0" cy="-5" r="3" fill="#C5B358"/>
+    <circle cx="0" cy="5" r="3" fill="#C5B358"/>
+    <circle cx="0" cy="15" r="3" fill="#C5B358"/>
+    
+    <!-- Notebook -->
+    <rect x="15" y="5" width="30" height="40" fill="#F5E6D3" stroke="#800020" stroke-width="2"/>
+    <line x1="20" y1="12" x2="40" y2="12" stroke="#800020" stroke-width="0.5"/>
+    <line x1="20" y1="18" x2="40" y2="18" stroke="#800020" stroke-width="0.5"/>
+    <line x1="20" y1="24" x2="40" y2="24" stroke="#800020" stroke-width="0.5"/>
+    <line x1="20" y1="30" x2="40" y2="30" stroke="#800020" stroke-width="0.5"/>
+    <line x1="20" y1="36" x2="40" y2="36" stroke="#800020" stroke-width="0.5"/>
+    
+    <!-- Pencil -->
+    <line x1="48" y1="2" x2="60" y2="-5" stroke="#C5B358" stroke-width="3"/>
+    <polygon points="60,-5 63,-3 58,-8" fill="#36454F"/>
+    
+    <!-- Star of Learning -->
+    <path d="M 0 -95 L -5 -105 L 0 -110 L 5 -105 Z" fill="#C5B358"/>
+    <path d="M 0 -95 L -10 -95 L -5 -100 Z" fill="#C5B358" opacity="0.7"/>
+    <path d="M 0 -95 L 10 -95 L 5 -100 Z" fill="#C5B358" opacity="0.7"/>
+  </g>
+  
+  <!-- Title -->
+  <text x="150" y="430" font-family="serif" font-size="22" font-weight="bold" fill="#800020" text-anchor="middle">THE APPRENTICE</text>
+  
+  <!-- Subtitle -->
+  <text x="150" y="455" font-family="serif" font-size="12" fill="#8B4789" text-anchor="middle">Eager Learner</text>
+  
+  <!-- Bottom ornament -->
+  <rect x="143" y="468" width="14" height="14" fill="none" stroke="#C5B358" stroke-width="2"/>
+  <circle cx="150" cy="475" r="4" fill="#800020"/>
+</svg>
