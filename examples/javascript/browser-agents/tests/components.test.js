@@ -1,7 +1,7 @@
 /**
  * Tests for Web Components
  * 
- * Comprehensive test suite for browser-agents components.
+ * Test suite for browser-agents components.
  * Uses Vitest with happy-dom for browser environment simulation.
  * Tests component lifecycle, events, and DOM manipulation.
  */

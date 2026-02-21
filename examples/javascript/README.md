@@ -226,7 +226,7 @@ async function staleWhileRevalidate(request) {
 
 ## 🧪 Testing
 
-All examples include comprehensive test suites:
+All examples include test suites:
 
 ```bash
 # Run tests
@@ -265,7 +265,7 @@ npm run test:ui
 
 ✅ **Code Style**
 - Consistent formatting
-- Comprehensive comments
+- Comments
 - Semantic naming
 - Self-documenting code
 
@@ -452,7 +452,7 @@ function validateData(data) {
 Contributions welcome! Please follow:
 
 1. Modern JavaScript (ES2023+)
-2. Comprehensive documentation
+2. Documentation
 3. Unit tests for new features
 4. Accessibility standards
 5. Performance optimization

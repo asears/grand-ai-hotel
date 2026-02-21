@@ -55,7 +55,7 @@ class RateLimiter {
 }
 
 /**
- * Type-safe API client with comprehensive error handling
+ * Type-safe API client with error handling
  */
 export class ApiClient {
   private rateLimiter?: RateLimiter;

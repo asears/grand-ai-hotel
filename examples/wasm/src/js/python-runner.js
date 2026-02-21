@@ -45,7 +45,7 @@ export async function runPythonAnalyzer(pythonCode) {
   await ensureModulesLoaded();
 
   try {
-    // Run comprehensive analysis
+    // Run analysis
     const result = await pyodide.runPythonAsync(`
 import json
 import ast

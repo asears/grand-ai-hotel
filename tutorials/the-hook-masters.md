@@ -1066,7 +1066,7 @@ And validate. Every hook should have tests.
 
 **AGATHA**
 
-With comprehensive test coverage.
+With more than enough test coverage.
 
 **ZERO**
 

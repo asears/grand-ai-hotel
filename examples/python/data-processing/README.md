@@ -17,7 +17,7 @@ High-performance data processing using Polars - a blazingly fast DataFrame libra
 - ✅ Type-safe transformations with modern type hints
 - ✅ **Streaming** for large CSV/JSON files
 - ✅ **Lazy evaluation** for memory efficiency
-- ✅ Comprehensive pytest tests
+- ✅ Pytest tests
 - ✅ Given-When-Then test pattern
 
 ## Requirements

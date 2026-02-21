@@ -10,7 +10,7 @@ A production-ready, type-safe HTTP client with:
 - **Zod validation** for runtime type safety
 - **Rate limiting** with sliding window algorithm
 - **Retry logic** with exponential backoff
-- **64 comprehensive tests** (all passing)
+- **64 tests** (all passing)
 
 **Files:**
 - `api-client.ts` (275 lines) - Main client implementation

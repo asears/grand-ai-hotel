@@ -6,7 +6,7 @@ Modern TypeScript examples demonstrating best practices, type safety, and advanc
 
 ### 1. API Client (`api-client/`)
 
-Type-safe HTTP client with comprehensive error handling and retry logic.
+Type-safe HTTP client with error handling and retry logic.
 
 **Features:**
 - ✅ Generic fetch wrapper with Zod validation

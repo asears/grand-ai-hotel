@@ -1,7 +1,7 @@
 (ns verify.engine
   "Verify Python codebase against specifications.
    
-   Agatha's domain: comprehensive testing and validation."
+   Agatha's domain: testing and validation."
   (:require [clojure.string :as str]
             [clojure.java.io :as io]
             [clojure.set :as set]))

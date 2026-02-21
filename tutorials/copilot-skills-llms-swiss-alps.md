@@ -310,7 +310,7 @@ Indeed. The performance characteristics differ significantly:
 
 **SERGE X.**  
 - **llms.txt**: 1-5 KB typically. Fast loading. Excellent for discovery and navigation.
-- **llms-full.txt**: 100 KB to several MB. Complete reference. Single-file context for comprehensive analysis.
+- **llms-full.txt**: 100 KB to several MB. Complete reference. Single-file context for analysis.
 
 **M. GUSTAVE**  
 Think of llms.txt as the guidebook, and llms-full.txt as the complete encyclopedia. Both serve distinct purposes.
@@ -369,7 +369,7 @@ The SKILL.md file contains YAML frontmatter and instructional content. Observe:
 ```markdown
 ---
 name: alpine-docs
-description: Provides comprehensive knowledge about Alpine Documentation Archive structure, railway safety protocols, and system architecture. Use when questions involve railway operations, documentation navigation, or safety procedures.
+description: Provides knowledge about Alpine Documentation Archive structure, railway safety protocols, and system architecture. Use when questions involve railway operations, documentation navigation, or safety procedures.
 ---
 
 # Alpine Documentation Archive Skill
@@ -571,7 +571,7 @@ description: Navigate project documentation across multiple formats and location
 The project maintains three documentation entry points:
 1. Root llms.txt for discovery
 2. Wiki llms.txt for internal navigation
-3. llms-full.txt for comprehensive context
+3. llms-full.txt for context
 
 When answering questions:
 - For quick lookups → Use root llms.txt
@@ -1302,7 +1302,7 @@ curl https://your-site.com/llms-full.txt
 
 **ZERO**  
 *(writing frantically)*  
-This is comprehensive!
+This is thorough!
 
 **M. GUSTAVE**  
 Excellence requires thoroughness, dear boy.

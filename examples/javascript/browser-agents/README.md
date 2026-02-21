@@ -304,7 +304,7 @@ new CustomEvent('event-name', {
 
 Follow modern JavaScript best practices:
 - ES2023+ syntax
-- Comprehensive JSDoc comments
+- JSDoc comments
 - Unit tests for new features
 - Semantic HTML
 - Accessible components

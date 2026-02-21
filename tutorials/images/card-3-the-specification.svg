@@ -26,8 +26,8 @@
     
     <!-- Blockquote indicator -->
     <rect x="-50" y="-38" width="3" height="20" fill="#8B4789"/>
-    <text x="-42" y="-30" font-family="serif" font-size="8" fill="#36454F" text-anchor="start">&gt; Summary...</text>
-    <text x="-42" y="-22" font-family="serif" font-size="8" fill="#36454F" text-anchor="start">of project</text>
+    <text x="-42" y="-30" font-family="serif" font-size="8" fill="#36454F" text-anchor="start">Summary of</text>
+    <text x="-42" y="-22" font-family="serif" font-size="8" fill="#36454F" text-anchor="start">your project</text>
     
     <!-- H2 Sections -->
     <text x="-50" y="-5" font-family="monospace" font-size="10" font-weight="bold" fill="#36454F" text-anchor="start">## Section</text>
@@ -39,7 +39,7 @@
     
     <!-- Optional section -->
     <text x="-50" y="45" font-family="monospace" font-size="10" font-weight="bold" fill="#36454F" text-anchor="start">## Optional</text>
-    <text x="-50" y="58" font-family="monospace" font-size="7" fill="#990000" text-anchor="start">- [History]...</text>
+    <text x="-50" y="58" font-family="monospace" font-size="7" fill="#990000" text-anchor="start">- [History]</text>
     
     <!-- Radiating lines (specification as law) -->
     <line x1="-80" y1="-80" x2="-100" y2="-90" stroke="#C5B358" stroke-width="2"/>
@@ -58,7 +58,7 @@
   <text x="150" y="430" font-family="serif" font-size="22" font-weight="bold" fill="#36454F" text-anchor="middle">THE SPECIFICATION</text>
   
   <!-- Subtitle -->
-  <text x="150" y="455" font-family="serif" font-size="12" fill="#800020" text-anchor="middle">Standard & Structure</text>
+  <text x="150" y="455" font-family="serif" font-size="12" fill="#800020" text-anchor="middle">Standard &amp; Structure</text>
   
   <!-- Bottom ornament -->
   <polygon points="150,468 145,475 150,482 155,475" fill="none" stroke="#C5B358" stroke-width="2"/>

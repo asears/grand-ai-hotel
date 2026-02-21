@@ -9,7 +9,7 @@ Modern Python examples demonstrating Azure services integration using `DefaultAz
 - ✅ **Azure Blob Storage** operations
 - ✅ Automatic authentication across environments
 - ✅ Type-safe with modern Python 3.12+ syntax
-- ✅ Comprehensive tests with mocks
+- ✅ Tests with mocks
 - ✅ Production-ready error handling
 
 ## What is DefaultAzureCredential?

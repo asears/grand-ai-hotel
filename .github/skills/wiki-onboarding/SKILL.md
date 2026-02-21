@@ -181,7 +181,7 @@ Scan the repository for build files to determine the primary language for code e
 
 1. **What This System Does** — 2-3 sentence elevator pitch in user-facing language (no jargon)
 2. **User Journey Map** — Mermaid `graph LR` or `journey` diagram showing primary user flows through the system
-3. **Feature Capability Map** — Table: Feature, Status (Live/Beta/Planned/Not Possible), User-Facing Behavior, Limitations. Comprehensive map of what's built and what's not.
+3. **Feature Capability Map** — Table: Feature, Status (Live/Beta/Planned/Not Possible), User-Facing Behavior, Limitations. Map of what's built and what's not.
 4. **Data Model (Product View)** — Simplified Mermaid `erDiagram` showing entities users interact with. Explain in business terms (e.g., "A Project has many Documents" not "FK relationship").
 5. **Configuration & Feature Flags** — Table: Flag/Config, What It Controls, Default, Who Can Change It. What can be toggled without engineering work.
 6. **API Capabilities** — What integrations are possible. Table: Capability, Endpoint/Method, Authentication, Rate Limits. Written for integration partners, not developers.

@@ -1,7 +1,7 @@
 # TypeScript Tooling: A Historical Journey
 ## From Browser Wars to AI Browsers
 
-> **A comprehensive timeline of web development tooling, standards, and the evolution of browsers**
+> **A timeline of web development tooling, standards, and the evolution of browsers**
 
 *Author: M. Gustave (The Historian)*  
 *Last Updated: January 31, 2026*  
@@ -151,7 +151,7 @@ Others: <1%
 
 **Dojo Toolkit (2004)**
 - **Enterprise focus**
-- **Comprehensive widget library**
+- **Widget library**
 
 ### Browser Evolution
 

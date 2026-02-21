@@ -12,7 +12,7 @@ Modern async FastAPI application with GitHub Copilot SDK integration.
 - ✅ Pydantic v2 models with lowercase type hints
 - ✅ Azure Key Vault integration via DefaultAzureCredential
 - ✅ Structured logging with loguru
-- ✅ Comprehensive pytest tests
+- ✅ Pytest tests
 
 **Tech Stack:** FastAPI, Pydantic v2, Azure SDK, loguru
 
@@ -36,7 +36,7 @@ Azure Key Vault and Blob Storage with DefaultAzureCredential.
 - ✅ Azure Key Vault secret management
 - ✅ Azure Blob Storage operations
 - ✅ Works across dev/prod environments
-- ✅ Comprehensive mocked tests
+- ✅ Mocked tests
 
 **Tech Stack:** Azure SDK, azure-identity
 
@@ -289,7 +289,7 @@ Follow the [Python Coding Standards](../../../PYTHON-CODING-STANDARDS.md) docume
 - Modern type hints (lowercase built-ins, `|` for unions)
 - Ruff for formatting and linting
 - Type checking with ty or mypy
-- Comprehensive docstrings
+- Docstrings
 - Given-When-Then test pattern
 
 ## Contributing
@@ -297,7 +297,7 @@ Follow the [Python Coding Standards](../../../PYTHON-CODING-STANDARDS.md) docume
 When adding new examples:
 
 1. Use Python 3.12+ syntax
-2. Include comprehensive type hints
+2. Include type hints
 3. Add docstrings with examples
 4. Write pytest tests (>80% coverage)
 5. Include detailed README

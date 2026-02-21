@@ -12,7 +12,7 @@
 
 (defn full-verification
   "Run complete verification suite across all agents.
-   Returns comprehensive analysis map."
+   Returns analysis map."
   [{:keys [spec-file python-dir]}]
   (println "🎩 M. Gustave: Beginning verification suite...")
   (let [spec (parser/parse-prd spec-file)
