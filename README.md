@@ -1,4 +1,29 @@
+<style>
+  .logo-toggle-container { text-align: center; }
+  .logo-ascii { display: block; }
+  .logo-svg { display: none; }
+  .logo-ascii.hidden { display: none; }
+  .logo-svg.shown { display: block; }
+  .toggle-buttons { margin: 10px 0; }
+  .toggle-btn { 
+    padding: 8px 16px; margin: 0 5px; 
+    border: 2px solid #8B4789; border-radius: 4px;
+    background: #F5E6D3; color: #8B4789; cursor: pointer;
+    font-weight: bold; font-family: monospace;
+  }
+  .toggle-btn:hover { background: #8B4789; color: #F5E6D3; }
+  .toggle-btn.active { background: #8B4789; color: #F5E6D3; }
+</style>
+
 <div align="center">
+
+<div class="logo-toggle-container">
+<div class="toggle-buttons">
+  <button class="toggle-btn active" onclick="toggleLogo('ascii')">MONO</button>
+  <button class="toggle-btn" onclick="toggleLogo('svg')">VGA</button>
+</div>
+
+<div class="logo-ascii" id="logo-ascii">
 
 ```
 ╔═══════════════════════════════════════════════════════════════════════════╗
@@ -29,6 +54,10 @@
 ╚═══════════════════════════════════════════════════════════════════════════╝
 ```
 
+</div>
+
+<img class="logo-svg" id="logo-svg" src="docs/_static/logo.svg" alt="The Grand Budapest Terminal" style="max-width: 600px; margin: 20px auto;">
+
 [**Hey, somebody decided 80 characters was enough?**](docs/_static/logo.svg)
 
 <img src="https://img.shields.io/badge/GitHub-Copilot-8B4789?style=for-the-badge&logo=github" alt="GitHub Copilot">
@@ -49,6 +78,12 @@
 
 ## 🎭 Meet the Ensemble
 
+<div class="toggle-buttons" style="margin-bottom: 20px;">
+  <button class="toggle-btn active" onclick="toggleCharacters('ascii')">MONO</button>
+  <button class="toggle-btn" onclick="toggleCharacters('svg')">VGA</button>
+</div>
+
+<div id="agents-ascii">
 <table>
 <tr>
 <td width="140" align="center">
@@ -190,6 +225,72 @@
 </td>
 </tr>
 </table>
+</div>
+
+<div id="agents-svg" style="display: none;">
+<table>
+<tr>
+<td width="140" align="center">
+<img src=".github/agents/icons/m-gustave.svg" alt="M. Gustave" width="100">
+<br>
+**M. Gustave**  
+<sub>Code Quality</sub>  
+<img src="https://img.shields.io/badge/-Refined-8B4789?style=flat-square">
+</td>
+<td width="140" align="center">
+<img src=".github/agents/icons/zero.svg" alt="Zero" width="100">
+<br>
+**Zero**  
+<sub>General Assistant</sub>  
+<img src="https://img.shields.io/badge/-Loyal-800020?style=flat-square">
+</td>
+<td width="140" align="center">
+<img src=".github/agents/icons/agatha.svg" alt="Agatha" width="100">
+<br>
+**Agatha**  
+<sub>Testing Specialist</sub>  
+<img src="https://img.shields.io/badge/-Sweet-FFB6C1?style=flat-square">
+</td>
+<td width="140" align="center">
+<img src=".github/agents/icons/dmitri.svg" alt="Dmitri" width="100">
+<br>
+**Dmitri**  
+<sub>Security Auditor</sub>  
+<img src="https://img.shields.io/badge/-Ruthless-990000?style=flat-square">
+</td>
+</tr>
+<tr>
+<td width="140" align="center">
+<img src=".github/agents/icons/henckels.svg" alt="Henckels" width="100">
+<br>
+**Henckels**  
+<sub>Standards Officer</sub>  
+<img src="https://img.shields.io/badge/-Dutiful-4B5320?style=flat-square">
+</td>
+<td width="140" align="center">
+<img src=".github/agents/icons/ludwig.svg" alt="Ludwig" width="100">
+<br>
+**Ludwig**  
+<sub>Type Guardian</sub>  
+<img src="https://img.shields.io/badge/-Meticulous-36454F?style=flat-square">
+</td>
+<td width="140" align="center">
+<img src=".github/agents/icons/serge-x.svg" alt="Serge X." width="100">
+<br>
+**Serge X.**  
+<sub>Performance Analyst</sub>  
+<img src="https://img.shields.io/badge/-Scholarly-C5B358?style=flat-square">
+</td>
+<td width="140" align="center">
+<img src=".github/agents/icons/resources.svg" alt="Resources" width="100">
+<br>
+**Resources**  
+<sub>Links & Guides</sub>  
+<img src="https://img.shields.io/badge/-Essential-8B4789?style=flat-square">
+</td>
+</tr>
+</table>
+</div>
 
 > *"A lobby boy's job is never done. Neither is an AI agent's."* — Zero Moustafa
 
@@ -556,6 +657,48 @@ We welcome contributions that maintain the Wes Anderson aesthetic and quality st
 4. **Character Consistency** - Agent personalities should remain true to their roles
 
 ### How to Contribute
+
+---
+
+<script>
+function toggleLogo(mode) {
+  const ascii = document.getElementById('logo-ascii');
+  const svg = document.getElementById('logo-svg');
+  const btns = document.querySelectorAll('.toggle-buttons .toggle-btn');
+  
+  if (mode === 'ascii') {
+    ascii.classList.remove('hidden');
+    svg.classList.remove('shown');
+    btns[0].classList.add('active');
+    btns[1].classList.remove('active');
+  } else {
+    ascii.classList.add('hidden');
+    svg.classList.add('shown');
+    btns[0].classList.remove('active');
+    btns[1].classList.add('active');
+  }
+}
+
+function toggleCharacters(mode) {
+  const ascii = document.getElementById('agents-ascii');
+  const svg = document.getElementById('agents-svg');
+  const btns = document.querySelectorAll('#agents-ascii ~ .toggle-buttons .toggle-btn, 
+                                          #agents-svg ~ .toggle-buttons .toggle-btn');
+  
+  if (mode === 'ascii') {
+    ascii.style.display = 'block';
+    svg.style.display = 'none';
+  } else {
+    ascii.style.display = 'none';
+    svg.style.display = 'block';
+  }
+  
+  // Update button states
+  const allBtns = document.querySelectorAll('.toggle-btn');
+  allBtns.forEach(btn => btn.classList.remove('active'));
+  allBtns[mode === 'ascii' ? 0 : 1].classList.add('active');
+}
+</script>
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
