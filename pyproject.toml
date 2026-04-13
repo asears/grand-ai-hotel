@@ -27,7 +27,7 @@ dev = [
     "pytest-mock>=3.12.0",
     "pytest-cov>=4.1.0",
     "pytyped-python>=1.0.0",  # ty - Fast type checker
-    "ruff>=0.1.14",
+    "ruff>=0.15.10",
     "prek>=1.0.0",  # Pre-commit hooks tool
     "types-aiofiles>=23.2.0",
 ]
