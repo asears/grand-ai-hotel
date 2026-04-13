@@ -17,7 +17,7 @@ dependencies = [
     "github-copilot-sdk>=0.1.0",
     "python-pptx>=0.6.23",
     "python-docx>=1.1.0",
-    "aiofiles>=23.2.0",
+    "aiofiles>=23.2.1",
 ]
 
 [project.optional-dependencies]
