@@ -2,7 +2,11 @@
 
 ## Overview
 
-`DefaultAzureCredential` is the recommended authentication pattern for Azure services. It provides a unified authentication interface that works seamlessly across development and production environments.
+`DefaultAzureCredential` is the recommended authentication pattern for Azure services, only in development environments.
+
+It provides a unified authentication interface that works seamlessly across credential resolution styles.
+
+Production environments should use deterministic credential resolution tailored to the environment.
 
 ## Why DefaultAzureCredential?
 
