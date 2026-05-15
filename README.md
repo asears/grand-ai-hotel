@@ -333,13 +333,13 @@
 
 ## 🎬 What is The Grand Budapest Terminal?
 
-The Grand Budapest Terminal is a **production-ready AI agent ensemble** for GitHub Copilot CLI, featuring:
+The Grand Budapest Terminal is an experimental **AI agent ensemble** for GitHub Copilot CLI, featuring:
 
 - 🎩 **7 Specialized Agents** - Each with unique personalities and expertise
 - 🎨 **Wes Anderson Aesthetic** - Whimsical yet professional design
 - 🚀 **Multi-Language Support** - Python, TypeScript, Go, .NET examples
 - 📖 **Tutorials** - Learn through screenplay-style guides
-- 🛠️ **GitHub Copilot SDK** - Production-grade automation examples
+- 🛠️ **GitHub Copilot SDK** - Automation examples
 - ⚙️ **CI/CD Workflows** - Automated testing and deployment
 - 🔒 **Security-First** - Token management and best practices
 
@@ -745,11 +745,8 @@ We welcome contributions that maintain the Wes Anderson aesthetic and quality st
 - **🎭 Character-Driven Development** - Each agent has a distinct personality and expertise
 - **📖 Narrative Documentation** - Learn through engaging, screenplay-style tutorials
 - **🎨 Visual Excellence** - Carefully designed with Wes Anderson color palette
-- **🚀 Production-Ready** - Real-world examples with test coverage
 - **🔧 Multi-Language** - Python, TypeScript, Go, and .NET implementations
 - **🤖 Copilot SDK** - Latest GitHub Copilot SDK integrations
-- **⚡ Performance** - Optimized for token efficiency and speed
-- **🔒 Security-First** - Best practices for token management and safety
 
 ---
 
